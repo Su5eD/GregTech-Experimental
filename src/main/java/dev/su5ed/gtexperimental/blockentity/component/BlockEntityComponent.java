@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.FieldUpdateListener;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +38,10 @@ public interface BlockEntityComponent extends FieldUpdateListener, ICapabilityPr
     }
     
     default void save(FriendlyCompoundTag tag) {}
+    
+    default void load(CompoundTag tag) {
+        load(new FriendlyCompoundTag(tag));
+    }
     
     default void load(FriendlyCompoundTag tag) {}
 }

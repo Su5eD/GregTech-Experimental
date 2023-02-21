@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -10,24 +9,19 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends IFMORecipe>, IFMORecipe.Input, IFMORecipe> {
+public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends IFMORecipe>, IFMORecipe.Input, List<ItemStack>, IFMORecipe> {
     protected final RecipeIngredient<ItemStack> input;
     protected final RecipeIngredient<FluidStack> fluid;
-    protected final List<ItemStack> output;
-    protected final RecipePropertyMap properties;
 
     public IFMORecipe(IFMORecipeType<? extends IFMORecipe> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output, RecipePropertyMap properties) {
-        super(type, serializer, id);
+        super(type, serializer, id, output, properties);
 
         this.input = input;
         this.fluid = fluid;
-        this.output = output;
-        this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         RecipeUtil.validateInput(this.id, "fluid", this.fluid);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
-        this.properties.validate(this.id, this.type.properties);
+        this.type.outputType.validate(this.id, "outputs", this.output, false);
     }
 
     public RecipeIngredient<ItemStack> getInput() {
@@ -36,14 +30,6 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
 
     public RecipeIngredient<FluidStack> getFluid() {
         return this.fluid;
-    }
-
-    public List<ItemStack> getOutput() {
-        return this.output;
-    }
-
-    public RecipePropertyMap getProperties() {
-        return this.properties;
     }
 
     public int getDuration() {
@@ -68,7 +54,7 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         this.fluid.toNetwork(buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
+        this.type.outputType.toNetwork(buffer, this.output);
     }
 
     public record Input(ItemStack item, FluidStack fluid) {}

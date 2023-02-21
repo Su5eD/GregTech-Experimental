@@ -14,7 +14,7 @@ public class SISORecipeBuilder<IN, OUT> extends ModRecipeBuilder<SISORecipe<IN, 
         super.serializeRecipeData(json);
         
         json.add("input", this.recipe.getInput().toJson());
-        json.add("output", this.recipe.getType().outputType.toJson(this.recipe.getOutput()));
+        json.add("output", this.recipe.getType().getOutputType().toJson(this.recipe.getOutput()));
         this.recipe.getProperties().toJson(json);
     }
 }

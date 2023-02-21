@@ -11,23 +11,18 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 
-import java.util.Collections;
 import java.util.List;
 
-public class MISORecipeType<R extends MISORecipe<IN, OUT>, IN, OUT> extends BaseRecipeTypeImpl<R> {
+public class MISORecipeType<R extends MISORecipe<IN, OUT>, IN, OUT> extends BaseRecipeTypeImpl<R, OUT> {
     public final RecipeIngredientType<? extends RecipeIngredient<IN>> inputType;
     public final int inputCount;
-    public final RecipeOutputType<OUT> outputType;
-    public final List<RecipeProperty<?>> properties;
     private final MISORecipeFactory<R, IN, OUT> factory;
 
     public MISORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<IN>> inputType, int inputCount, RecipeOutputType<OUT> outputType, List<RecipeProperty<?>> properties, MISORecipeFactory<R, IN, OUT> factory) {
-        super(name);
+        super(name, outputType, properties);
 
         this.inputType = inputType;
         this.inputCount = inputCount;
-        this.outputType = outputType;
-        this.properties = Collections.unmodifiableList(properties);
         this.factory = factory;
     }
 
@@ -48,7 +43,7 @@ public class MISORecipeType<R extends MISORecipe<IN, OUT>, IN, OUT> extends Base
         List<? extends RecipeIngredient<IN>> inputs = ModRecipeIngredientTypes.fromNetwork(this.inputType, this.inputCount, buffer);
         OUT output = this.outputType.fromNetwork(buffer);
         RecipePropertyMap properties = RecipePropertyMap.fromNetwork(this.properties, buffer);
-        
+
         return this.factory.create(recipeId, inputs, output, properties);
     }
 

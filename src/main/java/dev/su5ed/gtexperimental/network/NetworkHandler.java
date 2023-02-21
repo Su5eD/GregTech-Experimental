@@ -72,14 +72,14 @@ public final class NetworkHandler {
         serializeClass(buf, instance);
         return buf;
     }
-    
+
     public static void serializeClass(FriendlyByteBuf buf, Object instance) {
         withParents(instance.getClass())
             .flatMapToEntry(clazz -> HANDLES.getOrDefault(clazz, Map.of()))
             .values()
             .forEach(field -> serializeField(buf, instance, field));
     }
-    
+
     public static FriendlyByteBuf serializeField(Object instance, String field) {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         serializeField(buf, instance, field);
@@ -97,14 +97,20 @@ public final class NetworkHandler {
     public static void serializeField(FriendlyByteBuf buf, Object instance, FieldHandle field) {
         SerializationHandler<Object, Object> handler = getHandler(instance.getClass(), field.name)
             .orElseGet(() -> getSerializer(field.type));
-        
+
         if (handler != null) {
-            Object value = field.getValue(instance).orElseThrow();
             buf.writeUtf(field.name);
-            handler.serializer.accept(instance, buf, value);   
-        } else if (HANDLES.containsKey(field.type)) {
+            field.getValue(instance).ifPresentOrElse(value -> {
+                buf.writeBoolean(true);
+                handler.toNetwork(instance, buf, value);
+            }, () -> buf.writeBoolean(false));
+        }
+        else if (HANDLES.containsKey(field.type)) {
             buf.writeUtf(field.name);
-            serializeClass(buf, field.getValue(instance).orElseThrow());
+            field.getValue(instance).ifPresentOrElse(value -> {
+                buf.writeBoolean(true);
+                serializeClass(buf, value);
+            }, () -> buf.writeBoolean(false));
         }
         else throw new RuntimeException("Could not serialize field " + field.name);
     }
@@ -113,7 +119,7 @@ public final class NetworkHandler {
         Map<String, FieldHandle> handles = withParents(instance.getClass())
             .flatMapToEntry(clazz -> HANDLES.getOrDefault(clazz, Map.of()))
             .toMap();
-        
+
         while (buf.isReadable()) {
             String field = buf.readUtf();
             FieldHandle handle = handles.get(field);
@@ -122,18 +128,24 @@ public final class NetworkHandler {
     }
 
     public static void deserializeField(FriendlyByteBuf buf, Object instance, FieldHandle field) {
+        boolean hasValue = buf.readBoolean();
         SerializationHandler<Object, Object> handler = getHandler(instance.getClass(), field.name)
             .orElseGet(() -> getSerializer(field.type));
-        
+
         if (handler != null) {
-            Object value = handler.deserializer.apply(instance, buf, field.type);
+            Object value = hasValue ? handler.fromNetwork(instance, buf, field.type) : null;
             field.setValue(instance, value);
             if (instance instanceof FieldUpdateListener listener) {
                 listener.onFieldUpdate(field.name);
             }
         }
         else if (HANDLES.containsKey(field.type)) {
-            deserializeClass(buf, field.getValue(instance).orElseThrow());
+            if (hasValue) {
+                deserializeClass(buf, field.getValue(instance).orElseThrow());
+            }
+            else {
+                field.setValue(instance, null);
+            }
         }
         else throw new RuntimeException("Could not deserialize field " + field.name);
     }
@@ -148,9 +160,15 @@ public final class NetworkHandler {
             .toMap();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T, U> void registerHandler(Class<? super T> clazz, String field, SerializationHandler<T, U> handler) {
+        Map<String, SerializationHandler<Object, Object>> handlers = CUSTOM_HANDLERS.computeIfAbsent(clazz, cls -> new HashMap<>());
+        handlers.put(field, (SerializationHandler<Object, Object>) handler);
+    }
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     public static <T, U> void registerHandler(Class<? super T> clazz, String field, Function<T, Codec<? extends U>> factory) {
-        SerializationHandler<T, U> handler = new SerializationHandler<>(
+        SerializationHandler<T, U> handler = new SimpleSerializationHandler<>(
             (instance, buf, obj) -> buf.writeWithCodec((Codec<U>) factory.apply(instance), obj),
             (instance, buf, type) -> buf.readWithCodec(factory.apply(instance))
         );
@@ -171,7 +189,7 @@ public final class NetworkHandler {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private static <U> void registerTypeSerializer(Class<U> clazz, BiConsumer<FriendlyByteBuf, U> serializer, BiFunction<FriendlyByteBuf, Class, U> deserializer) {
-        SerializationHandler<?, U> handler = new SerializationHandler<>(
+        SerializationHandler<?, U> handler = new SimpleSerializationHandler<>(
             (instance, buf, obj) -> serializer.accept(buf, obj),
             (instance, buf, type) -> deserializer.apply(buf, type)
         );
@@ -199,5 +217,21 @@ public final class NetworkHandler {
 
     private NetworkHandler() {}
 
-    private record SerializationHandler<T, U>(TriConsumer<T, FriendlyByteBuf, U> serializer, TriFunction<T, FriendlyByteBuf, Class<?>, U> deserializer) {}
+    private record SimpleSerializationHandler<T, U>(TriConsumer<T, FriendlyByteBuf, U> serializer, TriFunction<T, FriendlyByteBuf, Class<?>, U> deserializer) implements SerializationHandler<T, U> {
+        @Override
+        public void toNetwork(T parent, FriendlyByteBuf buf, U instance) {
+            this.serializer.accept(parent, buf, instance);
+        }
+
+        @Override
+        public U fromNetwork(T parent, FriendlyByteBuf buf, Class<?> cls) {
+            return this.deserializer.apply(parent, buf, cls);
+        }
+    }
+
+    public interface SerializationHandler<T, U> {
+        void toNetwork(T parent, FriendlyByteBuf buf, U instance);
+
+        U fromNetwork(T parent, FriendlyByteBuf buf, Class<?> cls);
+    }
 }

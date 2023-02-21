@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public class DistillationRecipe extends SIMORecipe<FluidStack, FluidStack> {
+public class DistillationRecipe extends SIMORecipe<FluidStack, List<FluidStack>> {
 
     public DistillationRecipe(ResourceLocation id, RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration) {
         this(id, input, outputs, RecipePropertyMap.builder()
@@ -19,11 +19,6 @@ public class DistillationRecipe extends SIMORecipe<FluidStack, FluidStack> {
     }
 
     public DistillationRecipe(ResourceLocation id, RecipeIngredient<FluidStack> input, List<FluidStack> outputs, RecipePropertyMap properties) {
-        super(ModRecipeTypes.DISTILLATION.get(), ModRecipeSerializers.DISTILLATION.get(), id, input, outputs, properties);
-    }
-
-    @Override
-    public double getEnergyCost() {
-        return 16;
+        super(ModRecipeTypes.DISTILLATION.get(), ModRecipeSerializers.DISTILLATION.get(), id, input, outputs, properties.withTransient(b -> b.energyCost(16)));
     }
 }

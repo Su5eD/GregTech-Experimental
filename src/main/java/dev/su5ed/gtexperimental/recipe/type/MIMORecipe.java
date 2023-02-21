@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,52 +17,28 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Multi Output recipe
  */
-public class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack>, MIMORecipe> {
+public class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack>, List<ItemStack>, MIMORecipe> {
     protected final List<? extends RecipeIngredient<ItemStack>> inputs;
-    protected final List<ItemStack> output;
-    protected final RecipePropertyMap properties;
 
     public static MIMORecipe canningMachine(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, RecipePropertyMap properties) {
         return new MIMORecipe(ModRecipeTypes.CANNING_MACHINE.get(), ModRecipeSerializers.CANNING_MACHINE.get(), id, inputs, outputs, properties);
     }
-    
-    public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> output, int duration, double energyCost) {
-        this(type, serializer, id, inputs, output, RecipePropertyMap.builder()
-            .duration(duration)
-            .energyCost(energyCost)
-            .build());
+
+    public static MIMORecipe blastFurnace(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> outputs, RecipePropertyMap properties) {
+        return new MIMORecipe(ModRecipeTypes.BLAST_FURNACE.get(), ModRecipeSerializers.BLAST_FURNACE.get(), id, inputs, outputs, properties.withTransient(b -> b.energyCost(128)));
     }
 
     public MIMORecipe(MIMORecipeType<?> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, List<ItemStack> output, RecipePropertyMap properties) {
-        super(type, serializer, id);
+        super(type, serializer, id, output, properties);
 
         this.inputs = inputs;
-        this.output = output;
-        this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, false);
-        this.properties.validate(this.id, this.type.properties);
+        this.type.outputType.validate(this.id, "outputs", this.output, false);
     }
 
     public List<? extends RecipeIngredient<ItemStack>> getInputs() {
         return this.inputs;
-    }
-
-    public List<ItemStack> getOutput() {
-        return this.output;
-    }
-
-    public RecipePropertyMap getProperties() {
-        return this.properties;
-    }
-
-    public int getDuration() {
-        return this.properties.get(ModRecipeProperty.DURATION);
-    }
-
-    public double getEnergyCost() {
-        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
@@ -80,7 +55,7 @@ public class MIMORecipe extends BaseRecipeImpl<MIMORecipeType<?>, List<ItemStack
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         ModRecipeIngredientTypes.toNetwork(this.inputs, buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
+        this.type.outputType.toNetwork(buffer, this.output);
         this.properties.toNetwork(buffer);
     }
 }

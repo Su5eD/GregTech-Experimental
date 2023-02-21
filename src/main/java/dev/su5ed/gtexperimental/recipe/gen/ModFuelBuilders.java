@@ -27,12 +27,12 @@ public final class ModFuelBuilders {
         return new SISORecipeBuilder<>(recipe);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, ItemStack> hot(RecipeIngredient<Either<ItemStack, FluidStack>> input, ItemStack first, ItemStack second, ItemStack third, ItemStack fourth, double energy) {
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, List<ItemStack>> hot(RecipeIngredient<Either<ItemStack, FluidStack>> input, ItemStack first, ItemStack second, ItemStack third, ItemStack fourth, double energy) {
         return hot(input, List.of(first, second, third, fourth), energy);
     }
 
-    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, ItemStack> hot(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, double energy) {
-        SIMORecipe<Either<ItemStack, FluidStack>, ItemStack> recipe = SIMORecipe.hotFuel(null, input, output, RecipePropertyMap.builder().energy(energy).build());
+    public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, List<ItemStack>> hot(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, double energy) {
+        SIMORecipe<Either<ItemStack, FluidStack>, List<ItemStack>> recipe = SIMORecipe.hotFuel(null, input, output, RecipePropertyMap.builder().energy(energy).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 

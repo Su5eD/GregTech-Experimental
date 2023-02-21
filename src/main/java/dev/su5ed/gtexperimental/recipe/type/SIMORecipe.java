@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,64 +15,43 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OUT>, IN, SIMORecipe<IN, OUT>> {
+public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OUT>, IN, OUT, SIMORecipe<IN, OUT>> {
     protected final RecipeIngredient<IN> input;
-    protected final List<OUT> output;
-    protected final RecipePropertyMap properties;
 
-    public static SIMORecipe<Either<ItemStack, FluidStack>, Either<ItemStack, FluidStack>> industrialElectrolyzer(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
+    public static SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> industrialElectrolyzer(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
         return new SIMORecipe<>(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER.get(), ModRecipeSerializers.INDUSTRIAL_ELECTROLYZER.get(), id, input, output, properties);
     }
 
-    public static SIMORecipe<ItemStack, ItemStack> lathe(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> output, RecipePropertyMap properties) {
+    public static SIMORecipe<ItemStack, List<ItemStack>> lathe(ResourceLocation id, RecipeIngredient<ItemStack> input, List<ItemStack> output, RecipePropertyMap properties) {
         return new SIMORecipe<>(ModRecipeTypes.LATHE.get(), ModRecipeSerializers.LATHE.get(), id, input, output, properties);
     }
 
-    public static SIMORecipe<Either<ItemStack, FluidStack>, ItemStack> hotFuel(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, RecipePropertyMap properties) {
+    public static SIMORecipe<Either<ItemStack, FluidStack>, List<ItemStack>> hotFuel(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<ItemStack> output, RecipePropertyMap properties) {
         return new SIMORecipe<>(ModRecipeTypes.HOT_FUEL.get(), ModRecipeSerializers.HOT_FUEL.get(), id, input, output, properties, true);
     }
 
-    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, int duration, double energyCost) {
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, int duration, double energyCost) {
         this(type, serializer, id, input, output, RecipePropertyMap.builder()
             .duration(duration)
             .energyCost(energyCost)
             .build());
     }
 
-    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, RecipePropertyMap properties) {
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, RecipePropertyMap properties) {
         this(type, serializer, id, input, output, properties, false);
     }
 
-    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, List<OUT> output, RecipePropertyMap properties, boolean allowEmptyOutput) {
-        super(type, serializer, id);
+    public SIMORecipe(SIMORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, RecipePropertyMap properties, boolean allowEmptyOutput) {
+        super(type, serializer, id, output, properties);
 
         this.input = input;
-        this.output = output;
-        this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateOutputList(this.id, "outputs", this.type.outputType, this.type.outputCount, this.output, allowEmptyOutput);
-        this.properties.validate(this.id, this.type.properties);
+        this.type.outputType.validate(this.id, "outputs", this.output, allowEmptyOutput);
     }
 
     public RecipeIngredient<IN> getInput() {
         return this.input;
-    }
-
-    public List<OUT> getOutput() {
-        return this.output;
-    }
-
-    public RecipePropertyMap getProperties() {
-        return this.properties;
-    }
-
-    public int getDuration() {
-        return this.properties.get(ModRecipeProperty.DURATION);
-    }
-
-    public double getEnergyCost() {
-        return this.properties.get(ModRecipeProperty.ENERGY_COST);
     }
 
     @Override
@@ -89,7 +67,7 @@ public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OU
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
-        ModRecipeOutputTypes.toNetwork(this.type.outputType, this.type.outputCount, this.output, buffer);
+        this.type.outputType.toNetwork(buffer, this.output);
         this.properties.toNetwork(buffer);
     }
 }

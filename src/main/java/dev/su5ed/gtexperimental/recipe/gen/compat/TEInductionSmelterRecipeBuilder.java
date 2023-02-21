@@ -58,7 +58,7 @@ public class TEInductionSmelterRecipeBuilder extends BaseRecipeBuilder {
         }
         
         public JsonObject toJson() {
-            JsonObject json = ModRecipeOutputTypes.ITEM.toJson(this.item);
+            JsonObject json = ModRecipeOutputTypes.ITEM.toJson(this.item).getAsJsonObject();
             if (this.chance != 1) {
                 json.addProperty("chance", this.chance);
             }

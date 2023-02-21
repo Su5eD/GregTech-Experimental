@@ -13,10 +13,8 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Single Input, Single Output recipe
  */
-public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OUT>, IN, SISORecipe<IN, OUT>> {
+public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OUT>, IN, OUT, SISORecipe<IN, OUT>> {
     protected final RecipeIngredient<IN> input;
-    protected final OUT output;
-    protected final RecipePropertyMap properties;
 
     public static SISORecipe<ItemStack, ItemStack> bender(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.BENDER.get(), ModRecipeSerializers.BENDER.get(), id, input, output, properties);
@@ -62,23 +60,16 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
     }
 
     public SISORecipe(SISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, RecipePropertyMap properties, boolean allowEmptyOutput) {
-        super(type, serializer, id);
+        super(type, serializer, id, output, properties);
 
         this.input = input;
-        this.output = output;
-        this.properties = properties;
 
         RecipeUtil.validateInput(this.id, "input", this.input);
         this.type.outputType.validate(this.id, "output", this.output, allowEmptyOutput);
-        this.properties.validate(this.id, this.type.properties);
     }
 
     public RecipeIngredient<IN> getInput() {
         return this.input;
-    }
-
-    public OUT getOutput() {
-        return this.output;
     }
 
     public int getDuration() {
@@ -87,10 +78,6 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
 
     public double getEnergyCost() {
         return this.properties.get(ModRecipeProperty.ENERGY_COST);
-    }
-
-    public RecipePropertyMap getProperties() {
-        return this.properties;
     }
 
     @Override

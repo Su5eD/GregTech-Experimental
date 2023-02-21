@@ -39,6 +39,10 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public boolean canExtract(int amount) {
         return this.mode.output;
     }
+    
+    public ItemStack get() {
+        return get(0);
+    }
 
     public ItemStack get(int index) {
         return this.content[index];

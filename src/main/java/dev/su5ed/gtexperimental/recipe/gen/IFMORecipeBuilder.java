@@ -1,7 +1,6 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
-import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
 
 public class IFMORecipeBuilder extends ModRecipeBuilder<IFMORecipe> {
@@ -16,7 +15,7 @@ public class IFMORecipeBuilder extends ModRecipeBuilder<IFMORecipe> {
 
         json.add("input", this.recipe.getInput().toJson());
         json.add("fluid", this.recipe.getFluid().toJson());
-        json.add("output", ModRecipeOutputTypes.toJson(this.recipe.getType().getOutputType(), this.recipe.getType().getOutputCount(), this.recipe.getOutput()));
+        json.add("output", this.recipe.getType().getOutputType().toJson(this.recipe.getOutput()));
         this.recipe.getProperties().toJson(json);
     }
 }

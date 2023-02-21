@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
-import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
@@ -15,35 +14,17 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> {
+public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R, List<ItemStack>> {
     public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
     public final int inputCount;
-    public final RecipeOutputType<ItemStack> outputType;
-    public final int outputCount;
-    public final List<RecipeProperty<?>> properties;
     private final MIMORecipeFactory<R> factory;
 
     public MIMORecipeType(ResourceLocation name, int inputCount, int outputCount, List<RecipeProperty<?>> properties, MIMORecipeFactory<R> factory) {
-        super(name);
+        super(name, ModRecipeOutputTypes.ITEM.listOf(outputCount), properties);
 
         this.inputType = ModRecipeIngredientTypes.ITEM;
         this.inputCount = inputCount;
-        this.outputType = ModRecipeOutputTypes.ITEM;
-        this.outputCount = outputCount;
-        this.properties = properties;
         this.factory = factory;
-    }
-
-    public RecipeOutputType<ItemStack> getOutputType() {
-        return this.outputType;
-    }
-
-    public int getOutputCount() {
-        return outputCount;
-    }
-
-    public List<RecipeProperty<?>> getProperties() {
-        return this.properties;
     }
 
     @Override
@@ -52,7 +33,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
         JsonArray outputJson = GsonHelper.getAsJsonArray(serializedRecipe, "output");
 
         List<? extends RecipeIngredient<ItemStack>> inputs = RecipeUtil.parseInputs(this.inputType, this.inputCount, inputJson);
-        List<ItemStack> outputs = RecipeUtil.parseOutputs(this.outputType, this.outputCount, outputJson);
+        List<ItemStack> outputs = this.outputType.fromJson(outputJson);
         RecipePropertyMap properties = RecipePropertyMap.fromJson(recipeId, this.properties, serializedRecipe);
 
         return this.factory.create(recipeId, inputs, outputs, properties);
@@ -61,7 +42,7 @@ public class MIMORecipeType<R extends MIMORecipe> extends BaseRecipeTypeImpl<R> 
     @Override
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         List<? extends RecipeIngredient<ItemStack>> inputs = ModRecipeIngredientTypes.fromNetwork(this.inputType, this.inputCount, buffer);
-        List<ItemStack> outputs = ModRecipeOutputTypes.fromNetwork(this.outputType, this.outputCount, buffer);
+        List<ItemStack> outputs = this.outputType.fromNetwork(buffer);
         RecipePropertyMap properties = RecipePropertyMap.fromNetwork(this.properties, buffer);
 
         return this.factory.create(recipeId, inputs, outputs, properties);

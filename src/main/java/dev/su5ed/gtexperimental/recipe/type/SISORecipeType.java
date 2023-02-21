@@ -11,31 +11,15 @@ import net.minecraft.util.GsonHelper;
 
 import java.util.List;
 
-public class SISORecipeType<R extends SISORecipe<IN, OUT>, IN, OUT> extends BaseRecipeTypeImpl<R> {
+public class SISORecipeType<R extends SISORecipe<IN, OUT>, IN, OUT> extends BaseRecipeTypeImpl<R, OUT> {
     public final RecipeIngredientType<? extends RecipeIngredient<IN>> inputType;
-    public final RecipeOutputType<OUT> outputType;
-    protected final List<RecipeProperty<?>> properties;
     protected final SISORecipeFactory<R, IN, OUT> factory;
 
     public SISORecipeType(ResourceLocation name, RecipeIngredientType<? extends RecipeIngredient<IN>> inputType, RecipeOutputType<OUT> outputType, List<RecipeProperty<?>> properties, SISORecipeFactory<R, IN, OUT> factory) {
-        super(name);
+        super(name, outputType, properties);
 
         this.inputType = inputType;
-        this.outputType = outputType;
-        this.properties = properties;
         this.factory = factory;
-    }
-
-    public RecipeIngredientType<? extends RecipeIngredient<IN>> getInputType() {
-        return this.inputType;
-    }
-
-    public RecipeOutputType<OUT> getOutputType() {
-        return this.outputType;
-    }
-
-    public List<RecipeProperty<?>> getProperties() {
-        return this.properties;
     }
 
     @Override

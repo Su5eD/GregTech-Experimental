@@ -28,6 +28,7 @@ import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.screen.DestructorPackScreen;
+import dev.su5ed.gtexperimental.screen.SimpleMachineScreen;
 import dev.su5ed.gtexperimental.screen.SonictronScreen;
 import dev.su5ed.gtexperimental.util.ItemProvider;
 import dev.su5ed.gtexperimental.util.KeyboardHandler;
@@ -134,5 +135,6 @@ public final class ClientSetup {
     private static void registerScreens() {
         MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
         MenuScreens.register(ModMenus.SONICTRON.get(), SonictronScreen::new);
+        MenuScreens.register(ModMenus.AUTO_MACERATOR.get(), SimpleMachineScreen::autoMacerator);
     }
 }

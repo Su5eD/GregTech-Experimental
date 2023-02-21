@@ -29,33 +29,32 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
+import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class SonictronBlockEntity extends InventoryBlockEntity implements MenuProvider, DataOrbSerializable {
-    private static final Map<Integer, String> RECORD_NAMES = new HashMap<>();
+    private static final Map<Integer, String> RECORD_NAMES = EntryStream.of(
+            1, "13",
+            2, "cat",
+            3, "blocks",
+            4, "chirp",
+            5, "far",
+            6, "mall",
+            7, "mellohi",
+            8, "stal",
+            9, "strad",
+            10, "ward"
+        )
+        .append(11, "11")
+        .append(12, "wait")
+        .toMap();
 
     private final LazyOptional<DataOrbSerializable> dataOrbOptional = LazyOptional.of(() -> this);
     public final InventorySlot content;
     public int currentIndex = -1;
-
-    static {
-        RECORD_NAMES.put(1, "13");
-        RECORD_NAMES.put(2, "cat");
-        RECORD_NAMES.put(3, "blocks");
-        RECORD_NAMES.put(4, "chirp");
-        RECORD_NAMES.put(5, "far");
-        RECORD_NAMES.put(6, "mall");
-        RECORD_NAMES.put(7, "mellohi");
-        RECORD_NAMES.put(8, "stal");
-        RECORD_NAMES.put(9, "strad");
-        RECORD_NAMES.put(10, "ward");
-        RECORD_NAMES.put(11, "11");
-        RECORD_NAMES.put(12, "wait");
-    }
 
     public SonictronBlockEntity(BlockPos pos, BlockState state) {
         super(GTBlockEntity.SONICTRON, pos, state);
@@ -97,15 +96,12 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
 
     @Override
     public CompoundTag saveDataToOrb() {
-        CompoundTag tag = new CompoundTag();
-        tag.put("content", this.content.serializeNBT());
-        return tag;
+        return this.inventoryHandler.save();
     }
 
     @Override
     public void loadDataFromOrb(CompoundTag tag) {
-        CompoundTag content = tag.getCompound("content");
-        this.content.deserializeNBT(content);
+        this.inventoryHandler.load(tag); // TODO TEST
     }
 
     public static void loadSonictronSounds() {
@@ -204,6 +200,6 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-        return new SonictronMenu(containerId, this.worldPosition, player, playerInventory);
+        return new SonictronMenu(containerId, this.worldPosition, playerInventory, player);
     }
 }

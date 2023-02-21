@@ -17,10 +17,8 @@ import java.util.function.Predicate;
 /**
  * Multi Input, Single Output recipe
  */
-public class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, List<IN>, MISORecipe<IN, OUT>> {
+public class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, List<IN>, OUT, MISORecipe<IN, OUT>> {
     protected final List<? extends RecipeIngredient<IN>> inputs;
-    protected final OUT output;
-    protected final RecipePropertyMap properties;
 
     public static MISORecipe<ItemStack, ItemStack> printer(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, RecipePropertyMap properties) {
         return new MISORecipe<>(ModRecipeTypes.PRINTER.get(), ModRecipeSerializers.PRINTER.get(), id, inputs, output, properties);
@@ -42,27 +40,16 @@ public class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OU
     }
 
     public MISORecipe(MISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, List<? extends RecipeIngredient<IN>> inputs, OUT output, RecipePropertyMap properties) {
-        super(type, serializer, id);
+        super(type, serializer, id, output, properties);
 
         this.inputs = inputs;
-        this.output = output;
-        this.properties = properties;
 
         RecipeUtil.validateInputList(this.id, "inputs", this.inputs, this.type.inputCount);
         this.type.outputType.validate(this.id, "output", this.output, false);
-        this.properties.validate(this.id, this.type.properties);
     }
 
     public List<? extends RecipeIngredient<IN>> getInputs() {
         return this.inputs;
-    }
-
-    public OUT getOutput() {
-        return this.output;
-    }
-
-    public RecipePropertyMap getProperties() {
-        return this.properties;
     }
 
     public int getDuration() {

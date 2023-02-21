@@ -8,7 +8,6 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
-import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
@@ -28,7 +27,6 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -58,6 +56,7 @@ public final class RecipeUtil {
     public static final RecipeIngredient<FluidStack> WATER = ModRecipeIngredientTypes.FLUID.of(Fluids.WATER, buckets(1));
     public static final RecipeIngredient<FluidStack> MERCURY = ModRecipeIngredientTypes.FLUID.of(ModFluid.MERCURY, buckets(1));
     private static final List<String> MOD_PRIORITY = List.of(ModHandler.FTBIC_MODID, ModHandler.IC2_MODID, Reference.MODID);
+    private static final ResourceLocation EMPTY = new ResourceLocation("empty");
 
     public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
         if (!json.isEmpty() && inputCount >= json.size()) {
@@ -69,20 +68,9 @@ public final class RecipeUtil {
         throw new IllegalArgumentException("Expected " + inputCount + " inputs, got " + json.size());
     }
 
-    public static <T> List<T> parseOutputs(RecipeOutputType<T> outputType, int outputCount, JsonArray json) {
-        if (!json.isEmpty() && outputCount >= json.size()) {
-            return StreamEx.of(outputType)
-                .zipWith(StreamEx.of(json.getAsJsonArray().iterator()))
-                .mapValues(JsonElement::getAsJsonObject)
-                .mapKeyValue(RecipeOutputType::fromJson)
-                .toList();
-        }
-        throw new IllegalArgumentException("Output type and json sizes differ");
-    }
-
     public static ItemStack parseItemStack(JsonElement json) {
         if (json.isJsonObject()) {
-            return ShapedRecipe.itemStackFromJson(json.getAsJsonObject());
+            return CraftingHelper.getItemStack(json.getAsJsonObject(), true, false);
         }
         else {
             String resultJson = json.getAsString();
@@ -109,17 +97,7 @@ public final class RecipeUtil {
         }
     }
 
-    public static <T> void validateOutputList(ResourceLocation id, String name, RecipeOutputType<T> outputType, int outputCount, List<T> outputs, boolean allowEmpty) {
-        if (outputs.isEmpty()) {
-            throw new RuntimeException("Empty " + name + " for recipe " + id);
-        }
-        else if (outputs.size() > outputCount) {
-            throw new RuntimeException(name + " exceeded max size of " + outputCount + " for recipe " + id);
-        }
-        outputs.forEach(output -> outputType.validate(id, name, output, allowEmpty));
-    }
-
-    public static <R extends BaseRecipe<?, ?, ? super R>> int compareCount(R first, R second) {
+    public static <R extends BaseRecipe<?, ?, ?, ? super R>> int compareCount(R first, R second) {
         return second.compareInputCount(first);
     }
 
@@ -132,10 +110,13 @@ public final class RecipeUtil {
     }
 
     public static Fluid deserializeFluid(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(name);
-        Fluid fluid = ForgeRegistries.FLUIDS.getValue(resourceLocation);
+        ResourceLocation location = new ResourceLocation(name);
+        if (location.equals(EMPTY)) {
+            return Fluids.EMPTY;
+        }
+        Fluid fluid = ForgeRegistries.FLUIDS.getValue(location);
         if (fluid == null || fluid == Fluids.EMPTY) {
-            throw new IllegalArgumentException("Fluid '" + resourceLocation + "' not found");
+            throw new IllegalArgumentException("Fluid '" + location + "' not found");
         }
         return fluid;
     }

@@ -18,8 +18,8 @@ import java.util.List;
 
 public class SonictronMenu extends BlockEntityMenu<SonictronBlockEntity> {
 
-    public SonictronMenu(int containerId, BlockPos pos, Player player, Inventory playerInventory) {
-        super(ModMenus.SONICTRON.get(), GTBlockEntity.SONICTRON.getType(), containerId, pos, player, playerInventory);
+    public SonictronMenu(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        super(ModMenus.SONICTRON.get(), GTBlockEntity.SONICTRON.getType(), containerId, pos, playerInventory, player);
 
         List<SonictronSound> sonictronSounds = GregTechIMC.INSTANCE.getSonictronSounds();
         List<ItemStack> stacks = sonictronSounds.stream()

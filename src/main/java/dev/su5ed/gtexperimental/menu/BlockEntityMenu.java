@@ -31,13 +31,17 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
 
     private final List<Slot> blockEntitySlots = new ArrayList<>();
 
-    public BlockEntityMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Player player, Inventory playerInventory) {
+    public BlockEntityMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, containerId);
 
         //noinspection unchecked
         this.blockEntity = (T) player.getCommandSenderWorld().getBlockEntity(pos, blockEntityType).orElseThrow();
         this.player = player;
         this.playerInventory = new InvWrapper(playerInventory);
+    }
+    
+    protected Slot addInventorySlot(InventorySlot slot, int x, int y) {
+        return addInventorySlot(slot, 0, x, y);
     }
 
     protected Slot addInventorySlot(InventorySlot slot, int index, int x, int y) {

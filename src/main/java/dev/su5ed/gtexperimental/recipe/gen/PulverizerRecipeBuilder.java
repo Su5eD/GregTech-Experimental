@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_IC2_LOADED;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_RAILCRAFT_LOADED;
 
-public class PulverizerRecipeBuilder extends SIMORecipeBuilder<ItemStack, ItemStack> {
+public class PulverizerRecipeBuilder extends SIMORecipeBuilder<ItemStack, List<ItemStack>> {
     private static final ItemStack OBSIDIAN = new ItemStack(Items.OBSIDIAN);
 
     public PulverizerRecipeBuilder(PulverizerRecipe recipe) {

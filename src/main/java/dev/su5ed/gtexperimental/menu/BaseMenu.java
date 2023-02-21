@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.menu;
 
 import dev.su5ed.gtexperimental.util.TriConsumer;
 import dev.su5ed.gtexperimental.util.TriFunction;
+import dev.su5ed.gtexperimental.util.inventory.DataSlotWrapper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 
 public abstract class BaseMenu extends AbstractContainerMenu {
     protected final List<Slot> hotBarSlots = new ArrayList<>();
@@ -29,7 +32,7 @@ public abstract class BaseMenu extends AbstractContainerMenu {
     protected void addPlayerInventorySlots(IItemHandler inventory, int width, int height) {
         int leftCol = (width - 162) / 2;
         TriFunction<Integer, Integer, Integer, Slot> factory = (index, x, y) -> new SlotItemHandler(inventory, index, x, y);
-        
+
         // Player inventory
         addSlotBox(9, leftCol, height - 82, 9, 3, 18, 18, (index, x, y) -> this.playerInventorySlots.add(addSlot(factory.apply(index, x, y))));
 
@@ -49,12 +52,16 @@ public abstract class BaseMenu extends AbstractContainerMenu {
     protected int addSlotBox(int x, int y, int horAmount, int verAmount, int xOffset, int yOffset, TriConsumer<Integer, Integer, Integer> factory) {
         return addSlotBox(0, x, y, horAmount, verAmount, xOffset, yOffset, factory);
     }
-    
+
     protected int addSlotBox(int index, int x, int y, int horAmount, int verAmount, int xOffset, int yOffset, TriConsumer<Integer, Integer, Integer> factory) {
         for (int j = 0; j < verAmount; j++) {
             index = addSlotRange(index, x, y, horAmount, xOffset, factory);
             y += yOffset;
         }
         return index;
+    }
+
+    protected void addDataSlot(IntSupplier gettter, IntConsumer setter) {
+        addDataSlot(new DataSlotWrapper(gettter, setter));
     }
 }

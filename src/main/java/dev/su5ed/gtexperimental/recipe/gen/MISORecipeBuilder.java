@@ -15,7 +15,7 @@ public class MISORecipeBuilder<IN, OUT> extends ModRecipeBuilder<MISORecipe<IN, 
         super.serializeRecipeData(json);
 
         json.add("input", ModRecipeIngredientTypes.toJson(this.recipe.getInputs()));
-        json.add("output", this.recipe.getType().outputType.toJson(this.recipe.getOutput()));
+        json.add("output", this.recipe.getType().getOutputType().toJson(this.recipe.getOutput()));
         this.recipe.getProperties().toJson(json);
     }
 }

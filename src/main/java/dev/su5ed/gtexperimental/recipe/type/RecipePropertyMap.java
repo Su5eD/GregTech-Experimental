@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProperties;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -11,27 +12,35 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class RecipePropertyMap {
+public class RecipePropertyMap implements RecipeProperties {
     private static final RecipePropertyMap EMPTY = new RecipePropertyMap(Map.of());
 
     private final Map<RecipeProperty<?>, ?> properties;
+    private final Map<RecipeProperty<?>, ?> transientProperties;
 
     public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties) {
+        this(properties, Map.of());
+    }
+
+    public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties, Map<RecipeProperty<?>, ?> transientProperties) {
         this.properties = Collections.unmodifiableMap(properties);
+        this.transientProperties = Collections.unmodifiableMap(transientProperties);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public <T> T get(RecipeProperty<T> property) {
-        T value = (T) this.properties.get(property);
-        if (value == null) {
-            throw new NullPointerException("Missing value for property " + property.getName());
-        }
-        return value;
+        return (T) Optional.<Object>ofNullable(this.transientProperties.get(property))
+            .or(() -> Optional.ofNullable(this.properties.get(property)))
+            .orElseThrow(() -> new IllegalArgumentException("Missing value for property " + property.getName()));
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void toNetwork(FriendlyByteBuf buffer) {
         buffer.writeInt(this.properties.size());
         this.properties.forEach((property, value) -> {
@@ -41,6 +50,7 @@ public class RecipePropertyMap {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void toJson(JsonObject json) {
         this.properties.forEach((property, value) -> {
             JsonElement element = ((RecipeProperty<Object>) property).toJson(value);
@@ -49,6 +59,7 @@ public class RecipePropertyMap {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public void validate(ResourceLocation id, List<RecipeProperty<?>> expected) {
         for (RecipeProperty<?> property : expected) {
             if (!this.properties.containsKey(property)) {
@@ -99,8 +110,14 @@ public class RecipePropertyMap {
         return new Builder();
     }
 
+    public RecipePropertyMap withTransient(Consumer<Builder> builderConsumer) {
+        Builder builder = new Builder();
+        builderConsumer.accept(builder);
+        return builder.buildTransient(this.properties);
+    }
+
     public static class Builder {
-        private final Map<RecipeProperty<?>, Object> properties;
+        protected final Map<RecipeProperty<?>, Object> properties;
 
         private Builder() {
             this.properties = new HashMap<>();
@@ -141,6 +158,10 @@ public class RecipePropertyMap {
 
         public RecipePropertyMap build() {
             return new RecipePropertyMap(this.properties);
+        }
+
+        public RecipePropertyMap buildTransient(Map<RecipeProperty<?>, ?> existing) {
+            return new RecipePropertyMap(existing, this.properties);
         }
     }
 }

@@ -248,8 +248,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
         for (BlockEntityComponent component : this.components) {
             String name = component.getName().toString();
             if (tag.contains(name)) {
-                FriendlyCompoundTag compoundTag = new FriendlyCompoundTag(tag.getCompound(name));
-                component.load(compoundTag);
+                component.load(tag.getCompound(name));
             }
         }
     }

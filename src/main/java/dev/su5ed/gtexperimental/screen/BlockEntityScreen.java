@@ -8,6 +8,7 @@ import dev.su5ed.gtexperimental.util.inventory.InteractiveSlot;
 import dev.su5ed.gtexperimental.util.inventory.ScrollDirection;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +22,7 @@ public abstract class BlockEntityScreen<T extends AbstractContainerMenu> extends
         super(menu, playerInventory, title);
 
         this.background = background;
-        this.height = this.imageHeight = 217;
+        this.height = this.imageHeight = 166;
     }
 
     @Override
@@ -43,7 +44,7 @@ public abstract class BlockEntityScreen<T extends AbstractContainerMenu> extends
 
             interactiveSlot.slotScroll(this.minecraft.player, direction, shift);
         }
-        
+
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
@@ -57,10 +58,10 @@ public abstract class BlockEntityScreen<T extends AbstractContainerMenu> extends
 
     @Override
     protected void renderBg(PoseStack poseStack, float partialTick, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, this.background);
-        int relX = (this.width - this.imageWidth) / 2;
-        int relY = (this.height - this.imageHeight) / 2;
-        blit(poseStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
+        blit(poseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override

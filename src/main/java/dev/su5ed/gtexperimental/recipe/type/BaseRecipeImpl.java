@@ -1,22 +1,30 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipeType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-public abstract class BaseRecipeImpl<T extends RecipeType<?>, I, C extends BaseRecipeImpl<T, I, C>> implements BaseRecipe<T, I, C> {
+public abstract class BaseRecipeImpl<T extends BaseRecipeType<?, OUT>, IN, OUT, C extends BaseRecipeImpl<T, IN, OUT, C>> implements BaseRecipe<T, IN, OUT, C> {
     protected final T type;
     protected final RecipeSerializer<?> serializer;
     protected final ResourceLocation id;
 
-    public BaseRecipeImpl(T type, RecipeSerializer<?> serializer, ResourceLocation id) {
+    protected final OUT output;
+    protected final RecipePropertyMap properties;
+
+    public BaseRecipeImpl(T type, RecipeSerializer<?> serializer, ResourceLocation id, OUT output, RecipePropertyMap properties) {
         this.type = type;
         this.serializer = serializer;
         this.id = id;
+        this.output = output;
+        this.properties = properties;
+
+        this.properties.validate(this.id, this.type.getProperties());
     }
 
     @Override
@@ -57,5 +65,15 @@ public abstract class BaseRecipeImpl<T extends RecipeType<?>, I, C extends BaseR
     @Override
     public RecipeSerializer<?> getSerializer() {
         return this.serializer;
+    }
+
+    @Override
+    public OUT getOutput() {
+        return this.output;
+    }
+
+    @Override
+    public RecipeProperties getProperties() {
+        return this.properties;
     }
 }

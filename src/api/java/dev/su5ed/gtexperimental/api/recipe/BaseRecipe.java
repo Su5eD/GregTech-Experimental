@@ -5,10 +5,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public interface BaseRecipe<T extends RecipeType<?>, I, C extends BaseRecipe<T, I, C>> extends Recipe<Container> {
+public interface BaseRecipe<T extends RecipeType<?>, IN, OUT, C extends BaseRecipe<T, IN, OUT, C>> extends Recipe<Container> {
     void toNetwork(FriendlyByteBuf buffer);
 
-    boolean matches(I input);
+    boolean matches(IN input);
 
     int compareInputCount(C other);
+
+    OUT getOutput();
+
+    RecipeProperties getProperties();
+
+    default <U> U getProperty(RecipeProperty<U> property) {
+        return getProperties().get(property);
+    }
 }
