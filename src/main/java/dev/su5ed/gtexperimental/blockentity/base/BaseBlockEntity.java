@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -84,26 +85,30 @@ public abstract class BaseBlockEntity extends BlockEntity {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {}
 
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {}
-    
+
     public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return false;
     }
-    
+
     public int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return 0;
     }
+
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {}
 
     public boolean isActive() {
         return this.isActive;
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
-        setChanged();
-        if (!this.level.isClientSide) {
-            BlockState state = getBlockState();
-            if (state.getValue(BaseEntityBlock.ACTIVE) != active) {
-                this.level.setBlockAndUpdate(this.worldPosition, state.setValue(BaseEntityBlock.ACTIVE, active));
+        if (this.isActive != active) {
+            this.isActive = active;
+            setChanged();
+            if (!this.level.isClientSide) {
+                BlockState state = getBlockState();
+                if (state.getValue(BaseEntityBlock.ACTIVE) != active) {
+                    this.level.setBlockAndUpdate(this.worldPosition, state.setValue(BaseEntityBlock.ACTIVE, active));
+                }
             }
         }
     }
@@ -188,7 +193,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     @Override
     public void setRemoved() {
         super.setRemoved();
-        
+
         this.components.forEach(BlockEntityComponent::onUnload);
     }
 

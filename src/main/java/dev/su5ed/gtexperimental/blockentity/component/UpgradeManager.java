@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> extends GtComponentBase<T> {
-    private static final ResourceLocation NAME = location("upgrade_manager");
+    public static final ResourceLocation NAME = location("upgrade_manager");
     private static final int MAX_UPGRADE_COUNT = 16;
 
     private final Consumer<UpgradeCategory> onUpdate;
@@ -57,6 +57,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
     }
 
     public int getUpgradeCount(UpgradeCategory category) {
+        // TODO CACHE
         return this.upgrades.stream()
             .filter(upgrade -> upgrade.upgrade.getCategory() == category)
             .map(UpgradeInstance::stack)

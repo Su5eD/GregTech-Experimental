@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.blockentity.component;
 
 import dev.su5ed.gtexperimental.Capabilities;
+import dev.su5ed.gtexperimental.GregTechConfig;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.machine.PowerProvider;
@@ -10,8 +11,11 @@ import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.util.power.PowerStorage;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import one.util.streamex.StreamEx;
@@ -69,6 +73,15 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     @Override
     public void onFieldUpdate(String name) {
 
+    }
+
+    @Override
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+        super.wasExploded(level, pos, explosion);
+        
+        if (GregTechConfig.COMMON.machineChainExplosions.get()) {
+            this.storage.overload();
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.Direction;
@@ -73,6 +72,6 @@ public abstract class InventoryCover extends BaseCover<BlockEntity> {
     
     @Override
     public boolean shouldTick() {
-        return !(this.be instanceof MachineController machine) || !(this.mode.conditional && machine.isAllowedToWork() == this.mode.inverted);
+        return this.machineController == null || !(this.mode.conditional && this.machineController.isAllowedToWork() == this.mode.inverted);
     }
 }

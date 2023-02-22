@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +52,9 @@ public abstract class GtComponentBase<T extends BaseBlockEntity> implements Bloc
     public boolean isServerSide() {
         return !this.parent.getLevel().isClientSide;
     }
+
+    @Override
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {}
 
     @Override
     public void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel) {}

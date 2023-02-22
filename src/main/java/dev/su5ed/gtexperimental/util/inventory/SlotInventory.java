@@ -22,7 +22,7 @@ public class SlotInventory extends Slot {
 
     @Override
     public boolean mayPlace(@NotNull ItemStack stack) {
-        return !stack.isEmpty() && this.inventorySlot.canInsert(stack);
+        return !stack.isEmpty() && this.inventorySlot.canPlace(stack);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SlotInventory extends Slot {
 
     @Override
     public boolean mayPickup(Player player) {
-        return this.inventorySlot.canExtract(1);
+        return this.inventorySlot.canTake();
     }
 
     @Override

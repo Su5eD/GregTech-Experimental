@@ -60,7 +60,7 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
     public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
         validateSlotIndex(slot);
         InventorySlot invSlot = this.slotMap.get(slot);
-        if (invSlot.canInsert(stack)) {
+        if (invSlot.canPlace(stack)) {
             if (!simulate) {
                 invSlot.setItem(slot, stack);
             }
@@ -89,7 +89,7 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         validateSlotIndex(slot);
-        return this.slots.get(slot).canInsert(stack);
+        return this.slots.get(slot).accepts(stack);
     }
     
     @Override

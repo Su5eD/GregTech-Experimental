@@ -21,17 +21,25 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     public static final ResourceLocation NAME = location("inventory_handler");
-    
+
     private final SlotAwareItemHandler itemHandler;
     private final LazyOptional<IItemHandler> optional;
-    
+
     public InventoryHandler(BaseBlockEntity parent, Runnable onChanged) {
         super(parent);
-        
+
         this.itemHandler = new SlotAwareItemHandler(onChanged);
         this.optional = LazyOptional.of(() -> this.itemHandler);
     }
-        
+
+    public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size) {
+        return addSlot(name, mode, size, stack -> true);
+    }
+
+    public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter) {
+        return addSlot(name, mode, size, filter, stack -> {});
+    }
+
     public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         return this.itemHandler.addSlot(name, mode, size, filter, onChanged);
     }
@@ -57,14 +65,14 @@ public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
-        
+
         tag.put("items", this.itemHandler.serializeNBT());
     }
 
     @Override
     public void load(FriendlyCompoundTag tag) {
         super.load(tag);
-        
+
         this.itemHandler.deserializeNBT(tag.getCompound("items"));
     }
 }

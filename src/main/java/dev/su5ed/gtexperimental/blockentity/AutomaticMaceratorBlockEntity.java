@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.blockentity;
 
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
@@ -22,17 +23,12 @@ public class AutomaticMaceratorBlockEntity extends SimpleMachineBlockEntity {
     @Override
     protected RecipeHandler<?, ?, ?, ?> createRecipeHandler() {
         // TODO Get output type from manager?
-        return new RecipeHandler.SIMO<>(this, ModRecipeManagers.PULVERIZER, ModRecipeOutputTypes.ITEM, ModRecipeTypes.PULVERIZER.get().getOutputType());
+        return new RecipeHandler.SISO(this, ModRecipeManagers.MACERATOR, ModRecipeOutputTypes.ITEM, ModRecipeTypes.MACERATOR.get().getOutputType());
     }
 
     @Override
     protected int getBaseEUCapacity() {
         return 1000;
-    }
-
-    @Override
-    public Collection<Direction> getSinkSides() {
-        return GtUtil.ALL_FACINGS;
     }
 
     @Override

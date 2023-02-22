@@ -59,7 +59,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
     public SonictronBlockEntity(BlockPos pos, BlockState state) {
         super(GTBlockEntity.SONICTRON, pos, state);
 
-        this.content = addSlot("content", InventorySlot.Mode.NONE, 64);
+        this.content = this.inventoryHandler.addSlot("content", InventorySlot.Mode.NONE, 64);
     }
 
     @Override

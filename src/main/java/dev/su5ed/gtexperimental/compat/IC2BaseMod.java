@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.compat;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.power.IC2EnergyStorage;
@@ -43,6 +44,11 @@ import java.util.List;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class IC2BaseMod implements BaseMod {
+    
+    public IC2BaseMod() {
+        ModRecipeManagers.MACERATOR.registerProvider(new IC2RecipeProvider());
+    }
+    
     @Override
     public boolean isEnergyItem(Item item) {
         return item instanceof IElectricItem;

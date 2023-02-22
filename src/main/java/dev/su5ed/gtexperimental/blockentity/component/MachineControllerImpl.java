@@ -38,9 +38,7 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     }
 
     @Override
-    public void onFieldUpdate(String name) {
-
-    }
+    public void onFieldUpdate(String name) {}
 
     @Override
     public <U> LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {

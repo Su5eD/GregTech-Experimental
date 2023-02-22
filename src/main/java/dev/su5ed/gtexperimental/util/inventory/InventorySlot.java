@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.util.inventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     private final Consumer<ItemStack> onChanged;
 
     private final ItemStack[] content;
-    
+
     public InventorySlot(SlotAwareItemHandler parent, String name, Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         this.parent = parent;
         this.name = name;
@@ -31,15 +32,43 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public String getName() {
         return this.name;
     }
-    
-    public boolean canInsert(ItemStack stack) {
-        return this.mode.input && this.filter.test(stack);
+
+    public boolean canPlace(ItemStack stack) {
+        return this.mode.place && accepts(stack);
     }
-    
+
+    public boolean canTake() {
+        return this.mode.take;
+    }
+
     public boolean canExtract(int amount) {
-        return this.mode.output;
+        return this.mode.extract;
     }
-    
+
+    public boolean accepts(ItemStack stack) {
+        return this.filter.test(stack);
+    }
+
+    public boolean canAdd(int index, ItemStack stack) {
+        if (accepts(stack)) {
+            ItemStack existing = get(index);
+            return existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack) && existing.getCount() + stack.getCount() <= existing.getMaxStackSize();
+        }
+        return false;
+    }
+
+    public void add(int index, ItemStack stack) {
+        if (canAdd(index, stack)) {
+            ItemStack existing = get(index);
+            if (existing.isEmpty()) {
+                setItem(index, stack);
+            }
+            else {
+                existing.grow(stack.getCount());
+            }
+        }
+    }
+
     public ItemStack get() {
         return get(0);
     }
@@ -47,26 +76,26 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public ItemStack get(int index) {
         return this.content[index];
     }
-    
+
     public void setItem(int index, ItemStack stack) {
         setItem(index, stack, true);
     }
-    
+
     public void setItem(int index, ItemStack stack, boolean notify) {
         this.content[index] = stack;
         onChanged(stack, notify);
     }
-    
+
     public ItemStack extract(int index, int amount) {
         ItemStack stack = this.content[index].split(amount);
         onChanged(stack, true);
         return stack;
     }
-    
+
     public boolean isEmpty() {
         return StreamEx.of(this.content).allMatch(ItemStack::isEmpty);
     }
-    
+
     protected void onChanged(ItemStack stack, boolean notify) {
         if (notify) {
             this.parent.onChanged();
@@ -97,17 +126,21 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     }
 
     public enum Mode {
-        INPUT(true, false),
-        OUTPUT(false, true),
-        BOTH(true, true),
-        NONE(false, false);
-        
-        private final boolean input;
-        private final boolean output;
+        INPUT(true, true, true, false),
+        OUTPUT(false, false, true, true),
+        BOTH(true, true, true, true),
+        NONE(false, false, false, false);
 
-        Mode(boolean input, boolean output) {
-            this.input = input;
-            this.output = output;
+        private final boolean place;
+        private final boolean insert;
+        private final boolean take;
+        private final boolean extract;
+
+        Mode(boolean place, boolean insert, boolean take, boolean extract) {
+            this.place = place;
+            this.insert = insert;
+            this.take = take;
+            this.extract = extract;
         }
     }
 }

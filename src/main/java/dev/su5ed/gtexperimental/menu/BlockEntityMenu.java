@@ -39,7 +39,7 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
         this.player = player;
         this.playerInventory = new InvWrapper(playerInventory);
     }
-    
+
     protected Slot addInventorySlot(InventorySlot slot, int x, int y) {
         return addInventorySlot(slot, 0, x, y);
     }
@@ -57,7 +57,7 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
     protected int addInventorySlotBox(int x, int y, int horAmount, int verAmount, int xOffset, int yOffset, TriFunction<Integer, Integer, Integer, Slot> factory) {
         return addSlotBox(0, x, y, horAmount, verAmount, xOffset, yOffset, (index, sX, sY) -> addInventorySlot(factory.apply(index, sX, sY)));
     }
-    
+
     public void mouseScrolled(int slotId, Player player, ScrollDirection direction, boolean shift) {
         interactWithSlot(slotId, slot -> slot.slotScroll(player, direction, shift));
     }
@@ -73,7 +73,7 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
         });
         super.clicked(slotId, dragType, clickType, player);
     }
-    
+
     private void interactWithSlot(int slotId, Consumer<InteractiveSlot> consumer) {
         if (slotId >= 0 && slotId < this.blockEntitySlots.size()) {
             Slot slot = getSlot(slotId);
@@ -85,11 +85,89 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        return ItemStack.EMPTY; // TODO
+        ItemStack stack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
+            stack = slotStack.copy();
+            // BE -> PLAYER
+            // TODO Prefer existing stack
+            if (this.blockEntitySlots.contains(slot)) {
+                if (!moveItemStackTo(slotStack, this.hotBarSlots) && !moveItemStackTo(slotStack, this.playerInventorySlots)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            // PLAYER -> BE
+            else if (!moveItemStackTo(slotStack, this.blockEntitySlots)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (slotStack.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            }
+            else {
+                slot.setChanged();
+            }
+        }
+
+        return stack;
     }
 
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(this.blockEntity.getLevel(), this.blockEntity.getBlockPos()), this.player, this.blockEntity.getBlockState().getBlock());
+    }
+
+    // Modified version of AbstractContainerMenu#moveItemStackTo
+    public boolean moveItemStackTo(ItemStack stack, List<Slot> slots) {
+        int i = 0;
+        boolean success = false;
+
+        if (stack.isStackable()) {
+            while (!stack.isEmpty() && i < slots.size()) {
+                Slot slot = slots.get(i);
+                ItemStack slotStack = slot.getItem();
+                if (!slotStack.isEmpty() && ItemStack.isSameItemSameTags(stack, slotStack)) {
+                    int total = stack.getCount() + slotStack.getCount();
+                    int maxCount = Math.min(slot.getMaxStackSize(), stack.getMaxStackSize());
+
+                    if (total <= maxCount) {
+                        stack.setCount(0);
+                        slotStack.setCount(total);
+                        slot.setChanged();
+                        success = true;
+                    }
+                    else if (slotStack.getCount() < maxCount) {
+                        stack.shrink(maxCount - slotStack.getCount());
+                        slotStack.setCount(maxCount);
+                        slot.setChanged();
+                        success = true;
+                    }
+                }
+                i++;
+            }
+        }
+
+        i = 0;
+        if (!stack.isEmpty()) {
+            while (i < slots.size()) {
+                Slot slot = slots.get(i);
+                ItemStack slotStack = slot.getItem();
+                if (slotStack.isEmpty() && slot.mayPlace(stack)) {
+                    if (stack.getCount() > slot.getMaxStackSize()) {
+                        slot.set(stack.split(slot.getMaxStackSize()));
+                    }
+                    else {
+                        slot.set(stack.split(stack.getCount()));
+                    }
+
+                    slot.setChanged();
+                    return true;
+                }
+                i++;
+            }
+        }
+
+        return success;
     }
 }

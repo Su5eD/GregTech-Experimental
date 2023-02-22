@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -203,8 +204,9 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     }
 
     @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        return super.getFlammability(state, level, pos, direction);
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+        getBlockEntity(level, pos)
+            .ifPresent(be -> be.wasExploded(level, pos, explosion));
     }
 
     @Override

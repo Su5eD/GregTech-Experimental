@@ -170,7 +170,7 @@ public final class PulverizerRecipesGen implements ModRecipeProvider {
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.ITEM_FRAME), new ItemStack(Items.LEATHER), Dust.WOOD.getItemStack(4), 95).build(finishedRecipeConsumer, id("item_frame"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.BOW), new ItemStack(Items.STRING, 3), Smalldust.WOOD.getItemStack(3), 95).build(finishedRecipeConsumer, id("bow"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.REDSTONE_LAMP), new ItemStack(Items.GLOWSTONE_DUST, 4), new ItemStack(Items.REDSTONE, 4), 90).build(finishedRecipeConsumer, id("redstone_lamp"));
-        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.MELON), new ItemStack(Items.MELON, 8), new ItemStack(Items.MELON_SEEDS), 80).build(finishedRecipeConsumer, id("melon"));
+        pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.MELON), new ItemStack(Items.MELON_SLICE, 8), new ItemStack(Items.MELON_SEEDS), 80).build(finishedRecipeConsumer, id("melon"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(Items.FLINT), Smalldust.FLINT.getItemStack(2), Smalldust.FLINT.getItemStack()).build(finishedRecipeConsumer, id("flint"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(ItemTags.WOOL), new ItemStack(Items.STRING, 2), new ItemStack(Items.STRING), 50).build(finishedRecipeConsumer, id("wool"));
         pulverizer(ModRecipeIngredientTypes.ITEM.of(GregTechTags.ore("uranium")), Dust.URANIUM.getItemStack(2), Dust.PLUTONIUM.getItemStack()).build(finishedRecipeConsumer, id("ores_uranium"));

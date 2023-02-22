@@ -1,8 +1,6 @@
 package dev.su5ed.gtexperimental.util.power;
 
-import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.api.cover.CoverHandler;
 import dev.su5ed.gtexperimental.api.machine.PowerProvider;
 import dev.su5ed.gtexperimental.api.machine.UpgradableBlockEntity;
 import dev.su5ed.gtexperimental.api.util.GtFluidTank;
@@ -19,8 +17,7 @@ public class SteamPowerProvider implements PowerProvider {
 
     @SuppressWarnings("deprecation")
     public SteamPowerProvider(UpgradableBlockEntity machine) {
-        CoverHandler coverHandler = machine.be().getCapability(Capabilities.COVER_HANDLER).orElse(null);
-        this.steamTank = machine.addTank(new GtFluidTankImpl("steam", coverHandler, 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
+        this.steamTank = machine.addTank(new GtFluidTankImpl("steam", machine.be(), 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
     }
 
     public GtFluidTank getSteamTank() {

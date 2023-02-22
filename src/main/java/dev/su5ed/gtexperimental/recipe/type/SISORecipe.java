@@ -24,6 +24,10 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
         return new SISORecipe<>(ModRecipeTypes.WIREMILL.get(), ModRecipeSerializers.WIREMILL.get(), id, input, output, properties);
     }
 
+    public static SISORecipe<ItemStack, ItemStack> macerator(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.MACERATOR.get(), ModRecipeSerializers.MACERATOR.get(), id, input, output, properties);
+    }
+
     public static SISORecipe<FluidStack, FluidStack> denseLiquid(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.DENSE_LIQUID_FUEL.get(), ModRecipeSerializers.DENSE_LIQUID_FUEL.get(), id, input, output, properties, true);
     }

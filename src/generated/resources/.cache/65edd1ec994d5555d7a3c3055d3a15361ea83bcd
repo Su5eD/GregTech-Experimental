@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-20T21:44:05.6216127	Gregtech Experimental Recipes
+// 1.19.2	2023-02-21T22:13:50.2357548	Gregtech Experimental Recipes
 bb4db1007c148ab5a8a2f3aebaceea052086708c data/gtexperimental/advancements/recipes/food/smelting/dusts_wheat_to_bread.json
 384bae2cba4be7a899c605f83b3d4a6d05dd4ece data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_block_from_aluminium_ingot.json
 c40afbb733d3f1dca4fea5258130b0c14321b57d data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_ingot_from_nuggets.json
@@ -629,7 +629,7 @@ df9cd590ae3c8bc16fcf6ae90877bdb3811e6d79 data/gtexperimental/recipes/ic2/macerat
 08e0051c751453d7b572b5cf4a00e619fff2996e data/gtexperimental/recipes/ic2/macerator/lever.json
 1e59da23313f9497cdf4bf8da3e4b6b81b8593f4 data/gtexperimental/recipes/ic2/macerator/light_weighted_pressure_plate.json
 8ab506202eaaa9b59b5e1f48cf85e7646aec5a96 data/gtexperimental/recipes/ic2/macerator/marble.json
-7f9ebf9035072b39974882b58d2fe05c0357de1e data/gtexperimental/recipes/ic2/macerator/melon.json
+682268fd584f999b828dfd1de47444a4a80387fa data/gtexperimental/recipes/ic2/macerator/melon.json
 7e45a402c0db65f0a7da652548c092a34b53acdf data/gtexperimental/recipes/ic2/macerator/melon_slice.json
 5750aeee6a3e7d220ac30080eebc6d24e027b761 data/gtexperimental/recipes/ic2/macerator/minecart.json
 025a74928373b5a18153e944f3aaa12a8d213298 data/gtexperimental/recipes/ic2/macerator/netherrack.json
@@ -957,7 +957,7 @@ aff69c84d0958096eff715264d74f7b596a0dfc7 data/gtexperimental/recipes/pulverizer/
 c0eae3b4f7e843b2d6710f7e98bb0527274dec3d data/gtexperimental/recipes/pulverizer/lever.json
 a85de98cae4f1d3cae49f1ff7dfc09976112df94 data/gtexperimental/recipes/pulverizer/light_weighted_pressure_plate.json
 1c2e8acd9e2064737ac66a92ab9333f933f528e8 data/gtexperimental/recipes/pulverizer/marble.json
-8716b5980d0b85ed4cd19958a8cdff559a37b763 data/gtexperimental/recipes/pulverizer/melon.json
+40cf64400b580b013ab442f427ef89d06c758456 data/gtexperimental/recipes/pulverizer/melon.json
 c6268f5e8b5af677bf16299470747c86e9e92f5c data/gtexperimental/recipes/pulverizer/melon_slice.json
 f311b6a0a8dbf2ab3d9953a269d50c0646401c04 data/gtexperimental/recipes/pulverizer/minecart.json
 132ed8165bad8184924b2135e4b6aae82d0b48e0 data/gtexperimental/recipes/pulverizer/netherrack.json
@@ -1134,7 +1134,7 @@ b189b063c3c0d350f1ea0b065a584dff4ed8ffbd data/gtexperimental/recipes/railcraft/c
 bcb04cc16ebdf3a24bf8ed170db4885882d6d40c data/gtexperimental/recipes/railcraft/crusher/lever.json
 59d2fb2db0413189540a1d8f96ee109fa42b8f35 data/gtexperimental/recipes/railcraft/crusher/light_weighted_pressure_plate.json
 7da501a100ad207c0b1db724c817b9fcf7f51388 data/gtexperimental/recipes/railcraft/crusher/marble.json
-10a4b71d6a25c4503cb1ca852412b60f2294fd96 data/gtexperimental/recipes/railcraft/crusher/melon.json
+54211ee0301cbdd3cab85c3278c74d8edde5bcbd data/gtexperimental/recipes/railcraft/crusher/melon.json
 8056a7532169058d7005fcebe18a2d67eb9719e1 data/gtexperimental/recipes/railcraft/crusher/melon_slice.json
 2bacc88ffcadd8db09316486247e9cca03e37d9a data/gtexperimental/recipes/railcraft/crusher/minecart.json
 7cb4014b79a63c884190247fc6988ec64a0f86ee data/gtexperimental/recipes/railcraft/crusher/netherrack.json
@@ -1606,7 +1606,7 @@ d9f4740906165cf383de542ca54d338e08bb0501 data/gtexperimental/recipes/thermal/pul
 1e384521b3d6a2957457cab0a50d24e368ec297d data/gtexperimental/recipes/thermal/pulverizer/lever.json
 ab1fe28909c05d0fd6284190a2bbd70aca7f63ae data/gtexperimental/recipes/thermal/pulverizer/light_weighted_pressure_plate.json
 b9d1bcecc03ad850e72763c7513dab230f5c3188 data/gtexperimental/recipes/thermal/pulverizer/marble.json
-f2019a11c42a97ac16cb688a0956dd13a52d5b45 data/gtexperimental/recipes/thermal/pulverizer/melon.json
+7dfaabda263172f57a7c5917ea22de46c55dc2b8 data/gtexperimental/recipes/thermal/pulverizer/melon.json
 21b0188c337d578927736ba9958643ba0616ff79 data/gtexperimental/recipes/thermal/pulverizer/melon_slice.json
 e0f742c71f09af991849b7afbed15545cfd96f44 data/gtexperimental/recipes/thermal/pulverizer/minecart.json
 43320e1f5e166f4996dc502f17979b6e8349d306 data/gtexperimental/recipes/thermal/pulverizer/netherrack.json

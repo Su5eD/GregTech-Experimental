@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.item;
 
+import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.ClientSetup;
 import dev.su5ed.gtexperimental.GregTechTags;
-import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.BlockPos;
@@ -12,9 +12,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+
+import java.util.Optional;
 
 public class HardHammerItem extends HammerItem {
 
@@ -30,27 +31,28 @@ public class HardHammerItem extends HammerItem {
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        BlockEntity te = level.getBlockEntity(pos);
 
-        if (te instanceof MachineController machine) {
-            if (!level.isClientSide) {
-                boolean input = machine.isInputEnabled();
-                boolean output = machine.isOutputEnabled();
+        return Optional.ofNullable(level.getBlockEntity(pos))
+            .flatMap(be -> be.getCapability(Capabilities.MACHINE_CONTROLLER).resolve())
+            .map(controller -> {
+                if (!level.isClientSide) {
+                    boolean input = controller.isInputEnabled();
+                    boolean output = controller.isOutputEnabled();
 
-                if (input = !input) output = !output;
-                machine.setInputEnabled(input);
-                machine.setOutputEnabled(output);
+                    if (input = !input) output = !output;
+                    controller.setInputEnabled(input);
+                    controller.setOutputEnabled(output);
 
-                Component enabled = GtLocale.itemKey("hard_hammer", "enabled").toComponent();
-                Component disabled = GtLocale.itemKey("hard_hammer", "disabled").toComponent();
-                Component message = GtLocale.itemKey("hard_hammer", "auto_input")
-                    .toComponent(input ? enabled : disabled, output ? enabled : disabled);
-                
-                context.getPlayer().displayClientMessage(message, true);
-            }
-            return InteractionResult.SUCCESS;
-        }
-        return super.onItemUseFirst(stack, context);
+                    Component enabled = GtLocale.itemKey("hard_hammer", "enabled").toComponent();
+                    Component disabled = GtLocale.itemKey("hard_hammer", "disabled").toComponent();
+                    Component message = GtLocale.itemKey("hard_hammer", "auto_input")
+                        .toComponent(input ? enabled : disabled, output ? enabled : disabled);
+
+                    context.getPlayer().displayClientMessage(message, true);
+                }
+                return InteractionResult.SUCCESS;
+            })
+            .orElseGet(() -> super.onItemUseFirst(stack, context));
     }
 
     @Override

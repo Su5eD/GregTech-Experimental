@@ -1,21 +1,28 @@
-package dev.su5ed.gtexperimental.blockentity;
+package dev.su5ed.gtexperimental.blockentity.component;
 
+import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.GregTechMod;
+import dev.su5ed.gtexperimental.api.machine.MachineController;
+import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
-import dev.su5ed.gtexperimental.blockentity.component.GtComponentBase;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
-import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
+import dev.su5ed.gtexperimental.util.GtLocale;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -25,10 +32,15 @@ import java.util.List;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> extends GtComponentBase<T> {
-    private final RecipeManager<R, IN> manager;
+    private final PowerHandler energy;
+    private final UpgradeManager<?> upgrades;
+    private final MachineController controller;
+    protected final RecipeManager<R, IN> manager;
     private final RecipeOutputType<IN> inputSerializer;
     private final RecipeOutputType<OUT> outputSerializer;
+    private final boolean needsConstantEnergy;
 
+    private CompoundTag pendingRecipeInitTag;
     @Nullable
     @Networked
     private PendingRecipe<R, IN, OUT> pendingRecipe;
@@ -40,19 +52,30 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     }
 
     protected RecipeHandler(T parent, RecipeManager<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
+        this(parent, manager, inputSerializer, outputSerializer, true);
+    }
+
+    protected RecipeHandler(T parent, RecipeManager<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
         super(parent);
 
+        this.energy = parent.getCapability(Capabilities.ENERGY_HANDLER).orElseThrow(() -> new IllegalStateException("Required PowerHandler capability not found"));
+        this.upgrades = (UpgradeManager<?>) parent.getComponent(UpgradeManager.NAME).orElseThrow(() -> new IllegalStateException("Required UpgradeManager component not found"));
+        this.controller = parent.getCapability(Capabilities.MACHINE_CONTROLLER).orElseThrow(() -> new IllegalStateException("Required MachineController capability not found"));
         this.manager = manager;
         this.inputSerializer = inputSerializer;
         this.outputSerializer = outputSerializer;
+        this.needsConstantEnergy = needsConstantEnergy;
     }
+    
+    public abstract boolean accepts(ItemStack input);
 
     protected abstract IN getInput();
 
     protected boolean canProcessRecipe(R recipe) {
-        // TODO Check parent energy && can add output
-        return true;
+        return this.controller.isAllowedToWork() && this.energy.canUseEnergy(getEnergyCost()) && canAddOutput(recipe);
     }
+
+    protected abstract boolean canAddOutput(R recipe);
 
     protected abstract void consumeInput(R recipe);
 
@@ -66,15 +89,28 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         return this.pendingRecipe == null ? 0 : this.pendingRecipe.recipe.getProperty(ModRecipeProperty.DURATION);
     }
 
+    public double getEnergyCost() {
+        int multiplier = (int) Math.pow(4, this.upgrades.getUpgradeCount(UpgradeCategory.OVERCLOCKER));
+        return this.pendingRecipe == null ? 0 : this.pendingRecipe.recipe.getProperty(ModRecipeProperty.ENERGY_COST) * multiplier;
+    }
+
     public void checkRecipe() {
-        if (this.pendingRecipe == null) {
+        if (this.pendingRecipe == null && !this.parent.getLevel().isClientSide) {
             IN input = getInput();
             R recipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
             if (recipe != null && canProcessRecipe(recipe)) {
                 this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, recipe.getOutput(), this.outputSerializer, recipe);
                 consumeInput(recipe);
-                this.parent.setActive(true);
             }
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+
+        if (this.pendingRecipeInitTag != null) {
+            this.pendingRecipe = PendingRecipe.fromNBT(this.pendingRecipeInitTag, this.inputSerializer, this.outputSerializer, this.parent.getLevel(), this.manager);
         }
     }
 
@@ -83,22 +119,45 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         super.tickServer();
 
         if (this.pendingRecipe != null) {
-            int maxProgress = getMaxProgress();
-            if (this.progress++ >= maxProgress) {
-                addOutput(this.pendingRecipe.recipe);
-                this.pendingRecipe = null;
-                this.parent.setActive(false);
-                this.progress = 0;
-                checkRecipe();
+            double energyCost = getEnergyCost();
+            if (this.controller.isAllowedToWork() && this.energy.tryUseEnergy(energyCost)) {
+                int maxProgress = getMaxProgress();
+                this.parent.setActive(true);
+                this.progress += 1 << this.upgrades.getUpgradeCount(UpgradeCategory.OVERCLOCKER);
+                if (this.progress >= maxProgress) {
+                    addOutput(this.pendingRecipe.recipe);
+                    this.pendingRecipe = null;
+                    this.progress = 0;
+                    checkRecipe();
+                }
+                else {
+                    this.parent.setChanged();
+                }
             }
             else {
-                this.parent.setChanged();
+                this.parent.setActive(false);
+                if (this.needsConstantEnergy) {
+                    this.progress = 0;
+                }
             }
+        }
+        else {
+            this.parent.setActive(false);
         }
     }
 
     @Override
     public void onFieldUpdate(String name) {}
+
+    @Override
+    public void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel) {
+        super.getScanInfo(scan, player, pos, scanLevel);
+
+        if (scanLevel > 0) {
+            String key = this.parent.isActive() ? "active" : "inactive";
+            scan.add(GtLocale.key("info", "machine_" + key).toComponent());
+        }
+    }
 
     @Override
     public void save(FriendlyCompoundTag tag) {
@@ -115,8 +174,8 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         super.load(tag);
 
         if (tag.contains("pendingRecipe", Tag.TAG_COMPOUND)) {
-            CompoundTag pendingRecipeTag = tag.getCompound("pendingRecipe");
-            this.pendingRecipe = PendingRecipe.fromNBT(pendingRecipeTag, this.inputSerializer, this.outputSerializer, this.parent.getLevel(), this.manager);
+            // Init the pending recipe later, after the level has been loaded
+            this.pendingRecipeInitTag = tag.getCompound("pendingRecipe");
             this.progress = tag.getInt("progress");
         }
     }
@@ -170,10 +229,21 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
     }
 
-    public static class SIMO<R extends SIMORecipe<ItemStack, List<ItemStack>>> extends RecipeHandler<SimpleMachineBlockEntity, R, ItemStack, List<ItemStack>> {
+    public static class SISO extends RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> {
+        private static final ResourceLocation NAME = location("siso_recipe_handler");
 
-        protected SIMO(SimpleMachineBlockEntity parent, RecipeManager<R, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<List<ItemStack>> outputSerializer) {
+        public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
             super(parent, manager, inputSerializer, outputSerializer);
+        }
+
+        @Override
+        public ResourceLocation getName() {
+            return NAME;
+        }
+
+        @Override
+        public boolean accepts(ItemStack input) {
+            return this.manager.hasRecipeFor(this.parent.getLevel(), input);
         }
 
         @Override
@@ -182,19 +252,18 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
 
         @Override
-        protected void consumeInput(R recipe) {
+        protected boolean canAddOutput(SISORecipe<ItemStack, ItemStack> recipe) {
+            return this.parent.outputSlot.canAdd(0, recipe.getOutput());
+        }
+
+        @Override
+        protected void consumeInput(SISORecipe<ItemStack, ItemStack> recipe) {
             this.parent.inputSlot.extract(0, recipe.getInput().getCount());
         }
 
         @Override
-        protected void addOutput(R recipe) {
-            // TODO add() method
-            this.parent.outputSlot.setItem(0, recipe.getOutput().get(0).copy());
-        }
-
-        @Override
-        public ResourceLocation getName() {
-            return location("simo_recipe_handler");
+        protected void addOutput(SISORecipe<ItemStack, ItemStack> recipe) {
+            this.parent.outputSlot.add(0, recipe.getOutput().copy());
         }
     }
 }

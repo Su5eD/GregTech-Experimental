@@ -31,21 +31,22 @@ public final class GregTechConfig {
         public final ForgeConfigSpec.BooleanValue armorPlateCrafting;
         public final ForgeConfigSpec.BooleanValue storageBlockCrafting;
         public final ForgeConfigSpec.BooleanValue storageBlockDecrafting;
-        
+
         public final ForgeConfigSpec.IntValue upgradeStackSize;
         public final ForgeConfigSpec.BooleanValue teslaStaffDestroysArmor;
-        
+
         public final ForgeConfigSpec.BooleanValue solarPanelCoverOvervoltageProtection;
         public final ForgeConfigSpec.IntValue explosionPowerMultiplier;
-        
+
         public final ForgeConfigSpec.BooleanValue machineWireFire;
+        public final ForgeConfigSpec.BooleanValue machineChainExplosions;
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("General config");
             this.hiddenOres = builder.define("hiddenOres", true);
             this.enhancedWrenchOverlay = builder.define("enhancedWrenchOverlay", true);
             builder.pop();
-            
+
             builder.push("Recipes");
             this.woodNeedsSawForCrafting = builder.define("woodNeedsSawForCrafting", true);
             this.toolPlateCrafting = builder.define("toolPlateCrafting", true);
@@ -53,12 +54,12 @@ public final class GregTechConfig {
             this.storageBlockCrafting = builder.define("storageBlockCrafting", false);
             this.storageBlockDecrafting = builder.define("storageBlockDecrafting", false);
             builder.pop();
-            
+
             builder.push("Features");
             this.upgradeStackSize = builder.defineInRange("upgradeStackSize", 4, 1, 64);
             this.teslaStaffDestroysArmor = builder.define("teslaStaffDestroysArmor", false);
             builder.pop();
-            
+
             builder.push("Balance");
             this.solarPanelCoverOvervoltageProtection = builder
                 .comment("Prevent MV and HV solar panel covers from overloading (and exploding) your machines")
@@ -66,11 +67,14 @@ public final class GregTechConfig {
             this.explosionPowerMultiplier = builder
                 .defineInRange("explosionPowerMultiplier", 2, 0, 100);
             builder.pop();
-            
+
             builder.push("Machines");
             this.machineWireFire = builder
                 .comment("Wirefire on explosion")
                 .define("machineWireFire", true);
+            this.machineChainExplosions = builder
+                .comment("Nearby explosions cause machines to explode, too")
+                .define("machineChainExplosions", true);
             builder.pop();
         }
     }

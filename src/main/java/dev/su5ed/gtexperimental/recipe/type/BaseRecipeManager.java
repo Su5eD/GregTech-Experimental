@@ -47,16 +47,22 @@ public class BaseRecipeManager<R extends BaseRecipe<?, IN, ?, ? super R>, IN> im
         return StreamEx.of(getRecipes(level))
             .filter(r -> r.matches(input))
             .min(RecipeUtil::compareCount)
-            .orElseGet(() -> getProvidedRecipe(level, input));
+            .orElseGet(() -> StreamEx.of(this.providers)
+                .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(level, input)))
+                .findFirst()
+                .orElse(null));
     }
 
     @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public R getById(Level level, ResourceLocation id) {
-        return (R) level.getRecipeManager().byKey(id)
+        return ((Optional<R>) level.getRecipeManager().byKey(id))
             .filter(recipe -> recipe.getType() == this.recipeType.get())
-            .orElse(null);
+            .orElseGet(() -> StreamEx.of(this.providers)
+                .mapPartial(provider -> Optional.ofNullable(provider.getById(level, id)))
+                .findFirst()
+                .orElse(null));
     }
 
     @Override
@@ -67,12 +73,5 @@ public class BaseRecipeManager<R extends BaseRecipe<?, IN, ?, ? super R>, IN> im
     @Override
     public void reset() {
         this.recipes = null;
-    }
-
-    protected R getProvidedRecipe(Level level, IN input) {
-        return StreamEx.of(this.providers)
-            .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(level, input)))
-            .findFirst()
-            .orElse(null);
     }
 }
