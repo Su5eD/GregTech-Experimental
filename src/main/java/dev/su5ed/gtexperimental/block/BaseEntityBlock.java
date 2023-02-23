@@ -50,7 +50,7 @@ import java.util.function.Supplier;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
-    private static final ResourceLocation CONTENT_KEY = location("content");
+    public static final ResourceLocation CONTENT_KEY = location("content");
     private static final LootContext.DynamicDrop CONTENT_DROP = (context, stackConsumer) -> {
         BlockEntity be = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
         if (be instanceof BaseBlockEntity base) {

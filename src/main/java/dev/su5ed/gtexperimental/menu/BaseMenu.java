@@ -10,16 +10,19 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 
 public abstract class BaseMenu extends AbstractContainerMenu {
     protected final List<Slot> hotBarSlots = new ArrayList<>();
     protected final List<Slot> playerInventorySlots = new ArrayList<>();
+    protected final List<Slot> allPlayerSlotsReverse = new ArrayList<>();
 
     protected BaseMenu(@Nullable MenuType<?> menuType, int containerId) {
         super(menuType, containerId);
@@ -38,6 +41,10 @@ public abstract class BaseMenu extends AbstractContainerMenu {
 
         // Hotbar
         addSlotRange(0, leftCol, height - 24, 9, 18, (index, x, y) -> this.hotBarSlots.add(addSlot(factory.apply(index, x, y))));
+
+        StreamEx.of(this.playerInventorySlots, this.hotBarSlots)
+            .flatCollection(Function.identity())
+            .forEach(s -> this.allPlayerSlotsReverse.add(0, s));
     }
 
     protected int addSlotRange(int index, int x, int y, int amount, int xOffset, TriConsumer<Integer, Integer, Integer> factory) {

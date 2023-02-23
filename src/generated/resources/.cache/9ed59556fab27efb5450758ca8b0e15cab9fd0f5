@@ -1,7 +1,7 @@
-// 1.19.2	2023-01-20T21:16:16.2001464	Gregtech ExperimentalLootTables
+// 1.19.2	2023-02-23T17:18:25.3392897	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
-ae173dc2c7183e90ad4dd6400a89c52834fa8d8e data/gtexperimental/loot_tables/blocks/auto_macerator.json
+4feb8cd507d6a0398ea427a50f056a2daf28f9e4 data/gtexperimental/loot_tables/blocks/auto_macerator.json
 9e4a4c41cbbb05535bc82b709dcd496d2a9e7c78 data/gtexperimental/loot_tables/blocks/bauxite_ore.json
 c5cb81d819cf67586d1be109a76858239e886bd8 data/gtexperimental/loot_tables/blocks/brass_block.json
 40a7c3d0fd179d0f513a54a7cc3f579cd3467395 data/gtexperimental/loot_tables/blocks/cassiterite_ore.json
@@ -33,7 +33,7 @@ bbf6c734a59a6aa68e13d4b46e2845401c84e78f data/gtexperimental/loot_tables/blocks/
 5cc86fda52fc4dc63c30e79a6de96dab6fe46789 data/gtexperimental/loot_tables/blocks/sheldonite_ore.json
 7335eff046d6c4727ba00ad1784b9db178861c1e data/gtexperimental/loot_tables/blocks/silver_block.json
 76aeac37850815195e8a10b3e661427cd9c2e01e data/gtexperimental/loot_tables/blocks/sodalite_ore.json
-a2af30a56f20fd415b87fcf4bdf43e1bb7189891 data/gtexperimental/loot_tables/blocks/sonictron.json
+c5ab2cd51b43053b22890d3b62dee14d0f921272 data/gtexperimental/loot_tables/blocks/sonictron.json
 6fb843b56b998f9b945a526dc23f87188ddc453f data/gtexperimental/loot_tables/blocks/sphalerite_ore.json
 7be9c32d2cb4a9bd140f8d6102cf9e5b30563b84 data/gtexperimental/loot_tables/blocks/standard_machine_casing_block.json
 8fea8805acab68685d768c21bf77baa1e0e71d39 data/gtexperimental/loot_tables/blocks/steel_block.json

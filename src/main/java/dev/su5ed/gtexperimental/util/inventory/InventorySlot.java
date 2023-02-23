@@ -34,13 +34,21 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public String getName() {
         return this.name;
     }
-    
+
+    public int getSize() {
+        return this.content.length;
+    }
+
     public Collection<ItemStack> getContent() {
         return List.of(this.content);
     }
 
     public boolean canPlace(ItemStack stack) {
         return this.mode.place && accepts(stack);
+    }
+
+    public boolean canInsert(ItemStack stack) {
+        return this.mode.insert && accepts(stack);
     }
 
     public boolean canTake() {

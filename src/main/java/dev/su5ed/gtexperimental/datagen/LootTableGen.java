@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.datagen;
 
 import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.block.BaseEntityBlock;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.entries.DynamicLoot;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
@@ -65,29 +67,39 @@ class LootTableGen extends LootTableProvider {
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
         map.forEach((location, lootTable) -> LootTables.validate(validationtracker, location, lootTable));
     }
-    
+
     private static class ModBlockLoot extends BlockLoot {
         private static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item()
             .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
         private static final LootItemCondition.Builder HAS_NO_SILK_TOUCH = HAS_SILK_TOUCH.invert();
-        
+
         private final List<Block> blocks = StreamEx.<BlockItemProvider>of(ModBlock.values())
             .append(GTBlockEntity.values())
             .append(Ore.values())
             .map(BlockItemProvider::getBlock)
             .toList();
-        
+
         @Override
         protected void addTables() {
-            this.blocks.forEach(this::dropSelf);
-            
+            StreamEx.<BlockItemProvider>of(ModBlock.values())
+                .append(Ore.values())
+                .map(BlockItemProvider::getBlock)
+                .forEach(this::dropSelf);
+
+            for (GTBlockEntity provider : GTBlockEntity.values()) {
+                Block block = provider.getBlock();
+                add(block, LootTable.lootTable()
+                    .withPool(applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block))))
+                    .withPool(applyExplosionCondition(block, LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(DynamicLoot.dynamicEntry(BaseEntityBlock.CONTENT_KEY)))));
+            }
+
             addOreDrop(Ore.GALENA, Miscellaneous.RAW_GALENA);
             addOreDrop(Ore.BAUXITE, Miscellaneous.RAW_BAUXITE);
             addOreDrop(Ore.TUNGSTATE, Miscellaneous.RAW_TUNGSTATE);
             addOreDrop(Ore.SHELDONITE, Miscellaneous.RAW_SHELDONITE);
             addOreDrop(Ore.TETRAHEDRITE, Miscellaneous.RAW_TETRAHEDRITE);
             addOreDrop(Ore.CASSITERITE, Miscellaneous.RAW_CASSITERITE);
-            
+
             addOre(Ore.RUBY.getBlock())
                 .primaryDrop(Miscellaneous.RUBY)
                 .randomSecondaryDrop(Miscellaneous.RED_GARNET, 32)
@@ -133,15 +145,15 @@ class LootTableGen extends LootTableProvider {
         protected Iterable<Block> getKnownBlocks() {
             return this.blocks;
         }
-        
+
         protected void addOreDrop(BlockItemProvider block, ItemProvider item) {
             add(block.getBlock(), b -> createOreDrop(b, item.asItem()));
         }
-        
+
         protected GTLootTableFactory addOre(Block block) {
             return new GTLootTableFactory(block, this::add);
         }
-        
+
         protected static class GTLootTableFactory {
             private final Block block;
             private final BiConsumer<Block, LootTable.Builder> finisher;
@@ -150,15 +162,15 @@ class LootTableGen extends LootTableProvider {
                 this.block = block;
                 this.finisher = finisher;
             }
-            
+
             public GTLootTableBuilder primaryDrop(ItemLike item) {
                 return primaryDrop(item, 1);
             }
-            
+
             public GTLootTableBuilder primaryDrop(ItemLike item, int count) {
                 return primaryDrop(item, count, 1);
             }
-            
+
             public GTLootTableBuilder primaryDrop(ItemLike item, int count, int bonusCountMultiplier) {
                 LootPoolSingletonContainer.Builder<?> pool = LootItem.lootTableItem(item);
                 if (count > 1) {
@@ -169,13 +181,13 @@ class LootTableGen extends LootTableProvider {
                 return new GTLootTableBuilder(this.block, this.finisher, tableBuilder);
             }
         }
-        
+
         private static class GTLootTableBuilder {
             private final Block block;
             private final BiConsumer<Block, LootTable.Builder> finisher;
 
             private LootTable.Builder builder;
-            
+
             public GTLootTableBuilder(Block block, BiConsumer<Block, LootTable.Builder> finisher, LootTable.Builder builder) {
                 this.block = block;
                 this.finisher = finisher;
@@ -192,7 +204,7 @@ class LootTableGen extends LootTableProvider {
                     );
                 return this;
             }
-            
+
             public void add() {
                 this.finisher.accept(this.block, this.builder);
             }

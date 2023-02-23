@@ -29,10 +29,12 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);
 
-        addInventorySlot(this.blockEntity.queueInputSlot, 35, 25);
+        // Order matters
         addInventorySlot(this.blockEntity.inputSlot, 53, 25);
+        addInventorySlot(this.blockEntity.queueInputSlot, 35, 25);
         addInventorySlot(this.blockEntity.queueOutputSlot, 107, 25);
         addInventorySlot(this.blockEntity.outputSlot, 125, 25);
+        addInventorySlot(this.blockEntity.extraSlot, 80, 63);
         addPlayerInventorySlots(playerInventory);
 
         addInventorySlot(SlotButton.serverOnly(8, 63, this.blockEntity::switchProvideEnergy));

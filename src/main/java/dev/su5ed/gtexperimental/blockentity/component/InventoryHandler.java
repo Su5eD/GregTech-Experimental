@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
@@ -43,6 +44,10 @@ public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     
     public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         return this.itemHandler.addSlot(name, mode, size, filter, onChanged);
+    }
+    
+    public <T extends InventorySlot> T addSlot(Function<SlotAwareItemHandler, T> factory) {
+        return this.itemHandler.addSlot(factory.apply(this.itemHandler));
     }
 
     public Collection<ItemStack> getAllItems() {

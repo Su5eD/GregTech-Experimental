@@ -91,9 +91,8 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
             ItemStack slotStack = slot.getItem();
             stack = slotStack.copy();
             // BE -> PLAYER
-            // TODO Prefer existing stack
             if (this.blockEntitySlots.contains(slot)) {
-                if (!moveItemStackTo(slotStack, this.hotBarSlots) && !moveItemStackTo(slotStack, this.playerInventorySlots)) {
+                if (!moveItemStackTo(slotStack, this.allPlayerSlotsReverse)) {
                     return ItemStack.EMPTY;
                 }
             }

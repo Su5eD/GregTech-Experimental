@@ -143,11 +143,11 @@ public class WrenchItem extends ToolItem implements IEnhancedOverlayProvider {
                     wrench.useWrench(stack, wrench.removeCost, player, hand);
                     if (!level.isClientSide) {
                         block.playerWillDestroy(level, pos, state, player);
+                        List<ItemStack> drops = wrenchable.getWrenchDrops(level, pos, state, level.getBlockEntity(pos), player, 0);
                         if (level.removeBlock(pos, false)) {
                             block.destroy(level, pos, state);
                         }
-                        wrenchable.getWrenchDrops(level, pos, state, level.getBlockEntity(pos), player, 0)
-                            .forEach(drop -> dropItem(drop, level, pos));
+                        drops.forEach(drop -> dropItem(drop, level, pos));
                     }
                     return InteractionResult.SUCCESS;
                 }

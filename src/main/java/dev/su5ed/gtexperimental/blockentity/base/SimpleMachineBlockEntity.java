@@ -11,6 +11,7 @@ import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.InvUtil;
 import dev.su5ed.gtexperimental.util.KeyboardHandler;
 import dev.su5ed.gtexperimental.util.OutputSide;
+import dev.su5ed.gtexperimental.util.inventory.DischargingInventorySlot;
 import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,7 +34,7 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     public final InventorySlot inputSlot;
     public final InventorySlot queueOutputSlot;
     public final InventorySlot outputSlot;
-    // TODO Discharge slot
+    public final InventorySlot extraSlot;
     public final RecipeHandler<?, ?, ?, ?> recipeHandler;
 
     @Networked
@@ -51,10 +52,17 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
         this.queueInputSlot = this.inventoryHandler.addSlot("queueInput", InventorySlot.Mode.INPUT, 1, this::hasRecipeForItem);
         this.outputSlot = this.inventoryHandler.addSlot("output", InventorySlot.Mode.OUTPUT, 1);
         this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, 1);
+        this.extraSlot = createExtraSlot();
         this.recipeHandler = addComponent(createRecipeHandler());
     }
 
     protected abstract RecipeHandler<?, ?, ?, ?> createRecipeHandler();
+
+    protected InventorySlot createExtraSlot() {
+        DischargingInventorySlot slot = this.inventoryHandler.addSlot(handler -> new DischargingInventorySlot(handler, "battery", InventorySlot.Mode.BOTH, 1));
+        this.energy.addDischargingSlot(slot);
+        return slot;
+    }
 
     private boolean hasRecipeForItem(ItemStack stack) {
         return this.recipeHandler.accepts(stack);
@@ -142,11 +150,11 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
 
         // Dump output
         if (getTicks() % 1200 == 0 || this.recipeHandler.isOutputBlocked()) {
-            dumpOutput();
+            ejectOutput();
         }
     }
 
-    public void dumpOutput() {
+    public void ejectOutput() {
         OutputSide outputSide = getOutputSide();
         if (this.autoOutput && outputSide != OutputSide.NONE) {
             ItemStack output = this.outputSlot.get();

@@ -41,7 +41,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     private final boolean needsConstantEnergy;
 
     private CompoundTag pendingRecipeInitTag;
-    @Nullable
+    private R availableRecipe;
     @Networked
     protected PendingRecipe<R, IN, OUT> pendingRecipe;
     @Networked
@@ -109,16 +109,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     public void checkRecipe() {
         if (this.pendingRecipe == null && !this.parent.getLevel().isClientSide) {
             IN input = getInput();
-            R recipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
-            if (recipe != null) {
-                if (checkProcessRecipe(recipe)) {
-                    this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, recipe.getOutput(), this.outputSerializer, recipe);
-                    consumeInput(recipe);
-                }
-            }
-            else {
-                this.outputBlocked = false;
-            }
+            this.availableRecipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
         }
     }
 
@@ -128,6 +119,9 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
         if (this.pendingRecipeInitTag != null) {
             this.pendingRecipe = PendingRecipe.fromNBT(this.pendingRecipeInitTag, this.inputSerializer, this.outputSerializer, this.parent.getLevel(), this.manager);
+        }
+        else {
+            checkRecipe();
         }
     }
 
@@ -158,8 +152,16 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
                 }
             }
         }
+        else if (this.availableRecipe != null) {
+            if (checkProcessRecipe(this.availableRecipe)) {
+                IN input = getInput();
+                this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, this.availableRecipe.getOutput(), this.outputSerializer, this.availableRecipe);
+                consumeInput(this.availableRecipe);
+            }
+        }
         else {
             this.parent.setActive(false);
+            this.outputBlocked = false;
         }
     }
 
@@ -260,7 +262,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
         @Override
         public boolean accepts(ItemStack input) {
-            return this.manager.hasRecipeFor(this.parent.getLevel(), input);
+            return !this.parent.getLevel().isClientSide && this.manager.hasRecipeFor(this.parent.getLevel(), input);
         }
 
         @Override
@@ -283,7 +285,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         protected void addOutput(SISORecipe<ItemStack, ItemStack> recipe) {
             ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput().copy());
             this.parent.queueOutputSlot.add(0, remainder);
-            this.parent.dumpOutput();
+            this.parent.ejectOutput();
         }
     }
 }
