@@ -22,6 +22,7 @@ import dev.su5ed.gtexperimental.cover.ValveCover;
 import dev.su5ed.gtexperimental.cover.VentCover;
 import dev.su5ed.gtexperimental.item.LithiumBatteryItem;
 import dev.su5ed.gtexperimental.model.ConnectedModelLoader;
+import dev.su5ed.gtexperimental.model.CoverableModel;
 import dev.su5ed.gtexperimental.model.CoverableModelLoader;
 import dev.su5ed.gtexperimental.model.OreModelLoader;
 import dev.su5ed.gtexperimental.object.Component;
@@ -53,8 +54,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import one.util.streamex.StreamEx;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.stream.Stream;
+
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 @EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
@@ -76,6 +80,7 @@ public final class ClientSetup {
         Options options = Minecraft.getInstance().options;
         ClientEventHandler.KEY_MAP.put(options.keyJump.getKey().getValue(), KeyboardHandler.Key.JUMP);
         ClientEventHandler.KEY_MAP.put(options.keySprint.getKey().getValue(), KeyboardHandler.Key.SPRINT);
+        ClientEventHandler.KEY_MAP.put(GLFW.GLFW_KEY_LEFT_ALT, KeyboardHandler.Key.LEFT_ALT);
 
         StreamEx.of(ModFluid.values())
             .flatMap(provider -> StreamEx.of(provider.getSourceFluid(), provider.getFlowingFluid()))
@@ -114,6 +119,7 @@ public final class ClientSetup {
                 )
                 .append(Stream.of(VentCover.VentType.values())
                     .map(VentCover.VentType::getIcon))
+                .append(CoverableModel.OUTPUT_SIDE_TEXTURES.values())
                 .forEach(event::addSprite);
         }
     }

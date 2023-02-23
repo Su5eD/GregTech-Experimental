@@ -9,6 +9,7 @@ import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.inventory.SlotButton;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,18 +29,28 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);
 
+        addInventorySlot(this.blockEntity.queueInputSlot, 35, 25);
         addInventorySlot(this.blockEntity.inputSlot, 53, 25);
+        addInventorySlot(this.blockEntity.queueOutputSlot, 107, 25);
         addInventorySlot(this.blockEntity.outputSlot, 125, 25);
         addPlayerInventorySlots(playerInventory);
+
+        addInventorySlot(SlotButton.serverOnly(8, 63, this.blockEntity::switchProvideEnergy));
+        addInventorySlot(SlotButton.serverOnly(26, 63, this.blockEntity::switchAutoOutput));
+        addInventorySlot(SlotButton.serverOnly(44, 63, this.blockEntity::switchSplitInput));
     }
 
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();
-        
+
+        // TODO Track changes
         if (this.player instanceof ServerPlayer serverPlayer) {
             updatePlayerClientComponent(serverPlayer, this.blockEntity, this.blockEntity.recipeHandler);
         }
+        GregTechNetwork.updateClientField(this.blockEntity, "provideEnergy");
+        GregTechNetwork.updateClientField(this.blockEntity, "autoOutput");
+        GregTechNetwork.updateClientField(this.blockEntity, "splitInput");
     }
 
     public static void updatePlayerClientComponent(ServerPlayer player, BaseBlockEntity be, BlockEntityComponent component) {

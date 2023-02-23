@@ -71,9 +71,7 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     }
 
     @Override
-    public void onFieldUpdate(String name) {
-
-    }
+    public void onFieldUpdate(String name) {}
 
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
@@ -230,6 +228,11 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     @Override
     public Collection<Direction> getSourceSides() {
         return this.storage.getSourceSides();
+    }
+
+    @Override
+    public void refreshSides() {
+        this.storage.refreshSides();
     }
 
     @Override

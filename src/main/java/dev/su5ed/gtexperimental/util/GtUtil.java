@@ -12,7 +12,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public final class GtUtil {
@@ -45,7 +48,9 @@ public final class GtUtil {
     public static final Collection<Direction> VERTICAL_FACINGS = EnumSet.of(Direction.DOWN, Direction.UP);
     public static final Collection<Direction> HORIZONTAL_FACINGS = EnumSet.of(Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
     public static final RandomSource RANDOM = RandomSource.create();
+    public static final Container EMPTY_INVENTORY = new SimpleContainer(0);
 
+    public static final ResourceLocation COMMON_TEXTURE = new ResourceLocation(Reference.MODID, "textures/gui/common.png");
     public static final ResourceLocation LIQUID_STILL = location("fluid/liquid_still");
     public static final ResourceLocation LIQUID_DENSE_STILL = location("fluid/liquid_dense_still");
     public static final ResourceLocation LIQUID_FLOW = location("fluid/liquid_flow");
@@ -54,6 +59,12 @@ public final class GtUtil {
     public static final ResourceLocation FLUID_RENDER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
 
     private GtUtil() {}
+
+    public static Set<Direction> allSidesWithout(Direction... sides) {
+        return StreamEx.of(ALL_FACINGS)
+            .without(sides)
+            .toImmutableSet();
+    }
 
     public static boolean isVerticalFacing(Direction direction) {
         return VERTICAL_FACINGS.contains(direction);

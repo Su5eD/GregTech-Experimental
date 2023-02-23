@@ -49,4 +49,6 @@ public interface PowerStorage extends PowerProvider, INBTSerializable<CompoundTa
     Collection<Direction> getSinkSides();
 
     Collection<Direction> getSourceSides();
+    
+    void refreshSides();
 }

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
@@ -39,6 +40,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     private final Codec<Map<Direction, Cover<?>>> coversCodec = createCoversCodec();
     private final Collection<CoverCategory> coverBlacklist;
+    private final Predicate<Direction> sideFilter;
     private final LazyOptional<CoverHandler> optional = LazyOptional.of(() -> this);
     
     @Networked
@@ -48,10 +50,11 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
         NetworkHandler.registerHandler(CoverHandlerImpl.class, "covers", CoverHandlerImpl::getCoversCodec);
     }
 
-    public CoverHandlerImpl(T te, Collection<CoverCategory> coverBlacklist) {
+    public CoverHandlerImpl(T te, Collection<CoverCategory> coverBlacklist, Predicate<Direction> sideFilter) {
         super(te);
         
         this.coverBlacklist = ImmutableList.copyOf(coverBlacklist);
+        this.sideFilter = sideFilter;
     }
 
     @Override
@@ -85,7 +88,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
 
     @Override
     public <U> boolean placeCoverAtSide(CoverType<U> type, Direction side, Item item, boolean simulate) {
-        if (!this.covers.containsKey(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCondition().test(this.parent)) {
+        if (!this.covers.containsKey(side) && this.sideFilter.test(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCondition().test(this.parent)) {
             if (isServerSide() && !simulate) {
                 //noinspection unchecked
                 Cover<?> cover = type.create((U) this.parent, side, item);

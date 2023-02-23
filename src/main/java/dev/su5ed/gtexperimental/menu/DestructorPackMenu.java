@@ -2,7 +2,7 @@ package dev.su5ed.gtexperimental.menu;
 
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.object.Tool;
-import dev.su5ed.gtexperimental.util.DummyInventory;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +17,7 @@ public class DestructorPackMenu extends BaseMenu {
         this.hand = hand;
 
         addPlayerInventorySlots(playerInventory);
-        addSlot(new Slot(DummyInventory.INSTANCE, -1, 80, 35));
+        addSlot(new Slot(GtUtil.EMPTY_INVENTORY, -1, 80, 35));
     }
 
     @Override

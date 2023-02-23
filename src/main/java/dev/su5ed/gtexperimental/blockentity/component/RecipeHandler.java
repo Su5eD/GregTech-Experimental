@@ -43,9 +43,10 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     private CompoundTag pendingRecipeInitTag;
     @Nullable
     @Networked
-    private PendingRecipe<R, IN, OUT> pendingRecipe;
+    protected PendingRecipe<R, IN, OUT> pendingRecipe;
     @Networked
     private int progress;
+    private boolean outputBlocked;
 
     static {
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
@@ -66,13 +67,24 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         this.outputSerializer = outputSerializer;
         this.needsConstantEnergy = needsConstantEnergy;
     }
-    
+
     public abstract boolean accepts(ItemStack input);
+
+    public boolean isOutputBlocked() {
+        return this.outputBlocked;
+    }
 
     protected abstract IN getInput();
 
-    protected boolean canProcessRecipe(R recipe) {
-        return this.controller.isAllowedToWork() && this.energy.canUseEnergy(getEnergyCost()) && canAddOutput(recipe);
+    protected boolean checkProcessRecipe(R recipe) {
+        if (this.controller.isAllowedToWork() && this.energy.canUseEnergy(getEnergyCost(recipe))) {
+            if (canAddOutput(recipe)) {
+                this.outputBlocked = false;
+                return true;
+            }
+            this.outputBlocked = true;
+        }
+        return false;
     }
 
     protected abstract boolean canAddOutput(R recipe);
@@ -89,18 +101,23 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         return this.pendingRecipe == null ? 0 : this.pendingRecipe.recipe.getProperty(ModRecipeProperty.DURATION);
     }
 
-    public double getEnergyCost() {
+    public double getEnergyCost(R recipe) {
         int multiplier = (int) Math.pow(4, this.upgrades.getUpgradeCount(UpgradeCategory.OVERCLOCKER));
-        return this.pendingRecipe == null ? 0 : this.pendingRecipe.recipe.getProperty(ModRecipeProperty.ENERGY_COST) * multiplier;
+        return recipe.getProperty(ModRecipeProperty.ENERGY_COST) * multiplier;
     }
 
     public void checkRecipe() {
         if (this.pendingRecipe == null && !this.parent.getLevel().isClientSide) {
             IN input = getInput();
             R recipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
-            if (recipe != null && canProcessRecipe(recipe)) {
-                this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, recipe.getOutput(), this.outputSerializer, recipe);
-                consumeInput(recipe);
+            if (recipe != null) {
+                if (checkProcessRecipe(recipe)) {
+                    this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, recipe.getOutput(), this.outputSerializer, recipe);
+                    consumeInput(recipe);
+                }
+            }
+            else {
+                this.outputBlocked = false;
             }
         }
     }
@@ -119,7 +136,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         super.tickServer();
 
         if (this.pendingRecipe != null) {
-            double energyCost = getEnergyCost();
+            double energyCost = getEnergyCost(this.pendingRecipe.recipe);
             if (this.controller.isAllowedToWork() && this.energy.tryUseEnergy(energyCost)) {
                 int maxProgress = getMaxProgress();
                 this.parent.setActive(true);
@@ -253,17 +270,20 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
         @Override
         protected boolean canAddOutput(SISORecipe<ItemStack, ItemStack> recipe) {
-            return this.parent.outputSlot.canAdd(0, recipe.getOutput());
+            ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput(), true);
+            return remainder.isEmpty() || this.parent.queueOutputSlot.add(0, remainder, true).isEmpty();
         }
 
         @Override
         protected void consumeInput(SISORecipe<ItemStack, ItemStack> recipe) {
-            this.parent.inputSlot.extract(0, recipe.getInput().getCount());
+            this.parent.inputSlot.shrink(0, recipe.getInput().getCount());
         }
 
         @Override
         protected void addOutput(SISORecipe<ItemStack, ItemStack> recipe) {
-            this.parent.outputSlot.add(0, recipe.getOutput().copy());
+            ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput().copy());
+            this.parent.queueOutputSlot.add(0, remainder);
+            this.parent.dumpOutput();
         }
     }
 }

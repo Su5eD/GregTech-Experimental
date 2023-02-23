@@ -7,9 +7,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -17,30 +19,37 @@ import java.util.function.Predicate;
 public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiable, INBTSerializable<CompoundTag> {
     private final Runnable onChanged;
     private final List<InventorySlot> slots = new ArrayList<>();
-    private final Int2ObjectMap<InventorySlot> slotMap = new Int2ObjectOpenHashMap<>();
-    
+    private final Int2ObjectMap<SlotIndex> slotMap = new Int2ObjectOpenHashMap<>();
+
     public SlotAwareItemHandler(Runnable onChanged) {
         this.onChanged = onChanged;
     }
-    
+
     public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         InventorySlot slot = new InventorySlot(this, name, mode, size, filter, onChanged);
         this.slots.add(slot);
         int index = this.slots.indexOf(slot);
-        for (int i = index; i < index + size; i++) {
-            this.slotMap.put(i, slot);
+        for (int i = 0; i < size; i++) {
+            this.slotMap.put(i + index, new SlotIndex(slot, i));
         }
         return slot;
     }
-    
+
     public void onChanged() {
         this.onChanged.run();
+    }
+    
+    public Collection<ItemStack> getAllItems() {
+        return StreamEx.of(this.slots)
+            .flatCollection(InventorySlot::getContent)
+            .remove(ItemStack::isEmpty)
+            .toList();
     }
 
     @Override
     public void setStackInSlot(int slot, @NotNull ItemStack stack) {
         validateSlotIndex(slot);
-        this.slotMap.get(slot).setItem(slot, stack);
+        this.slotMap.get(slot).slot.setItem(slot, stack);
     }
 
     @Override
@@ -52,17 +61,17 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
     @Override
     public ItemStack getStackInSlot(int slot) {
         validateSlotIndex(slot);
-        return this.slotMap.get(slot).get(slot);
+        return this.slotMap.get(slot).slot.get(slot);
     }
 
     @NotNull
     @Override
     public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
         validateSlotIndex(slot);
-        InventorySlot invSlot = this.slotMap.get(slot);
-        if (invSlot.canPlace(stack)) {
+        SlotIndex invSlot = this.slotMap.get(slot);
+        if (invSlot.slot.canPlace(stack)) {
             if (!simulate) {
-                invSlot.setItem(slot, stack);
+                invSlot.slot.setItem(invSlot.index, stack);
             }
             return stack;
         }
@@ -73,11 +82,8 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         validateSlotIndex(slot);
-        InventorySlot invSlot = this.slotMap.get(slot);
-        if (invSlot.canExtract(amount)) {
-            return invSlot.extract(slot, amount);
-        }
-        return ItemStack.EMPTY;
+        SlotIndex invSlot = this.slotMap.get(slot);
+        return invSlot.slot.extract(invSlot.index, amount, simulate);
     }
 
     @Override
@@ -91,11 +97,11 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
         validateSlotIndex(slot);
         return this.slots.get(slot).accepts(stack);
     }
-    
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
-        this.slots.forEach(slot -> nbt.put(slot.getName(),  slot.serializeNBT()));
+        this.slots.forEach(slot -> nbt.put(slot.getName(), slot.serializeNBT()));
         return nbt;
     }
 
@@ -113,4 +119,6 @@ public class SlotAwareItemHandler implements IItemHandler, IItemHandlerModifiabl
         if (slot < 0 || slot >= this.slots.size())
             throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.slots.size() + ")");
     }
+    
+    private record SlotIndex(InventorySlot slot, int index) {}
 }

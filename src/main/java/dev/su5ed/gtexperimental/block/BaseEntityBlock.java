@@ -180,7 +180,7 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
     @Override
     public boolean setFacing(Level level, BlockPos pos, Direction facing, Player player) {
         return getBlockEntity(level, pos)
-            .map(be -> be.setFacing(facing))
+            .map(be -> be.setFacingWrench(facing, player))
             .orElse(false);
     }
 

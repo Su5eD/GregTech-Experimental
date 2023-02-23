@@ -21,7 +21,7 @@ public final class JavaUtil {
     }
 
     public static <T> boolean matchCollections(Collection<T> first, Collection<T> second) {
-        return first.size() == second.size() || first.containsAll(second) && second.containsAll(first);
+        return first.size() == second.size() && first.containsAll(second) && second.containsAll(first);
     }
 
     public static String formatNumber(int num) {

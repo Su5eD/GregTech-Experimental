@@ -14,7 +14,7 @@ public class ProgressBarWidget extends AbstractWidget {
     private final DoubleSupplier supplier;
 
     public ProgressBarWidget(int x, int y, RecipeProgressBar progressBar, DoubleSupplier supplier) {
-        super(x, y, progressBar.width, progressBar.height, Component.literal("Progress Bar"));
+        super(x, y, progressBar.width, progressBar.height, Component.empty());
         this.progressBar = progressBar;
         this.supplier = supplier;
     }

@@ -60,12 +60,16 @@ public class CoverableBlockEntity extends InventoryBlockEntity implements Scanne
     public CoverableBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);
 
-        this.coverHandler = addComponent(new CoverHandlerImpl<>(this, getCoverBlacklist()));
+        this.coverHandler = addComponent(new CoverHandlerImpl<>(this, getCoverBlacklist(), this::canPlaceCoverAtSide));
         this.machineController = addComponent(new MachineControllerImpl(this));
     }
 
     protected Collection<CoverCategory> getCoverBlacklist() {
         return List.of();
+    }
+    
+    protected boolean canPlaceCoverAtSide(Direction side) {
+        return true;
     }
 
     @Override

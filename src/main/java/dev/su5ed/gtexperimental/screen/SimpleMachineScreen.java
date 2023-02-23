@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.Util;
@@ -32,17 +31,13 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
     @Override
     protected void init() {
         super.init();
-        
+
         addRenderableWidget(new ProgressBarWidget(this.leftPos + 78, this.topPos + 24, this.progressBar, this::getProgressRatio));
+        addRenderableWidget(IconCycle.createVertical(this.leftPos + 7, this.topPos + 62, 58, () -> this.menu.blockEntity.provideEnergy));
+        addRenderableWidget(IconCycle.createVertical(this.leftPos + 25, this.topPos + 62, 76, () -> this.menu.blockEntity.autoOutput));
+        addRenderableWidget(IconCycle.createVertical(this.leftPos + 43, this.topPos + 62, 94, () -> this.menu.blockEntity.splitInput));
     }
 
-    @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        super.renderLabels(poseStack, mouseX, mouseY);
-
-        this.font.draw(poseStack, this.menu.blockEntity.recipeHandler.getProgress() + " / " + this.menu.blockEntity.recipeHandler.getMaxProgress(), this.titleLabelX, 50, ScreenColors.DARK_GREY);
-    }
-    
     private double getProgressRatio() {
         return this.menu.blockEntity.recipeHandler.getProgress() / (double) Math.max(this.menu.blockEntity.recipeHandler.getMaxProgress(), 1);
     }

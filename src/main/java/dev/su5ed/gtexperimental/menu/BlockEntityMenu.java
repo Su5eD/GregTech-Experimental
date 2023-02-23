@@ -75,7 +75,7 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
     }
 
     private void interactWithSlot(int slotId, Consumer<InteractiveSlot> consumer) {
-        if (slotId >= 0 && slotId < this.blockEntitySlots.size()) {
+        if (slotId >= 0 && slotId < this.slots.size()) {
             Slot slot = getSlot(slotId);
             if (slot instanceof InteractiveSlot interactiveSlot) {
                 consumer.accept(interactiveSlot);

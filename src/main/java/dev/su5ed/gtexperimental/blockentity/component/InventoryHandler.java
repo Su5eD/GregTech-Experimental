@@ -14,6 +14,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -39,9 +40,13 @@ public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter) {
         return addSlot(name, mode, size, filter, stack -> {});
     }
-
+    
     public InventorySlot addSlot(String name, InventorySlot.Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         return this.itemHandler.addSlot(name, mode, size, filter, onChanged);
+    }
+
+    public Collection<ItemStack> getAllItems() {
+        return this.itemHandler.getAllItems();
     }
 
     @Override
@@ -50,9 +55,7 @@ public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     }
 
     @Override
-    public void onFieldUpdate(String name) {
-
-    }
+    public void onFieldUpdate(String name) {}
 
     @Override
     public <U> LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {

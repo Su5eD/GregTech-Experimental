@@ -7,6 +7,8 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.StreamEx;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -32,6 +34,10 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public String getName() {
         return this.name;
     }
+    
+    public Collection<ItemStack> getContent() {
+        return List.of(this.content);
+    }
 
     public boolean canPlace(ItemStack stack) {
         return this.mode.place && accepts(stack);
@@ -49,24 +55,38 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         return this.filter.test(stack);
     }
 
-    public boolean canAdd(int index, ItemStack stack) {
-        if (accepts(stack)) {
-            ItemStack existing = get(index);
-            return existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack) && existing.getCount() + stack.getCount() <= existing.getMaxStackSize();
-        }
-        return false;
+    public ItemStack add(int index, ItemStack stack) {
+        return add(index, stack, false);
     }
 
-    public void add(int index, ItemStack stack) {
-        if (canAdd(index, stack)) {
+    /**
+     * @return the insertion remainder
+     */
+    public ItemStack add(int index, ItemStack stack, boolean simulate) {
+        if (!stack.isEmpty() && canAdd(index, stack)) {
             ItemStack existing = get(index);
             if (existing.isEmpty()) {
-                setItem(index, stack);
+                if (!simulate) {
+                    setItem(index, stack);
+                }
+                return ItemStack.EMPTY;
             }
-            else {
-                existing.grow(stack.getCount());
+            if (!simulate) {
+                int total = Math.min(existing.getCount() + stack.getCount(), existing.getMaxStackSize());
+                existing.setCount(total);
             }
+            int remainder = existing.getCount() + stack.getCount() - existing.getMaxStackSize();
+            return remainder > 0 ? ItemHandlerHelper.copyStackWithSize(stack, remainder) : ItemStack.EMPTY;
         }
+        return stack;
+    }
+
+    private boolean canAdd(int index, ItemStack stack) {
+        if (accepts(stack)) {
+            ItemStack existing = get(index);
+            return existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack);
+        }
+        return false;
     }
 
     public ItemStack get() {
@@ -86,10 +106,30 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         onChanged(stack, notify);
     }
 
-    public ItemStack extract(int index, int amount) {
-        ItemStack stack = this.content[index].split(amount);
-        onChanged(stack, true);
-        return stack;
+    public void shrink(int index, int amount) {
+        get(index).shrink(amount);
+    }
+
+    public ItemStack take(int index, int amount) {
+        if (canTake()) {
+            ItemStack stack = get(index).split(amount);
+            onChanged(stack, true);
+            return stack;
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public ItemStack extract(int index, int amount, boolean simulate) {
+        if (canExtract(amount)) {
+            ItemStack existing = get(index);
+            if (!simulate) {
+                ItemStack stack = existing.split(amount);
+                onChanged(stack, true);
+                return stack;
+            }
+            return ItemHandlerHelper.copyStackWithSize(existing, Math.min(amount, existing.getCount()));
+        }
+        return ItemStack.EMPTY;
     }
 
     public boolean isEmpty() {

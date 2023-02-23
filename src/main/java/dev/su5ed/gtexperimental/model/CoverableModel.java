@@ -1,9 +1,12 @@
 package dev.su5ed.gtexperimental.model;
 
 import dev.su5ed.gtexperimental.api.cover.Cover;
+import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
 import dev.su5ed.gtexperimental.blockentity.component.CoverHandlerImpl;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.OutputSide;
 import dev.su5ed.gtexperimental.util.VerticalRotation;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
@@ -21,11 +24,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.data.ModelData;
 import one.util.streamex.EntryStream;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class CoverableModel extends BaseModel {
     //Block face UVs in DUNSWE order
@@ -37,6 +43,12 @@ public class CoverableModel extends BaseModel {
         { 0, 0, 16, 16 },
         { 0, 0, 16, 16 }
     };
+    public static final Map<Direction, ResourceLocation> OUTPUT_SIDE_TEXTURES = StreamEx.of(Direction.values())
+        .mapToEntry(side -> {
+            String name = side == Direction.UP ? "top" : side == Direction.DOWN ? "bottom" : "side";
+            return location("blockentity/machine_" + name + "_pipe");
+        })
+        .toImmutableMap();
 
     private final Map<Direction, Material> textures;
     private final Map<Material, TextureAtlasSprite> sprites;
@@ -99,7 +111,14 @@ public class CoverableModel extends BaseModel {
     }
 
     private TextureAtlasSprite getSpriteFromDirection(Direction face, Direction side, Direction rotatedSide, @Nullable BlockState state, Map<Direction, Material> covers) {
-        if (covers.containsKey(side)) return covers.get(rotatedSide).sprite();
+        if (covers.containsKey(side)) {
+            return covers.get(rotatedSide).sprite();
+        }
+
+        OutputSide outputSide = getValueOrDefault(state, SimpleMachineBlock.OUTPUT_SIDE, OutputSide.NONE);
+        if (outputSide.direction == side) {
+            return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(OUTPUT_SIDE_TEXTURES.get(side));
+        }
 
         return getSprite(face, side, rotatedSide, state);
     }

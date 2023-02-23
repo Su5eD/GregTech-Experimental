@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.block.BaseEntityBlock;
+import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
 import dev.su5ed.gtexperimental.blockentity.AutomaticMaceratorBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SonictronBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
@@ -13,8 +14,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.util.Lazy;
 
+import java.util.function.Function;
+
 public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
-    AUTO_MACERATOR(AutomaticMaceratorBlockEntity::new, AllowedFacings.HORIZONTAL, true),
+    AUTO_MACERATOR(SimpleMachineBlock::new, AutomaticMaceratorBlockEntity::new, AllowedFacings.HORIZONTAL, true),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, true);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;
@@ -25,9 +28,13 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     private final Lazy<? extends BaseBlockEntity> dummyBE;
 
     <T extends BaseBlockEntity> GTBlockEntity(BlockEntityType.BlockEntitySupplier<T> factory, AllowedFacings allowedFacings, boolean hasActive) {
+        this(BaseEntityBlock::new, factory, allowedFacings, hasActive);
+    }
+
+    <T extends BaseBlockEntity> GTBlockEntity(Function<BlockEntityProvider, ? extends BaseEntityBlock> blockFactory, BlockEntityType.BlockEntitySupplier<T> factory, AllowedFacings allowedFacings, boolean hasActive) {
         this.allowedFacings = allowedFacings;
         this.hasActive = hasActive;
-        this.block = Lazy.of(() -> new BaseEntityBlock(this));
+        this.block = Lazy.of(() -> blockFactory.apply(this));
         this.item = Lazy.of(() -> new BlockItem(getBlock(), ModObjects.itemProperties()));
         this.type = BlockEntityType.Builder.of(factory, getBlock()).build(null);
         this.dummyBE = Lazy.of(() -> this.type.create(new BlockPos(0, 0, 0), this.block.get().defaultBlockState()));

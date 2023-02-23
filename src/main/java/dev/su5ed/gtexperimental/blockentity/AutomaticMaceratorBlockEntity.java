@@ -7,12 +7,8 @@ import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Collection;
 
 public class AutomaticMaceratorBlockEntity extends SimpleMachineBlockEntity {
 
@@ -24,15 +20,5 @@ public class AutomaticMaceratorBlockEntity extends SimpleMachineBlockEntity {
     protected RecipeHandler<?, ?, ?, ?> createRecipeHandler() {
         // TODO Get output type from manager?
         return new RecipeHandler.SISO(this, ModRecipeManagers.MACERATOR, ModRecipeOutputTypes.ITEM, ModRecipeTypes.MACERATOR.get().getOutputType());
-    }
-
-    @Override
-    protected int getBaseEUCapacity() {
-        return 1000;
-    }
-
-    @Override
-    public int getBaseSinkTier() {
-        return 1;
     }
 }

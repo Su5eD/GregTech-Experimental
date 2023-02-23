@@ -59,6 +59,8 @@ public interface PowerHandler {
     Collection<Direction> getSinkSides();
 
     Collection<Direction> getSourceSides();
+    
+    void refreshSides();
 
     boolean isSink();
 

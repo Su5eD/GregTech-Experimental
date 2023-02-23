@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class ElectricBlockEntityImpl extends CoverableBlockEntity implements ElectricBlockEntity {
-    private final EnergyHandler<ElectricBlockEntityImpl> energy;
+    protected final EnergyHandler<ElectricBlockEntityImpl> energy;
 
     public ElectricBlockEntityImpl(BlockEntityProvider provider, BlockPos pos, BlockState state) {
         super(provider, pos, state);

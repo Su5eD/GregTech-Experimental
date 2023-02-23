@@ -13,6 +13,10 @@ import java.util.function.Predicate;
 public final class InvUtil {
 
     private InvUtil() {}
+    
+    public static int moveItemStack(BlockEntity from, BlockEntity to, Direction fromSide, int maxTargetSize) {
+        return moveItemStack(from, to, fromSide, fromSide.getOpposite(), maxTargetSize, 1);
+    }
 
     public static int moveItemStack(BlockEntity from, BlockEntity to, Direction fromSide, Direction toSide, int maxTargetSize, int minTargetSize) {
         return moveItemStack(from, to, fromSide, toSide, maxTargetSize, minTargetSize, stack -> true);

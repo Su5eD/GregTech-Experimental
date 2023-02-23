@@ -21,7 +21,8 @@ public final class KeyboardHandler {
     
     public enum Key {
         SPRINT,
-        JUMP
+        JUMP,
+        LEFT_ALT
     }
     
     private KeyboardHandler() {}

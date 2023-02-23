@@ -117,7 +117,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
         return getBlockState().getValue(BlockStateProperties.FACING);
     }
 
-    public boolean setFacing(Direction side) {
+    public boolean setFacingWrench(Direction side, Player player) {
         if (this.allowedFacings.allows(side)) {
             BlockState state = getBlockState();
             this.level.setBlockAndUpdate(this.worldPosition, state.setValue(BlockStateProperties.FACING, side));

@@ -1,20 +1,17 @@
 package dev.su5ed.gtexperimental.util.inventory;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class SlotInventory extends Slot {
-    private static final Container EMPTY_INVENTORY = new SimpleContainer(0);
-
     private final InventorySlot inventorySlot;
     private final int index;
 
     public SlotInventory(InventorySlot inventorySlot, int index, int x, int y) {
-        super(EMPTY_INVENTORY, -1, x, y);
+        super(GtUtil.EMPTY_INVENTORY, -1, x, y);
 
         this.inventorySlot = inventorySlot;
         this.index = index;
@@ -64,6 +61,6 @@ public class SlotInventory extends Slot {
     @Override
     @NotNull
     public ItemStack remove(int amount) {
-        return this.inventorySlot.extract(this.index, amount);
+        return this.inventorySlot.take(this.index, amount);
     }
 }

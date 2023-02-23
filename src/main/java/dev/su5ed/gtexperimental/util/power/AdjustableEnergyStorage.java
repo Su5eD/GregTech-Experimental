@@ -134,6 +134,11 @@ public abstract class AdjustableEnergyStorage<T extends BaseBlockEntity & Electr
     }
 
     @Override
+    public void refreshSides() {
+        doRefreshSides();
+    }
+
+    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putDouble("storedEnergy", this.storedEnergy);
@@ -174,23 +179,23 @@ public abstract class AdjustableEnergyStorage<T extends BaseBlockEntity & Electr
 
 
     protected Collection<Direction> getActualSinkSides() {
-        return refreshSides().getLeft();
+        return doRefreshSides().getLeft();
     }
 
     protected Collection<Direction> getActualSourceSides() {
-        return refreshSides().getRight();
+        return doRefreshSides().getRight();
     }
 
-    public Pair<Collection<Direction>, Collection<Direction>> refreshSides() {
+    public Pair<Collection<Direction>, Collection<Direction>> doRefreshSides() {
         Collection<Direction> sinkSides = getSinkSides();
         Collection<Direction> sourceSides = getSourceSides();
 
-        refreshSides(sinkSides, getOldSinkSides(sinkSides), sourceSides, getOldSourceSides(sourceSides));
+        doRefreshSides(sinkSides, getOldSinkSides(sinkSides), sourceSides, getOldSourceSides(sourceSides));
 
         return Pair.of(sinkSides, sourceSides);
     }
 
-    private void refreshSides(Collection<Direction> sinkSides, Collection<Direction> oldSinkSides, Collection<Direction> sourceSides, Collection<Direction> oldSourceSides) {
+    private void doRefreshSides(Collection<Direction> sinkSides, Collection<Direction> oldSinkSides, Collection<Direction> sourceSides, Collection<Direction> oldSourceSides) {
         boolean reload = !JavaUtil.matchCollections(sinkSides, oldSinkSides) || !JavaUtil.matchCollections(sourceSides, oldSourceSides);
         this.oldSinkSides = sinkSides;
         this.oldSourceSides = sourceSides;
