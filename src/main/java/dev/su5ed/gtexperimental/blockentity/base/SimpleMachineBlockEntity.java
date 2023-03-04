@@ -13,6 +13,7 @@ import dev.su5ed.gtexperimental.util.KeyboardHandler;
 import dev.su5ed.gtexperimental.util.OutputSide;
 import dev.su5ed.gtexperimental.util.inventory.DischargingInventorySlot;
 import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
+import dev.su5ed.gtexperimental.util.inventory.SlotDirection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.MenuProvider;
@@ -41,17 +42,15 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     public boolean provideEnergy;
     @Networked
     public boolean autoOutput = true;
-    @Networked
-    public boolean splitInput;
 
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
         // Slot registration order defines the order in which items are inserted/extracted
-        this.inputSlot = this.inventoryHandler.addSlot("input", InventorySlot.Mode.INPUT, 1, this::hasRecipeForItem);
-        this.queueInputSlot = this.inventoryHandler.addSlot("queueInput", InventorySlot.Mode.INPUT, 1, this::hasRecipeForItem);
-        this.outputSlot = this.inventoryHandler.addSlot("output", InventorySlot.Mode.OUTPUT, 1);
-        this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, 1);
+        this.inputSlot = this.inventoryHandler.addSlot("input", InventorySlot.Mode.INPUT, SlotDirection.SIDE, 1, this::hasRecipeForItem);
+        this.queueInputSlot = this.inventoryHandler.addSlot("queueInput", InventorySlot.Mode.INPUT, SlotDirection.VERTICAL, 1, this::hasRecipeForItem);
+        this.outputSlot = this.inventoryHandler.addSlot("output", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
+        this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
         this.extraSlot = createExtraSlot();
         this.recipeHandler = addComponent(createRecipeHandler());
     }
@@ -59,7 +58,7 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     protected abstract RecipeHandler<?, ?, ?, ?> createRecipeHandler();
 
     protected InventorySlot createExtraSlot() {
-        DischargingInventorySlot slot = this.inventoryHandler.addSlot(handler -> new DischargingInventorySlot(handler, "battery", InventorySlot.Mode.BOTH, 1));
+        DischargingInventorySlot slot = this.inventoryHandler.addSlot(handler -> new DischargingInventorySlot(handler, "battery", InventorySlot.Mode.BOTH, SlotDirection.NONE, 1));
         this.energy.addDischargingSlot(slot);
         return slot;
     }
@@ -82,7 +81,7 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     }
 
     public void switchSplitInput() {
-        this.splitInput = !this.splitInput;
+        this.machineController.setStrictInputSides(!this.machineController.isStrictInputSides());
     }
 
     @Override
@@ -176,7 +175,6 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
 
         tag.putBoolean("provideEnergy", this.provideEnergy);
         tag.putBoolean("autoOutput", this.autoOutput);
-        tag.putBoolean("splitInput", this.splitInput);
     }
 
     @Override
@@ -185,7 +183,6 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
 
         this.provideEnergy = tag.getBoolean("provideEnergy");
         this.autoOutput = tag.getBoolean("autoOutput");
-        this.splitInput = tag.getBoolean("splitInput");
     }
 
     @Nullable

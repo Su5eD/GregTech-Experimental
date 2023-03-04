@@ -87,7 +87,7 @@ public class ConnectedModel extends BaseModel {
 
     private String getTexture(Set<Direction> sides, Direction side, Map<String, Material> materials) {
         String connectionStringRaw = StreamEx.of(GtUtil.HORIZONTAL_FACINGS)
-            .filter(facing -> sides.contains(getRelativeSide(side, facing)))
+            .filter(facing -> sides.contains(GtUtil.getRelativeSide(side, facing)))
             .map(facing -> {
                 Direction actualFacing = side == Direction.DOWN && facing.getAxis() == Direction.Axis.Z || GtUtil.isHorizontalFacing(side) && facing.getAxis() == Direction.Axis.X
                     ? facing.getOpposite()
@@ -99,21 +99,6 @@ public class ConnectedModel extends BaseModel {
         String connectionString = TEXTURE_ALIASES.getOrDefault(connectionStringRaw, connectionStringRaw);
 
         return materials.containsKey(connectionString) ? connectionString : "";
-    }
-
-    private Direction getRelativeSide(Direction facing, Direction relative) {
-        boolean verticalFacing = GtUtil.isVerticalFacing(facing);
-
-        if (!verticalFacing && relative.getAxis() == Direction.Axis.Z) {
-            return relative == Direction.NORTH ? Direction.UP : Direction.DOWN;
-        }
-        else if (facing == Direction.NORTH || verticalFacing) {
-            return relative;
-        }
-        else if (GtUtil.isHorizontalFacing(relative)) {
-            return relative.getAxisDirection() == Direction.AxisDirection.POSITIVE ? facing.getClockWise() : facing.getCounterClockWise();
-        }
-        return facing;
     }
 
     private static Set<Direction> getConnections(ModelData data) {

@@ -22,4 +22,8 @@ public interface MachineController extends ICapabilityProvider {
     boolean isOutputEnabled();
     
     void setOutputEnabled(boolean value);
+
+    boolean isStrictInputSides();
+    
+    void setStrictInputSides(boolean value);
 }

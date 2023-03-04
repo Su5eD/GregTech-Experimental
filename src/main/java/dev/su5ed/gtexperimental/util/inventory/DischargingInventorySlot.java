@@ -7,8 +7,8 @@ import net.minecraft.world.item.ItemStack;
 public class DischargingInventorySlot extends InventorySlot implements DischargingSlot {
     private final int tier;
 
-    public DischargingInventorySlot(SlotAwareItemHandler parent, String name, Mode mode, int tier) {
-        super(parent, name, mode, 1, stack -> ModHandler.dischargeStack(stack, Double.POSITIVE_INFINITY, tier, true, true, true) > 0, stack -> {});
+    public DischargingInventorySlot(SlotAwareItemHandler parent, String name, Mode mode, SlotDirection side, int tier) {
+        super(parent, name, mode, side, 1, stack -> ModHandler.dischargeStack(stack, Double.POSITIVE_INFINITY, tier, true, true, true) > 0, stack -> {});
         
         this.tier = tier;
     }

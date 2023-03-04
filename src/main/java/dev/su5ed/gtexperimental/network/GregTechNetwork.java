@@ -78,6 +78,20 @@ public final class GregTechNetwork {
         sendTrackingChunk(be, packet);
     }
 
+    public static void updatePlayerClientComponent(ServerPlayer player, BaseBlockEntity be, BlockEntityComponent component) {
+        GtUtil.assertServerSide(be.getLevel());
+        FriendlyByteBuf data = NetworkHandler.serializeClass(component);
+        BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, data, component.getName());
+        GregTechNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), packet);
+    }
+
+    public static void updatePlayerClientComponentField(ServerPlayer player, BaseBlockEntity be, BlockEntityComponent component, String field) {
+        GtUtil.assertServerSide(be.getLevel());
+        FriendlyByteBuf data = NetworkHandler.serializeField(component, field);
+        BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, data, component.getName());
+        GregTechNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), packet);
+    }
+
     public static void updateClientComponent(BaseBlockEntity be, BlockEntityComponent component) {
         GtUtil.assertServerSide(be.getLevel());
         FriendlyByteBuf data = NetworkHandler.serializeClass(component);

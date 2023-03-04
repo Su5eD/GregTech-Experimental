@@ -127,7 +127,7 @@ public final class NetworkHandler {
         }
     }
 
-    public static void deserializeField(FriendlyByteBuf buf, Object instance, FieldHandle field) {
+    private static void deserializeField(FriendlyByteBuf buf, Object instance, FieldHandle field) {
         boolean hasValue = buf.readBoolean();
         SerializationHandler<Object, Object> handler = getHandler(instance.getClass(), field.name)
             .orElseGet(() -> getSerializer(field.type));

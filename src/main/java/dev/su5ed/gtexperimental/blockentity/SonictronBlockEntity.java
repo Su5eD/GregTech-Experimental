@@ -10,6 +10,7 @@ import dev.su5ed.gtexperimental.blockentity.base.InventoryBlockEntity;
 import dev.su5ed.gtexperimental.menu.SonictronMenu;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
+import dev.su5ed.gtexperimental.util.inventory.SlotDirection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -59,7 +60,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
     public SonictronBlockEntity(BlockPos pos, BlockState state) {
         super(GTBlockEntity.SONICTRON, pos, state);
 
-        this.content = this.inventoryHandler.addSlot("content", InventorySlot.Mode.NONE, 64);
+        this.content = this.inventoryHandler.addSlot("content", InventorySlot.Mode.NONE, SlotDirection.NONE, 64);
     }
 
     @Override

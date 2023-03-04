@@ -1,10 +1,12 @@
 package dev.su5ed.gtexperimental.util.inventory;
 
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.StreamEx;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,15 +18,17 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     private final SlotAwareItemHandler parent;
     private final String name;
     private final Mode mode;
+    private final Predicate<@Nullable Direction> side;
     private final Predicate<ItemStack> filter;
     private final Consumer<ItemStack> onChanged;
 
     private final ItemStack[] content;
 
-    public InventorySlot(SlotAwareItemHandler parent, String name, Mode mode, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
+    public InventorySlot(SlotAwareItemHandler parent, String name, Mode mode, SlotDirection side, int size, Predicate<ItemStack> filter, Consumer<ItemStack> onChanged) {
         this.parent = parent;
         this.name = name;
         this.mode = mode;
+        this.side = side;
         this.filter = filter;
         this.onChanged = onChanged;
         this.content = new ItemStack[size];
@@ -44,10 +48,6 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     }
 
     public boolean canPlace(ItemStack stack) {
-        return this.mode.place && accepts(stack);
-    }
-
-    public boolean canInsert(ItemStack stack) {
         return this.mode.insert && accepts(stack);
     }
 
@@ -55,8 +55,8 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         return this.mode.take;
     }
 
-    public boolean canExtract(int amount) {
-        return this.mode.extract;
+    public boolean canExtract(@Nullable Direction side) {
+        return this.mode.extract && this.side.test(side);
     }
 
     public boolean accepts(ItemStack stack) {
@@ -67,11 +67,15 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         return add(index, stack, false);
     }
 
+    public ItemStack add(int index, ItemStack stack, boolean simulate) {
+        return add(index, stack, null, simulate);
+    }
+
     /**
      * @return the insertion remainder
      */
-    public ItemStack add(int index, ItemStack stack, boolean simulate) {
-        if (!stack.isEmpty() && canAdd(index, stack)) {
+    public ItemStack add(int index, ItemStack stack, @Nullable Direction side, boolean simulate) {
+        if (!stack.isEmpty() && canAdd(index, stack, side)) {
             ItemStack existing = get(index);
             if (existing.isEmpty()) {
                 if (!simulate) {
@@ -89,8 +93,8 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         return stack;
     }
 
-    private boolean canAdd(int index, ItemStack stack) {
-        if (accepts(stack)) {
+    private boolean canAdd(int index, ItemStack stack, @Nullable Direction side) {
+        if (accepts(stack) && this.side.test(side)) {
             ItemStack existing = get(index);
             return existing.isEmpty() || ItemHandlerHelper.canItemStacksStack(existing, stack);
         }
@@ -127,8 +131,8 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
         return ItemStack.EMPTY;
     }
 
-    public ItemStack extract(int index, int amount, boolean simulate) {
-        if (canExtract(amount)) {
+    public ItemStack extract(int index, int amount, @Nullable Direction side, boolean simulate) {
+        if (canExtract(side)) {
             ItemStack existing = get(index);
             if (!simulate) {
                 ItemStack stack = existing.split(amount);
@@ -174,18 +178,16 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     }
 
     public enum Mode {
-        INPUT(true, true, true, false),
-        OUTPUT(false, false, true, true),
-        BOTH(true, true, true, true),
-        NONE(false, false, false, false);
+        INPUT(true, true, false),
+        OUTPUT(false, true, true),
+        BOTH(true, true, true),
+        NONE(false, false, false);
 
-        private final boolean place;
         private final boolean insert;
         private final boolean take;
         private final boolean extract;
 
-        Mode(boolean place, boolean insert, boolean take, boolean extract) {
-            this.place = place;
+        Mode(boolean insert, boolean take, boolean extract) {
             this.insert = insert;
             this.take = take;
             this.extract = extract;

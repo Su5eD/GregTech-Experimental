@@ -46,9 +46,9 @@ public class GregTechMod {
         ConditionLootModifier.init(bus);
         ModRecipeTypes.init(bus);
         ModRecipeSerializers.init(bus);
-        bus.register(ModObjects.class);
-        bus.register(DataGenerators.class);
-        bus.register(Capabilities.class);
+        bus.addListener(ModObjects::register);
+        bus.addListener(DataGenerators::gatherData);
+        bus.addListener(Capabilities::registerCaps);
 
         ModLoadingContext ctx = ModLoadingContext.get();
         ctx.registerConfig(ModConfig.Type.CLIENT, GregTechConfig.CLIENT_SPEC);

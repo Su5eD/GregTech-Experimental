@@ -1,23 +1,17 @@
 package dev.su5ed.gtexperimental.menu;
 
-import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
-import dev.su5ed.gtexperimental.blockentity.component.BlockEntityComponent;
-import dev.su5ed.gtexperimental.network.BlockEntityComponentUpdate;
+import dev.su5ed.gtexperimental.blockentity.component.MachineControllerImpl;
 import dev.su5ed.gtexperimental.network.GregTechNetwork;
-import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
-import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.inventory.SlotButton;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity> {
@@ -48,17 +42,11 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
 
         // TODO Track changes
         if (this.player instanceof ServerPlayer serverPlayer) {
-            updatePlayerClientComponent(serverPlayer, this.blockEntity, this.blockEntity.recipeHandler);
+            GregTechNetwork.updatePlayerClientComponent(serverPlayer, this.blockEntity, this.blockEntity.recipeHandler);
+            // TODO Don't reference fields by name
+            GregTechNetwork.updatePlayerClientComponentField(serverPlayer, this.blockEntity, this.blockEntity.getComponent(MachineControllerImpl.NAME).orElseThrow(), "strictInputSides");
         }
         GregTechNetwork.updateClientField(this.blockEntity, "provideEnergy");
         GregTechNetwork.updateClientField(this.blockEntity, "autoOutput");
-        GregTechNetwork.updateClientField(this.blockEntity, "splitInput");
-    }
-
-    public static void updatePlayerClientComponent(ServerPlayer player, BaseBlockEntity be, BlockEntityComponent component) {
-        GtUtil.assertServerSide(be.getLevel());
-        FriendlyByteBuf data = NetworkHandler.serializeClass(component);
-        BlockEntityComponentUpdate packet = new BlockEntityComponentUpdate(be, data, component.getName());
-        GregTechNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 }

@@ -20,6 +20,8 @@ import dev.su5ed.gtexperimental.object.ModCovers;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.inventory.MachineSlotItemHandler;
+import dev.su5ed.gtexperimental.util.inventory.SlotAwareItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -64,12 +66,21 @@ public class CoverableBlockEntity extends InventoryBlockEntity implements Scanne
         this.machineController = addComponent(new MachineControllerImpl(this));
     }
 
+    public MachineController getMachineController() {
+        return this.machineController;
+    }
+
     protected Collection<CoverCategory> getCoverBlacklist() {
         return List.of();
     }
     
     protected boolean canPlaceCoverAtSide(Direction side) {
         return true;
+    }
+
+    @Override
+    protected SlotAwareItemHandler createItemHandler() {
+        return new MachineSlotItemHandler(this, this::onInventoryChanged);
     }
 
     @Override

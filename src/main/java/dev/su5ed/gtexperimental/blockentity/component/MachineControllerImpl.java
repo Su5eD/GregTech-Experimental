@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.util.BooleanCountdown;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,8 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     private boolean enableWorking = true;
     private boolean enableInput = true;
     private boolean enableOutput = true;
+    @Networked // TODO Menu networked field filter
+    private boolean strictInputSides;
 
     public MachineControllerImpl(BaseBlockEntity parent) {
         super(parent);
@@ -105,6 +108,15 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
         this.enableOutput = value;
     }
 
+    @Override
+    public boolean isStrictInputSides() {
+        return this.strictInputSides;
+    }
+
+    @Override
+    public void setStrictInputSides(boolean value) {
+        this.strictInputSides = value;
+    }
 
     @Override
     public void tickServer() {

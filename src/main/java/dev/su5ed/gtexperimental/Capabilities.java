@@ -14,7 +14,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public final class Capabilities {
     // Block Entity capabilities
@@ -33,7 +32,6 @@ public final class Capabilities {
     public static final Capability<JumpCharge> JUMP_CHARGE = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<LightSource> LIGHT_SOURCE = CapabilityManager.get(new CapabilityToken<>() {});
 
-    @SubscribeEvent
     public static void registerCaps(RegisterCapabilitiesEvent event) {
         event.register(CoverHandler.class);
         event.register(PowerHandler.class);

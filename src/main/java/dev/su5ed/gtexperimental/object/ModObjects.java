@@ -20,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import one.util.streamex.StreamEx;
@@ -34,7 +33,6 @@ public final class ModObjects {
         return new Item.Properties().tab(GregTechTab.INSTANCE);
     }
 
-    @SubscribeEvent
     public static void register(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.BLOCKS, helper -> {
             StreamEx.<BlockItemProvider>of(ModBlock.values())

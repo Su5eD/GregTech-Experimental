@@ -74,6 +74,21 @@ public final class GtUtil {
         return HORIZONTAL_FACINGS.contains(direction);
     }
 
+    public static Direction getRelativeSide(Direction facing, Direction relative) {
+        boolean verticalFacing = isVerticalFacing(facing);
+
+        if (!verticalFacing && relative.getAxis() == Direction.Axis.Z) {
+            return relative == Direction.NORTH ? Direction.UP : Direction.DOWN;
+        }
+        else if (facing == Direction.NORTH || verticalFacing) {
+            return relative;
+        }
+        else if (isHorizontalFacing(relative)) {
+            return relative.getAxisDirection() == Direction.AxisDirection.POSITIVE ? facing.getClockWise() : facing.getCounterClockWise();
+        }
+        return facing;
+    }
+
     public static Material getMaterial(ResourceLocation location) {
         return new Material(InventoryMenu.BLOCK_ATLAS, location);
     }

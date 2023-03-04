@@ -35,7 +35,7 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
         addRenderableWidget(new ProgressBarWidget(this.leftPos + 78, this.topPos + 24, this.progressBar, this::getProgressRatio));
         addRenderableWidget(IconCycle.createVertical(this.leftPos + 7, this.topPos + 62, 58, () -> this.menu.blockEntity.provideEnergy));
         addRenderableWidget(IconCycle.createVertical(this.leftPos + 25, this.topPos + 62, 76, () -> this.menu.blockEntity.autoOutput));
-        addRenderableWidget(IconCycle.createVertical(this.leftPos + 43, this.topPos + 62, 94, () -> this.menu.blockEntity.splitInput));
+        addRenderableWidget(IconCycle.createVertical(this.leftPos + 43, this.topPos + 62, 94, () -> this.menu.blockEntity.getMachineController().isStrictInputSides()));
     }
 
     private double getProgressRatio() {
