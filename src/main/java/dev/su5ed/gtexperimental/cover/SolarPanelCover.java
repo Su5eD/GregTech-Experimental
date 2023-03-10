@@ -10,13 +10,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class SolarPanelCover extends BaseCover<BlockEntity> {
+public class SolarPanelCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("solar_panel");
 
     private final double daytimeEnergy;
     private final double nighttimeEnergy;
 
-    public SolarPanelCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item, double daytimeEnergy, double nighttimeEnergy) {
+    public SolarPanelCover(CoverType type, BlockEntity be, Direction side, Item item, double daytimeEnergy, double nighttimeEnergy) {
         super(type, be, side, item);
         this.daytimeEnergy = daytimeEnergy;
         this.nighttimeEnergy = nighttimeEnergy;

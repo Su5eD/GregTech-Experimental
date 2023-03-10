@@ -22,11 +22,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class CraftingCover extends BaseCover<BlockEntity> {
+public class CraftingCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("crafting");
     private static final Component CONTAINER_TITLE = Component.translatable("container.crafting");
 
-    public CraftingCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public CraftingCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

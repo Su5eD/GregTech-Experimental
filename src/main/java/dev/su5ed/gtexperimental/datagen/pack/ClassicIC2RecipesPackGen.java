@@ -35,7 +35,6 @@ import static dev.su5ed.gtexperimental.recipe.gen.ModFuelBuilders.hot;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.*;
 import static dev.su5ed.gtexperimental.recipe.gen.compat.CompatRecipeBuilders.ic2Compressor;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
     public static final String NAME = "classic_ic2_compat";

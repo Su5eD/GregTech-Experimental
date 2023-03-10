@@ -123,8 +123,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
 
     @Override
     public int getPriority() {
-        // Higher priority to ensure we're loaded before FluidHandler
-        // for PowerProvider tank capacities
+        // Higher priority to ensure we're loaded before FluidHandler for PowerProvider tank capacities
         return 1;
     }
 

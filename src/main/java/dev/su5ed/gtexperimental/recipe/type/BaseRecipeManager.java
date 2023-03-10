@@ -1,10 +1,10 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipeType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
@@ -15,14 +15,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class BaseRecipeManager<R extends BaseRecipe<?, IN, ?, ? super R>, IN> implements RecipeManager<R, IN> {
-    private final Supplier<? extends RecipeType<R>> recipeType;
+public class BaseRecipeManager<R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> implements RecipeManager<R, IN, OUT> {
+    private final Supplier<? extends BaseRecipeType<R, OUT>> recipeType;
     private final Collection<RecipeProvider<R, IN>> providers = new ArrayList<>();
 
     private List<R> recipes;
 
-    public BaseRecipeManager(Supplier<? extends RecipeType<R>> recipeType) {
+    public BaseRecipeManager(Supplier<? extends BaseRecipeType<R, OUT>> recipeType) {
         this.recipeType = recipeType;
+    }
+
+    public BaseRecipeType<R, OUT> getRecipeType() {
+        return this.recipeType.get();
     }
 
     @Override

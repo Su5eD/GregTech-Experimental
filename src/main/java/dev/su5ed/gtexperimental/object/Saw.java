@@ -5,7 +5,6 @@ import dev.su5ed.gtexperimental.item.CraftingToolItem;
 import dev.su5ed.gtexperimental.item.ToolItem;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
-import dev.su5ed.gtexperimental.util.ItemProvider;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.common.util.Lazy;
-import org.jetbrains.annotations.Nullable;
 
 public enum Saw implements TaggedItemProvider {
     IRON(128, 3, 2),

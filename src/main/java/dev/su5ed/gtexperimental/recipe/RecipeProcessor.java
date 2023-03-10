@@ -44,8 +44,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.util.GtUtil.location;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.WATER;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class RecipeProcessor {
     private static final Map<RecipeUtil.Shape, Integer> ARMOR_SHAPES = Map.of(

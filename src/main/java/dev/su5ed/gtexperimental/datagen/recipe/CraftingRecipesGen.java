@@ -52,7 +52,6 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.util.GtUtil.location;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilder.fluidShaped;
@@ -60,7 +59,7 @@ import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapedRecipeBuilde
 import static dev.su5ed.gtexperimental.recipe.crafting.WrappedShapelessRecipeBuilder.toolShapeless;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.alloySmelter;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.*;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
+import static dev.su5ed.gtexperimental.util.GtUtil.location;
 import static net.minecraft.data.recipes.ShapedRecipeBuilder.shaped;
 import static net.minecraft.data.recipes.ShapelessRecipeBuilder.shapeless;
 

@@ -35,16 +35,16 @@ import java.util.function.Predicate;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase<T> implements CoverHandler {
-    public static final ModelProperty<Map<Direction, Cover<?>>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
+    public static final ModelProperty<Map<Direction, Cover>> COVER_HANDLER_PROPERTY = new ModelProperty<>();
     private static final ResourceLocation NAME = location("cover_handler");
 
-    private final Codec<Map<Direction, Cover<?>>> coversCodec = createCoversCodec();
+    private final Codec<Map<Direction, Cover>> coversCodec = createCoversCodec();
     private final Collection<CoverCategory> coverBlacklist;
     private final Predicate<Direction> sideFilter;
     private final LazyOptional<CoverHandler> optional = LazyOptional.of(() -> this);
     
     @Networked
-    private Map<Direction, Cover<?>> covers = new HashMap<>();
+    private Map<Direction, Cover> covers = new HashMap<>();
 
     static {
         NetworkHandler.registerHandler(CoverHandlerImpl.class, "covers", CoverHandlerImpl::getCoversCodec);
@@ -77,21 +77,20 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
     }
 
     @Override
-    public Map<Direction, Cover<?>> getCovers() {
+    public Map<Direction, Cover> getCovers() {
         return ImmutableMap.copyOf(this.covers);
     }
 
     @Override
-    public Optional<Cover<?>> getCoverAtSide(Direction side) {
+    public Optional<Cover> getCoverAtSide(Direction side) {
         return Optional.ofNullable(this.covers.get(side));
     }
 
     @Override
-    public <U> boolean placeCoverAtSide(CoverType<U> type, Direction side, Item item, boolean simulate) {
+    public boolean placeCoverAtSide(CoverType type, Direction side, Item item, boolean simulate) {
         if (!this.covers.containsKey(side) && this.sideFilter.test(side) && !this.coverBlacklist.contains(type.getCategory()) && type.getCondition().test(this.parent)) {
             if (isServerSide() && !simulate) {
-                //noinspection unchecked
-                Cover<?> cover = type.create((U) this.parent, side, item);
+                Cover cover = type.create(this.parent, side, item);
                 this.covers.put(side, cover);
                 this.parent.setChanged();
                 updateClient();
@@ -102,7 +101,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
     }
 
     @Override    
-    public Optional<Cover<?>> removeCover(Direction side, boolean simulate) {
+    public Optional<Cover> removeCover(Direction side, boolean simulate) {
         return getCoverAtSide(side)
             .map(cover -> {
                 if (isServerSide() && !simulate) {
@@ -119,7 +118,7 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
     public void tickServer() {
         super.tickServer();
 
-        for (Cover<?> cover : this.covers.values()) {
+        for (Cover cover : this.covers.values()) {
             int tickRate = cover.getTickRate();
             if (tickRate > 0 && this.parent.getTicks() % tickRate == 0) {
                 cover.tick();
@@ -146,19 +145,18 @@ public class CoverHandlerImpl<T extends BaseBlockEntity> extends GtComponentBase
         }
     }
 
-    private Codec<Map<Direction, Cover<?>>> getCoversCodec() {
+    private Codec<Map<Direction, Cover>> getCoversCodec() {
         return coversCodec;
     }
 
-    private Codec<Map<Direction, Cover<?>>> createCoversCodec() {
-        Codec<Cover<?>> coverCodec = RecordCodecBuilder.create(instance -> instance.group(
+    private Codec<Map<Direction, Cover>> createCoversCodec() {
+        Codec<Cover> coverCodec = RecordCodecBuilder.create(instance -> instance.group(
             ModCovers.REGISTRY.get().getCodec().fieldOf("type").forGetter(Cover::getType),
             Direction.CODEC.fieldOf("side").forGetter(Cover::getSide),
             ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(Cover::getItem),
             FriendlyCompoundTag.CODEC.fieldOf("tag").forGetter(Cover::save)
         ).apply(instance, (type, side, item, tag) -> {
-            //noinspection unchecked
-            Cover<T> cover = ((CoverType<T>) type).create(this.parent, side, item);
+            Cover cover = type.create(this.parent, side, item);
             cover.load(tag);
             return cover;
         }));

@@ -58,8 +58,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.stream.Stream;
 
-import static dev.su5ed.gtexperimental.util.GtUtil.location;
-
 @EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
     private static final ItemColor BUCKET_ITEM_COLOR = new DynamicFluidContainerModel.Colors();

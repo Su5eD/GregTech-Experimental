@@ -26,12 +26,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 import java.util.Locale;
 
-public class DrainCover extends BaseCover<BlockEntity> {
+public class DrainCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("drain");
 
     protected DrainMode mode = DrainMode.IMPORT;
 
-    public DrainCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public DrainCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

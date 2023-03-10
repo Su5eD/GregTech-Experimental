@@ -1,6 +1,6 @@
 package dev.su5ed.gtexperimental.api.machine;
 
-public interface IMachineProgress extends MachineController {
+public interface MachineProgress {
     boolean isActive();
     
     double getProgress();

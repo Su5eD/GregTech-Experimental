@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class LiquidMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("liquid_meter");
 
-    public LiquidMeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public LiquidMeterCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

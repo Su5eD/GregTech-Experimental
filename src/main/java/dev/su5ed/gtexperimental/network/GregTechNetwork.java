@@ -100,7 +100,7 @@ public final class GregTechNetwork {
         sendTrackingChunk(be, packet);
     }
 
-    public static void updateClientCover(BlockEntity be, Cover<?> cover) {
+    public static void updateClientCover(BlockEntity be, Cover cover) {
         GtUtil.assertServerSide(be.getLevel());
         FriendlyByteBuf tag = NetworkHandler.serializeClass(cover);
         BlockEntityCoverUpdate packet = new BlockEntityCoverUpdate(be, ModCovers.REGISTRY.get().getKey(cover.getType()), cover.getSide(), tag);

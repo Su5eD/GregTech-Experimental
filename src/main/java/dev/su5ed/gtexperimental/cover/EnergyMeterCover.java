@@ -17,12 +17,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class EnergyMeterCover extends BaseCover<BlockEntity> {
+public class EnergyMeterCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("eu_meter");
 
     protected Mode mode = Mode.UNIVERSAL;
 
-    public EnergyMeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public EnergyMeterCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

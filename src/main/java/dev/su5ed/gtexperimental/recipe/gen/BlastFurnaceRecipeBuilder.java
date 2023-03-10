@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.gen.compat.RCBlastFurnaceRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.MIMORecipe;
+import dev.su5ed.gtexperimental.recipe.gen.compat.RCBlastFurnaceRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;

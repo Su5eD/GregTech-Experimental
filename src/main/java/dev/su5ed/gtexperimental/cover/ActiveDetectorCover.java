@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.IMachineProgress;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -11,15 +10,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class ActiveDetectorCover extends BaseCover<IMachineProgress> {
+public class ActiveDetectorCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("active_detector");
 
     protected DetectorMode mode = DetectorMode.NORMAL;
 
-    public ActiveDetectorCover(CoverType<IMachineProgress> type, IMachineProgress be, Direction side, Item item) {
+    public ActiveDetectorCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 
@@ -30,15 +30,15 @@ public class ActiveDetectorCover extends BaseCover<IMachineProgress> {
 
     @Override
     public void tick() {
-        int strength = (int) ((this.be.getProgress() + 4) / this.be.getMaxProgress() * 15);
+        int strength = (int) ((this.machineProgress.getProgress() + 4) / this.machineProgress.getMaxProgress() * 15);
         if (this.mode == DetectorMode.NORMAL || this.mode == DetectorMode.INVERTED) {
-            int output = strength > 0 && this.be.isActive()
+            int output = strength > 0 && this.machineProgress.isActive()
                 ? this.mode.inverted ? 15 - strength : strength
                 : this.mode.inverted ? 15 : 0;
-            this.be.setRedstoneOutput(this.side, output);
+            this.machineController.setRedstoneOutput(this.side, output);
         }
         else {
-            this.be.setRedstoneOutput(this.side, (this.mode == DetectorMode.READY) != (this.be.getProgress() == 0) ? 0 : 15);
+            this.machineController.setRedstoneOutput(this.side, (this.mode == DetectorMode.READY) != (this.machineProgress.getProgress() == 0) ? 0 : 15);
         }
     }
 
@@ -91,7 +91,7 @@ public class ActiveDetectorCover extends BaseCover<IMachineProgress> {
 
     @Override
     public void onCoverRemove() {
-        this.be.setRedstoneOutput(side, 0);
+        this.machineController.setRedstoneOutput(this.side, 0);
     }
 
     @Override

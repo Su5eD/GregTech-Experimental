@@ -36,11 +36,11 @@ public enum ModCoverItem implements TaggedItemProvider {
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;
 
-    <T> ModCoverItem(RegistryObject<CoverType<T>> cover) {
+    ModCoverItem(RegistryObject<CoverType> cover) {
         this(cover, null);
     }
     
-    <T> ModCoverItem(RegistryObject<CoverType<T>> cover, TagKey<Item> tag) {
+    ModCoverItem(RegistryObject<CoverType> cover, TagKey<Item> tag) {
         this.tag = tag;
         this.instance = Lazy.of(() -> new CoverItem<>(new ExtendedItemProperties<>().description(GtLocale.itemDescriptionKey(getName())), cover));
     }

@@ -11,9 +11,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.function.Supplier;
 
 public class CoverItem<T> extends ResourceItem {
-    private final Supplier<CoverType<T>> type;
+    private final Supplier<CoverType> type;
 
-    public CoverItem(ExtendedItemProperties<?> properties, Supplier<CoverType<T>> type) {
+    public CoverItem(ExtendedItemProperties<?> properties, Supplier<CoverType> type) {
         super(properties);
         this.type = type;
     }

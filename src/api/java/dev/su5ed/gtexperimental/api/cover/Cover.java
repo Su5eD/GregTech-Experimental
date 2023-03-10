@@ -12,8 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public interface Cover<T> { // TODO javadocs
-    CoverType<T> getType();
+public interface Cover { // TODO javadocs
+    CoverType getType();
 
     Direction getSide();
 

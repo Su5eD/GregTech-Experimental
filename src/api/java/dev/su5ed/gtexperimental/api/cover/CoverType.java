@@ -6,13 +6,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.function.Predicate;
 
-// TODO T extends BlockEntity
-public class CoverType<T> {
+public class CoverType {
     private final CoverCategory category;
     private final Predicate<BlockEntity> condition;
-    private final CoverSupplier<T> factory;
+    private final CoverSupplier factory;
 
-    public CoverType(CoverCategory category, Predicate<BlockEntity> condition, CoverSupplier<T> factory) {
+    public CoverType(CoverCategory category, Predicate<BlockEntity> condition, CoverSupplier factory) {
         this.category = category;
         this.condition = condition;
         this.factory = factory;
@@ -26,18 +25,18 @@ public class CoverType<T> {
         return this.condition;
     }
 
-    public Cover<T> create(T parent, Direction side, Item item) {
+    public Cover create(BlockEntity parent, Direction side, Item item) {
         return this.factory.create(this, parent, side, item);
     }
 
     @FunctionalInterface
-    public interface CoverSupplier<T> {
+    public interface CoverSupplier {
         /**
          * @param side   The cover's side
          * @param parent The <code>{@link BlockEntity BlockEntity}</code> being covered
          * @param item   The cover <code>{@link Item}</code>
          * @return A new cover instance
          */
-        Cover<T> create(CoverType<T> type, T parent, Direction side, Item item);
+        Cover create(CoverType type, BlockEntity parent, Direction side, Item item);
     }
 }

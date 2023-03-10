@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.util;
 
+import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
-import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;

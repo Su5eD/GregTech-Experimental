@@ -10,10 +10,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class InventoryCover extends BaseCover<BlockEntity> {
+public abstract class InventoryCover extends BaseCover {
     protected InventoryMode mode = InventoryMode.EXPORT;
 
-    protected InventoryCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    protected InventoryCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

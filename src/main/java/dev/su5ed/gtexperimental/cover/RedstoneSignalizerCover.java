@@ -12,12 +12,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class RedstoneSignalizerCover extends BaseCover<BlockEntity> {
+public class RedstoneSignalizerCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_signalizer");
 
     protected int signal;
 
-    public RedstoneSignalizerCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public RedstoneSignalizerCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

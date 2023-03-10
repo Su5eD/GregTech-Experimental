@@ -13,14 +13,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class NormalCover extends BaseCover<BlockEntity> implements FieldUpdateListener {
+public class NormalCover extends BaseCover implements FieldUpdateListener {
     public static final ResourceLocation TEXTURE_NORMAL = GtUtil.getCoverTexture("normal");
     public static final ResourceLocation TEXTURE_NOREDSTONE = GtUtil.getCoverTexture("noredstone");
 
     @Networked
     protected MeterCover.MeterMode mode = MeterCover.MeterMode.NORMAL;
 
-    public NormalCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public NormalCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 public class PumpCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("pump");
 
-    public PumpCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public PumpCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

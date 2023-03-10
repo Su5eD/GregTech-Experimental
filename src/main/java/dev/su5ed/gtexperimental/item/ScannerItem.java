@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.cover.CoverHandler;
 import dev.su5ed.gtexperimental.api.event.ScannerEvent;
-import dev.su5ed.gtexperimental.api.machine.IMachineProgress;
+import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.machine.ScannerInfoProvider;
 import dev.su5ed.gtexperimental.api.machine.UpgradableBlockEntity;
@@ -124,7 +124,7 @@ public class ScannerItem extends ElectricItem {
                 if ((value = upgradable.getExtraEUCapacity()) > 0) ret.add(GtLocale.translateScan("extra_capacity", value));
             }
 
-            if (be instanceof IMachineProgress machine) {
+            if (be instanceof MachineProgress machine) {
                 energyCost += 400;
                 int maxProgress = machine.getMaxProgress();
                 if (maxProgress > 0) ret.add(GtLocale.translateScan("progress", machine.getProgress(), maxProgress));
@@ -171,10 +171,10 @@ public class ScannerItem extends ElectricItem {
         }
 
         ScannerEvent event = new ScannerEvent(stack, context);
-        event.increaseEUCost(energyCost);
+        event.addEnergyCost(energyCost);
         MinecraftForge.EVENT_BUS.post(event);
 
-        return event.isCanceled() ? Pair.of(Collections.emptyList(), event.getEUCost()) : Pair.of(ret, event.getEUCost());
+        return event.isCanceled() ? Pair.of(Collections.emptyList(), event.getEnergyCost()) : Pair.of(ret, event.getEnergyCost());
     }
     
     private static class IC2ScanHandler {

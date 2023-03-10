@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
-import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;

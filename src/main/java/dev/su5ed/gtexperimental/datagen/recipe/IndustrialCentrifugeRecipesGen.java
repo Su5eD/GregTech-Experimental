@@ -18,7 +18,6 @@ import net.minecraftforge.common.Tags;
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.industrialCentrifuge;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
     public static final IndustrialCentrifugeRecipesGen INSTANCE = new IndustrialCentrifugeRecipesGen();

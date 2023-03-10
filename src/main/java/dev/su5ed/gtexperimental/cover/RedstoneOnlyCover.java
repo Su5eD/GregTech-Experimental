@@ -7,10 +7,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class RedstoneOnlyCover extends BaseCover<BlockEntity> {
+public class RedstoneOnlyCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_only");
 
-    public RedstoneOnlyCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public RedstoneOnlyCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

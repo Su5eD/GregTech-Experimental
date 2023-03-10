@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class EnergyOnlyCover extends BaseCover<BlockEntity> {
+public class EnergyOnlyCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("energy_only");
 
     protected EnergyMode mode = EnergyMode.ALLOW;
 
-    public EnergyOnlyCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public EnergyOnlyCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

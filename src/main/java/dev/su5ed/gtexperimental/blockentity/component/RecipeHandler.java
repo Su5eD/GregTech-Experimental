@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.blockentity.component;
 import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.GregTechMod;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
+import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
@@ -13,10 +14,11 @@ import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
-import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -25,38 +27,42 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
-public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> extends GtComponentBase<T> {
+public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> extends GtComponentBase<T> implements MachineProgress {
     private final PowerHandler energy;
     private final UpgradeManager<?> upgrades;
     private final MachineController controller;
-    protected final RecipeManager<R, IN> manager;
+    protected final RecipeManager<R, IN, OUT> manager;
     private final RecipeOutputType<IN> inputSerializer;
     private final RecipeOutputType<OUT> outputSerializer;
     private final boolean needsConstantEnergy;
+    private final LazyOptional<MachineProgress> machineProgressOptional = LazyOptional.of(() -> this);
 
     private CompoundTag pendingRecipeInitTag;
     private R availableRecipe;
     @Networked
     protected PendingRecipe<R, IN, OUT> pendingRecipe;
     @Networked
-    private int progress;
+    private double progress;
     private boolean outputBlocked;
 
     static {
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
+    protected RecipeHandler(T parent, RecipeManager<R, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
         this(parent, manager, inputSerializer, outputSerializer, true);
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
+    protected RecipeHandler(T parent, RecipeManager<R, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
         super(parent);
 
         this.energy = parent.getCapability(Capabilities.ENERGY_HANDLER).orElseThrow(() -> new IllegalStateException("Required PowerHandler capability not found"));
@@ -93,7 +99,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
     protected abstract void addOutput(R recipe);
 
-    public int getProgress() {
+    public double getProgress() {
         return this.progress;
     }
 
@@ -111,6 +117,24 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
             IN input = getInput();
             this.availableRecipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
         }
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.parent.isActive();
+    }
+
+    @Override
+    public void increaseProgress(double amount) {
+        this.progress += amount;
+    }
+
+    @Override
+    public <U> LazyOptional<U> getCapability(@NotNull Capability<U> cap, @Nullable Direction side) {
+        if (cap == Capabilities.MACHINE_PROGRESS) {
+            return this.machineProgressOptional.cast();
+        }
+        return super.getCapability(cap, side);
     }
 
     @Override
@@ -184,7 +208,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
         if (this.pendingRecipe != null && !this.parent.getLevel().isClientSide) {
             tag.put("pendingRecipe", this.pendingRecipe.serializeNBT());
-            tag.putInt("progress", this.progress);
+            tag.putDouble("progress", this.progress);
         }
     }
 
@@ -195,7 +219,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         if (tag.contains("pendingRecipe", Tag.TAG_COMPOUND)) {
             // Init the pending recipe later, after the level has been loaded
             this.pendingRecipeInitTag = tag.getCompound("pendingRecipe");
-            this.progress = tag.getInt("progress");
+            this.progress = tag.getDouble("progress");
         }
     }
 
@@ -209,7 +233,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
 
         @Nullable
-        public static <R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, IN> manager) {
+        public static <R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, IN, OUT> manager) {
             FriendlyCompoundTag tag = new FriendlyCompoundTag(nbt);
             String key = tag.getString("recipe");
             if (!key.isEmpty()) {
@@ -251,7 +275,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     public static class SISO extends RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> {
         private static final ResourceLocation NAME = location("siso_recipe_handler");
 
-        public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
+        public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
             super(parent, manager, inputSerializer, outputSerializer);
         }
 

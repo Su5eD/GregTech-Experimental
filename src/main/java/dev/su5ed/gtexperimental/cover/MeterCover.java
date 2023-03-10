@@ -13,10 +13,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public abstract class MeterCover extends BaseCover<BlockEntity> {
+public abstract class MeterCover extends BaseCover {
     protected MeterMode mode = MeterMode.NORMAL;
 
-    protected MeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    protected MeterCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

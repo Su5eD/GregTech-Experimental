@@ -8,7 +8,6 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 
 import java.util.List;
 
@@ -29,8 +28,8 @@ public class ModRecipeType<R extends BaseRecipe<?, ?, OUT, ? super R>, RIN exten
 
     @Override
     public R fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-        JsonElement inputJson = GsonHelper.getAsJsonObject(serializedRecipe, "input");
-        JsonElement outputJson = GsonHelper.getAsJsonObject(serializedRecipe, "output");
+        JsonElement inputJson = serializedRecipe.get("input");
+        JsonElement outputJson = serializedRecipe.get("output");
 
         IN input = this.inputType.create(inputJson);
         OUT output = this.outputType.fromJson(outputJson);

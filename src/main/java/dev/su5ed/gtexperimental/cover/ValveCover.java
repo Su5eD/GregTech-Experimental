@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class ValveCover extends PumpCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("valve");
 
-    public ValveCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public ValveCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

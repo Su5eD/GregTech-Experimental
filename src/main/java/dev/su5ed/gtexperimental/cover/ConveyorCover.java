@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class ConveyorCover extends InventoryCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("conveyor");
 
-    public ConveyorCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public ConveyorCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

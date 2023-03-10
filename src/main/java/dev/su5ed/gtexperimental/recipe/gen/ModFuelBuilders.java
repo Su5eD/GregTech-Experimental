@@ -2,9 +2,9 @@ package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
-import dev.su5ed.gtexperimental.api.machine.IMachineProgress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -19,24 +18,24 @@ import java.util.Set;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
-public class VentCover extends BaseCover<IMachineProgress> {
+public class VentCover extends BaseCover {
     private final double efficiency;
 
-    public VentCover(CoverType<IMachineProgress> type, IMachineProgress be, Direction side, Item item) {
+    public VentCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
         this.efficiency = getVentType(item).efficiency;
     }
 
     @Override
     public void tick() {
-        if (this.be.isActive()) {
-            Level level = ((BlockEntity) this.be).getLevel();
-            BlockPos pos = ((BlockEntity) this.be).getBlockPos();
+        if (this.machineProgress.isActive()) {
+            Level level = this.be.getLevel();
+            BlockPos pos = this.be.getBlockPos();
             if (level.getBlockState(pos.relative(this.side)).getCollisionShape(level, pos) == null) {
-                int maxProgress = this.be.getMaxProgress();
+                int maxProgress = this.machineProgress.getMaxProgress();
                 double amplifier = maxProgress / 100D * this.efficiency;
                 double increase = amplifier / (maxProgress - 2D);
-                this.be.increaseProgress(increase);
+                this.machineProgress.increaseProgress(increase);
             }
         }
     }

@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.api.cover.Cover;
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
+import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import net.minecraft.core.BlockPos;
@@ -14,37 +15,40 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<T> {
-    private final CoverType<T> type;
-    protected final T be;
+public abstract class BaseCover implements Cover {
+    private final CoverType type;
+    protected final BlockEntity be;
     protected final Direction side;
     protected final Item item;
-    
+
     @Nullable
     protected final MachineController machineController;
     @Nullable
+    protected final MachineProgress machineProgress;
+    @Nullable
     protected final PowerHandler energyHandler;
 
-    protected BaseCover(CoverType<T> type, T be, Direction side, Item item) {
+    protected BaseCover(CoverType type, BlockEntity be, Direction side, Item item) {
         this.type = type;
         this.be = be;
         this.side = side;
         this.item = item;
-        
+
         this.machineController = be.getCapability(Capabilities.MACHINE_CONTROLLER).orElse(null);
+        this.machineProgress = be.getCapability(Capabilities.MACHINE_PROGRESS).orElse(null);
         this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);
     }
 
     @Override
-    public CoverType<T> getType() {
+    public CoverType getType() {
         return this.type;
     }
-    
+
     @Override
     public Direction getSide() {
         return this.side;
@@ -68,11 +72,11 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
     public final CoverInteractionResult onScrewdriverClick(Player player) {
         return !player.level.isClientSide && player instanceof ServerPlayer sp ? onServerScrewdriverClick(sp) : onClientScrewdriverClick(player);
     }
-    
+
     protected CoverInteractionResult onClientScrewdriverClick(Player player) {
         return CoverInteractionResult.PASS;
     }
-    
+
     protected CoverInteractionResult onServerScrewdriverClick(ServerPlayer player) {
         return CoverInteractionResult.PASS;
     }
@@ -134,7 +138,7 @@ public abstract class BaseCover<T extends ICapabilityProvider> implements Cover<
 
     @Override
     public void save(FriendlyCompoundTag tag) {
-        
+
     }
 
     @Override

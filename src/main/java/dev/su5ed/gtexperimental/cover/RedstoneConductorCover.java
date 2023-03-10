@@ -16,12 +16,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class RedstoneConductorCover extends BaseCover<BlockEntity> {
+public class RedstoneConductorCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("redstone_conductor");
 
     protected ConductorMode mode = ConductorMode.STRONGEST;
 
-    public RedstoneConductorCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public RedstoneConductorCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

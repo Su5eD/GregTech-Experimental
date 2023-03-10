@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.api.item.SolderingMetal;
 import dev.su5ed.gtexperimental.api.item.SolderingTool;
 import dev.su5ed.gtexperimental.api.item.TurbineRotor;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
+import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.upgrade.Upgrade;
 import dev.su5ed.gtexperimental.api.util.DataOrbSerializable;
@@ -20,6 +21,7 @@ public final class Capabilities {
     public static final Capability<CoverHandler> COVER_HANDLER = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<PowerHandler> ENERGY_HANDLER = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<MachineController> MACHINE_CONTROLLER = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<MachineProgress> MACHINE_PROGRESS = CapabilityManager.get(new CapabilityToken<>() {});
 
     // ItemStack capabilites
     public static final Capability<SolderingTool> SOLDERING_TOOL = CapabilityManager.get(new CapabilityToken<>() {});
@@ -36,6 +38,7 @@ public final class Capabilities {
         event.register(CoverHandler.class);
         event.register(PowerHandler.class);
         event.register(MachineController.class);
+        event.register(MachineProgress.class);
 
         event.register(SolderingTool.class);
         event.register(SolderingMetal.class);

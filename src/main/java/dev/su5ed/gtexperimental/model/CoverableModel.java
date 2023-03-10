@@ -85,7 +85,7 @@ public class CoverableModel extends BaseModel {
     }
     
     private Map<Direction, Material> getCoverData(ModelData data) {
-        Map<Direction, Cover<?>> covers = data.get(CoverHandlerImpl.COVER_HANDLER_PROPERTY);
+        Map<Direction, Cover> covers = data.get(CoverHandlerImpl.COVER_HANDLER_PROPERTY);
         if (covers != null) {
             return EntryStream.of(covers)
                 .mapValues(Cover::getIcon)

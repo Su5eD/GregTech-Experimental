@@ -1,8 +1,8 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.gen.compat.TEMachineRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.IFMORecipe;
+import dev.su5ed.gtexperimental.recipe.gen.compat.TEMachineRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;

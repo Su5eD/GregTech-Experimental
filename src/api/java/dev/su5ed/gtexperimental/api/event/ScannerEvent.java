@@ -14,7 +14,7 @@ public class ScannerEvent extends LevelEvent {
     public final ItemStack stack;
     public final UseOnContext context;
 
-    private double euCost = 0;
+    private double energyCost;
 
     public ScannerEvent(ItemStack stack, UseOnContext context) {
         super(context.getLevel());
@@ -23,11 +23,11 @@ public class ScannerEvent extends LevelEvent {
         this.context = context;
     }
 
-    public double getEUCost() {
-        return this.euCost;
+    public double getEnergyCost() {
+        return this.energyCost;
     }
     
-    public void increaseEUCost(double cost) {
-        this.euCost += cost;
+    public void addEnergyCost(double energyCost) {
+        this.energyCost += energyCost;
     }
 }

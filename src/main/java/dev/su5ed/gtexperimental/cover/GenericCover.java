@@ -14,10 +14,10 @@ import one.util.streamex.StreamEx;
 
 import java.util.Locale;
 
-public class GenericCover extends BaseCover<BlockEntity> {
+public class GenericCover extends BaseCover {
     private final CoverTexture texture;
 
-    public GenericCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public GenericCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
 
         //noinspection deprecation

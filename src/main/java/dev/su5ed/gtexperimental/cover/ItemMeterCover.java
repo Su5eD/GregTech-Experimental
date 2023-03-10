@@ -13,7 +13,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 public class ItemMeterCover extends MeterCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("item_meter");
 
-    public ItemMeterCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public ItemMeterCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

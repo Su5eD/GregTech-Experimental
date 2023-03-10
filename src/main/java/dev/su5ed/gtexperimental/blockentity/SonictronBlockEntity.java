@@ -102,7 +102,7 @@ public class SonictronBlockEntity extends InventoryBlockEntity implements MenuPr
 
     @Override
     public void loadDataFromOrb(CompoundTag tag) {
-        this.inventoryHandler.load(tag); // TODO TEST
+        this.inventoryHandler.load(tag);
     }
 
     public static void loadSonictronSounds() {

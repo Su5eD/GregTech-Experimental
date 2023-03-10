@@ -16,12 +16,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-public class MachineControllerCover extends BaseCover<BlockEntity> {
+public class MachineControllerCover extends BaseCover {
     public static final ResourceLocation TEXTURE = GtUtil.getCoverTexture("machine_controller");
 
     protected ControllerMode mode = ControllerMode.NORMAL;
 
-    public MachineControllerCover(CoverType<BlockEntity> type, BlockEntity be, Direction side, Item item) {
+    public MachineControllerCover(CoverType type, BlockEntity be, Direction side, Item item) {
         super(type, be, side, item);
     }
 

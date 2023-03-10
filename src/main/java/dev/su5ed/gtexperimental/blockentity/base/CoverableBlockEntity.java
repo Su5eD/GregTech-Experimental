@@ -95,7 +95,7 @@ public class CoverableBlockEntity extends InventoryBlockEntity implements Scanne
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        Map<Direction, Cover<?>> covers = this.coverHandler.getCovers();
+        Map<Direction, Cover> covers = this.coverHandler.getCovers();
         return beforeUse(player, hand, hit)
             || StreamEx.ofValues(covers).anyMatch(cover -> cover.use(state, level, pos, player, hand, hit))
             || !StreamEx.ofValues(covers).cross(hit.getDirection()).allMatch(Cover::opensGui)
@@ -205,7 +205,7 @@ public class CoverableBlockEntity extends InventoryBlockEntity implements Scanne
         return tryUseCrowbar(stack, side, player, hand);
     }
 
-    private boolean placeCover(CoverType<?> type, Player player, Direction side, ItemStack stack) {
+    private boolean placeCover(CoverType type, Player player, Direction side, ItemStack stack) {
         if (this.coverHandler.placeCoverAtSide(type, side, stack.getItem(), false)) {
             if (!player.isCreative()) stack.shrink(1);
             return true;
@@ -214,7 +214,7 @@ public class CoverableBlockEntity extends InventoryBlockEntity implements Scanne
     }
 
     protected boolean useScrewdriver(ItemStack stack, Direction side, Player player, InteractionHand hand) {
-        Cover<?> existing = this.coverHandler.getCoverAtSide(side).orElse(null);
+        Cover existing = this.coverHandler.getCoverAtSide(side).orElse(null);
         if (existing != null) {
             CoverInteractionResult result = existing.onScrewdriverClick(player);
             if (!player.level.isClientSide && result == CoverInteractionResult.RERENDER) {
