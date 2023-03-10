@@ -1,5 +1,11 @@
 {
   "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
   "duration": 1600,
   "energy_cost": 2.0,
   "input": [

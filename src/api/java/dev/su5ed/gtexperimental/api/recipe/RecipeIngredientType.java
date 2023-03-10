@@ -1,10 +1,14 @@
 package dev.su5ed.gtexperimental.api.recipe;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import net.minecraft.network.FriendlyByteBuf;
 
-public interface RecipeIngredientType<T extends RecipeIngredient<?>> {
-    T create(JsonObject json);
+import java.util.List;
+
+public interface RecipeIngredientType<T, U> {
+    T create(JsonElement json);
 
     T create(FriendlyByteBuf buffer);
+    
+    ListRecipeIngredientType<List<T>, U> listOf(int count);
 }

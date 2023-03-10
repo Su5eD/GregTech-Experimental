@@ -1,6 +1,11 @@
-package dev.su5ed.gtexperimental.recipe.type;
+package dev.su5ed.gtexperimental.recipe;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
+import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -9,9 +14,17 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
-public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends IFMORecipe>, IFMORecipe.Input, List<ItemStack>, IFMORecipe> {
+public class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends IFMORecipe>, IFMORecipe.Input, List<ItemStack>, IFMORecipe> {
     protected final RecipeIngredient<ItemStack> input;
     protected final RecipeIngredient<FluidStack> fluid;
+
+    public static IFMORecipe industrialGrinder(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs, RecipePropertyMap properties) {
+        return new IFMORecipe(ModRecipeTypes.INDUSTRIAL_GRINDER.get(), ModRecipeSerializers.INDUSTRIAL_GRINDER.get(), id, input, fluid, outputs, properties.withTransient(b -> b.duration(input.getCount() * 100).energyCost(128)));
+    }
+
+    public static IFMORecipe industrialSawmill(ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> outputs, RecipePropertyMap properties) {
+        return new IFMORecipe(ModRecipeTypes.INDUSTRIAL_SAWMILL.get(), ModRecipeSerializers.INDUSTRIAL_SAWMILL.get(), id, input, fluid, outputs, properties.withTransient(b -> b.duration(input.getCount() * 200).energyCost(32)));
+    }
 
     public IFMORecipe(IFMORecipeType<? extends IFMORecipe> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output, RecipePropertyMap properties) {
         super(type, serializer, id, output, properties);
@@ -19,9 +32,9 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
         this.input = input;
         this.fluid = fluid;
 
-        RecipeUtil.validateInput(this.id, "input", this.input);
-        RecipeUtil.validateInput(this.id, "fluid", this.fluid);
-        this.type.outputType.validate(this.id, "outputs", this.output, false);
+        this.input.validate(this.id, "input");
+        this.fluid.validate(this.id, "fluid");
+        this.type.getOutputType().validate(this.id, "outputs", this.output, false);
     }
 
     public RecipeIngredient<ItemStack> getInput() {
@@ -54,7 +67,7 @@ public abstract class IFMORecipe extends BaseRecipeImpl<IFMORecipeType<? extends
     public void toNetwork(FriendlyByteBuf buffer) {
         this.input.toNetwork(buffer);
         this.fluid.toNetwork(buffer);
-        this.type.outputType.toNetwork(buffer, this.output);
+        this.type.getOutputType().toNetwork(buffer, this.output);
     }
 
     public record Input(ItemStack item, FluidStack fluid) {}

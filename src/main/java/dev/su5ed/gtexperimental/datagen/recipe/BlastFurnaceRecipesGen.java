@@ -17,7 +17,6 @@ import net.minecraftforge.common.Tags;
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.blastFurnace;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 
 public final class BlastFurnaceRecipesGen implements ModRecipeProvider {
     public static final BlastFurnaceRecipesGen INSTANCE = new BlastFurnaceRecipesGen();
@@ -34,7 +33,7 @@ public final class BlastFurnaceRecipesGen implements ModRecipeProvider {
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Dust.TUNGSTEN.getTag()), Ingot.TUNGSTEN.getItemStack(), 2000, 2500).build(finishedRecipeConsumer, id("tungsten_ingot"), true);
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Dust.GALENA.getTag(), 2), Ingot.SILVER.getItemStack(), Ingot.LEAD.getItemStack(), 20, 1500).build(finishedRecipeConsumer, id("silver_ingot"));
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Ingot.TUNGSTEN.getTag()), ModRecipeIngredientTypes.ITEM.of(Ingot.STEEL.getTag()), Ingot.HOT_TUNGSTEN_STEEL.getItemStack(2), Dust.DARK_ASHES.getItemStack(4), 2000, 3000).build(finishedRecipeConsumer, id("hot_tungsten_steel_ingot"));
-        blastFurnace(ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.SILICON.getTag(), buckets(2)), Plate.SILICON.getItemStack(), 1000, 1500).build(finishedRecipeConsumer, id("silicon_plate"));
+        blastFurnace(ModRecipeIngredientTypes.ITEM.ofFluidBuckets(ModFluid.SILICON.getTag(), 2), Plate.SILICON.getItemStack(), 1000, 1500).build(finishedRecipeConsumer, id("silicon_plate"));
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), ModRecipeIngredientTypes.ITEM.of(Dust.CALCITE.getTag()), new ItemStack(Items.IRON_INGOT, 3), Dust.DARK_ASHES.getItemStack(), 500, 1500).build(finishedRecipeConsumer, id("iron_ingot_from_iron_ore"));
         blastFurnace(ModRecipeIngredientTypes.ITEM.of(Ore.PYRITE.getTag()), ModRecipeIngredientTypes.ITEM.of(Dust.CALCITE.getTag()), new ItemStack(Items.IRON_INGOT, 2), Dust.DARK_ASHES.getItemStack(), 100, 1500).build(finishedRecipeConsumer, id("iron_ingot_from_pyrite_ore"));
     }

@@ -46,7 +46,7 @@ public class BaseRecipeManager<R extends BaseRecipe<?, IN, ?, ? super R>, IN> im
     public R getRecipeFor(Level level, IN input) {
         return StreamEx.of(getRecipes(level))
             .filter(r -> r.matches(input))
-            .min(RecipeUtil::compareCount)
+            .min(R::compareInputCount)
             .orElseGet(() -> StreamEx.of(this.providers)
                 .mapPartial(provider -> Optional.ofNullable(provider.getRecipeFor(level, input)))
                 .findFirst()

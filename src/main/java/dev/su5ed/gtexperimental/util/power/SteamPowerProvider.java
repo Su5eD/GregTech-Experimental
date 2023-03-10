@@ -13,10 +13,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import java.util.Set;
 
 public class SteamPowerProvider implements PowerProvider {
+    private final UpgradableBlockEntity machine;
     private final GtFluidTank steamTank;
 
     @SuppressWarnings("deprecation")
     public SteamPowerProvider(UpgradableBlockEntity machine) {
+        this.machine = machine;
         this.steamTank = machine.addTank(new GtFluidTankImpl("steam", machine.be(), 0, fluidStack -> fluidStack.getFluid().is(GregTechTags.STEAM), GtUtil.ALL_FACINGS, Set.of()));
     }
 
@@ -31,7 +33,7 @@ public class SteamPowerProvider implements PowerProvider {
 
     @Override
     public double useEnergy(double amount, boolean simulate) {
-        int steam = SteamHelper.getSteamForEU(amount, this.steamTank.getFluid());
+        int steam = SteamHelper.getSteamForEU(this.machine.be().getLevel(), amount, this.steamTank.getFluid());
         if (steam > 0) {
             FluidStack drained = this.steamTank.drain(steam, IFluidHandler.FluidAction.SIMULATE);
             if (drained.getAmount() >= amount) {
@@ -46,11 +48,11 @@ public class SteamPowerProvider implements PowerProvider {
 
     @Override
     public double getStoredEnergy() {
-        return SteamHelper.getEUForSteam(this.steamTank.getFluid());
+        return SteamHelper.getEUForSteam(this.machine.be().getLevel(), this.steamTank.getFluid());
     }
 
     @Override
     public int getCapacity() {
-        return (int) SteamHelper.getEUForSteam(this.steamTank.getFluid(), this.steamTank.getCapacity());
+        return (int) SteamHelper.getEUForSteam(this.machine.be().getLevel(), this.steamTank.getFluid(), this.steamTank.getCapacity());
     }
 }

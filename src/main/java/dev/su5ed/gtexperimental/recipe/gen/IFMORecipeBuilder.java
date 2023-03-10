@@ -1,7 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
-import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
+import dev.su5ed.gtexperimental.recipe.IFMORecipe;
 
 public class IFMORecipeBuilder extends ModRecipeBuilder<IFMORecipe> {
 

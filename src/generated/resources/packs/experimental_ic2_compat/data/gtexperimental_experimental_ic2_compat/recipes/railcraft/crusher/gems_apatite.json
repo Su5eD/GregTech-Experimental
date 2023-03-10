@@ -1,0 +1,32 @@
+{
+  "type": "railcraft:crusher",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
+  "ingredient": {
+    "tag": "forge:gems/apatite"
+  },
+  "output": [
+    {
+      "probability": 1.0,
+      "result": {
+        "count": 4,
+        "item": "ic2:fertilizer"
+      }
+    },
+    {
+      "probability": 0.5,
+      "result": {
+        "item": "gtexperimental:phosphorus_dust"
+      }
+    }
+  ],
+  "tickCost": 100
+}

@@ -51,11 +51,11 @@ public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.DARK_ASHES.getTag(), 2), Dust.DARK_ASHES.getItemStack(), Dust.ASHES.getItemStack(), 250).build(finishedRecipeConsumer, id("dark_ashes_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.ENDSTONE.getTag(), 16), ModFluid.HELIUM3.getBuckets(1), ModFluid.WOLFRAMIUM.getBuckets(1), Smalldust.TUNGSTEN.getItemStack(), new ItemStack(Items.SAND, 16), 4800).build(finishedRecipeConsumer, id("endstone_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.ELECTRUM.getTag()), Smalldust.GOLD.getItemStack(2), Smalldust.SILVER.getItemStack(2), 975).build(finishedRecipeConsumer, id("electrum_dust"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.HYDROGEN.getTag(), buckets(4)), ModFluid.DEUTERIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("hydrogen"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.HELIUM.getTag(), buckets(16)), ModFluid.HELIUM3.getBuckets(1), 10000).build(finishedRecipeConsumer, id("helium"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.HELIUM3.getTag(), buckets(4)), ModFluid.DEUTERIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("helium3"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.SULFUR.getTag(), buckets(1)), Dust.SULFUR.getItemStack(1), 40).build(finishedRecipeConsumer, id("sulfur"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.CALCIUM_CARBONATE.getTag(), buckets(1)), Dust.CALCITE.getItemStack(1), 40).build(finishedRecipeConsumer, id("calcium_carbonate"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.HYDROGEN.getTag(), 4), ModFluid.DEUTERIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("hydrogen"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.HELIUM.getTag(), 16), ModFluid.HELIUM3.getBuckets(1), 10000).build(finishedRecipeConsumer, id("helium"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.HELIUM3.getTag(), 4), ModFluid.DEUTERIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("helium3"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.SULFUR.getTag()), Dust.SULFUR.getItemStack(1), 40).build(finishedRecipeConsumer, id("sulfur"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.CALCIUM_CARBONATE.getTag()), Dust.CALCITE.getItemStack(1), 40).build(finishedRecipeConsumer, id("calcium_carbonate"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(GregTechTags.OIL_SAND, 2), ModFluid.OIL.getBuckets(1), new ItemStack(Items.SAND), 1000).build(finishedRecipeConsumer, id("oil_sand"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.MAGMA_CREAM), new ItemStack(Items.BLAZE_POWDER), new ItemStack(Items.SLIME_BALL), 500).build(finishedRecipeConsumer, id("magma_cream"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.MYCELIUM, 8), new ItemStack(Items.BROWN_MUSHROOM, 2), new ItemStack(Items.RED_MUSHROOM, 2), new ItemStack(Items.CLAY_BALL), new ItemStack(Items.SAND, 4), 1650).build(finishedRecipeConsumer, id("mycelium"));
@@ -69,12 +69,12 @@ public final class IndustrialCentrifugeRecipesGen implements ModRecipeProvider {
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(16, Items.PUMPKIN, Items.ROTTEN_FLESH, Items.CARROT, Items.POTATO, Items.MUSHROOM_STEW), ModFluid.METHANE.getBuckets(1), 5000).build(finishedRecipeConsumer, id("pumpkin"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(12, Items.POISONOUS_POTATO, Items.BROWN_MUSHROOM_BLOCK, Items.RED_MUSHROOM_BLOCK), ModFluid.METHANE.getBuckets(1), 5000).build(finishedRecipeConsumer, id("poisonous_potato"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.BAKED_POTATO, 24), ModFluid.METHANE.getBuckets(1), 5000).build(finishedRecipeConsumer, id("baked_potato"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.DEUTERIUM.getTag(), buckets(4)), ModFluid.TRITIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("deuterium"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.DEUTERIUM.getTag(), 4), ModFluid.TRITIUM.getBuckets(1), 3000).build(finishedRecipeConsumer, id("deuterium"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.INVAR.getTag(), 3), Dust.IRON.getItemStack(2), Dust.NICKEL.getItemStack(), 1000).build(finishedRecipeConsumer, id("invar_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Tags.Items.DUSTS_GLOWSTONE, 16), new ItemStack(Items.REDSTONE, 8), Dust.GOLD.getItemStack(8), ModFluid.HELIUM.getBuckets(1), 25000).build(finishedRecipeConsumer, id("glowstone_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Dust.NETHERRACK.getTag(), 16), new ItemStack(Items.REDSTONE), Dust.SULFUR.getItemStack(4), Dust.COAL.getItemStack(), new ItemStack(Items.GOLD_NUGGET), 2400).build(finishedRecipeConsumer, id("netherrack_dust"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Items.SOUL_SAND, 16), ModFluid.OIL.getBuckets(1), Dust.SALTPETER.getItemStack(4), Dust.COAL.getItemStack(), new ItemStack(Items.SAND, 10), 2500).build(finishedRecipeConsumer, id("soul_sand"));
-        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluid(FluidTags.LAVA, buckets(16)), Ingot.ELECTRUM.getItemStack(), new ItemStack(Items.COPPER_INGOT, 4), Smalldust.TUNGSTEN.getItemStack(), Ingot.TIN.getItemStack(2), 10000).build(finishedRecipeConsumer, id("lava"));
+        industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(FluidTags.LAVA, 16), Ingot.ELECTRUM.getItemStack(), new ItemStack(Items.COPPER_INGOT, 4), Smalldust.TUNGSTEN.getItemStack(), Ingot.TIN.getItemStack(2), 10000).build(finishedRecipeConsumer, id("lava"));
         industrialCentrifuge(ModRecipeIngredientTypes.HYBRID.of(Tags.Items.SEEDS, 64), ModFluid.SEED_OIL.getBuckets(1), 200).build(finishedRecipeConsumer, id("seeds"));
     }
 

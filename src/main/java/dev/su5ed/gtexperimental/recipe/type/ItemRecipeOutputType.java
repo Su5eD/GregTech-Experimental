@@ -9,8 +9,11 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
     @Override
@@ -36,7 +39,14 @@ public class ItemRecipeOutputType implements RecipeOutputType<ItemStack> {
 
     @Override
     public ItemStack fromJson(JsonElement json) {
-        return RecipeUtil.parseItemStack(json);
+        if (json.isJsonObject()) {
+            return CraftingHelper.getItemStack(json.getAsJsonObject(), true, false);
+        }
+        String resultJson = json.getAsString();
+        ResourceLocation name = new ResourceLocation(resultJson);
+        return Optional.ofNullable(ForgeRegistries.ITEMS.getValue(name))
+            .map(ItemStack::new)
+            .orElseThrow(() -> new IllegalStateException("Item: " + resultJson + " does not exist"));
     }
 
     @Override

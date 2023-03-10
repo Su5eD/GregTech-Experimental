@@ -15,7 +15,7 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class SelectedProfileCondition implements ICondition {
     public static final SelectedProfileCondition CLASSIC = new SelectedProfileCondition(ProfileManager.LAYOUT, ProfileManager.CLASSIC_LAYOUT);
-    
+
     private static final ResourceLocation NAME = location("selected_profile");
 
     private final Map<String, String> properties;
@@ -26,10 +26,6 @@ public class SelectedProfileCondition implements ICondition {
 
     public SelectedProfileCondition(Map<String, String> properties) {
         this.properties = properties;
-    }
-    
-    public String getLayout() {
-        return this.properties.get(ProfileManager.LAYOUT);
     }
 
     @Override
@@ -56,10 +52,9 @@ public class SelectedProfileCondition implements ICondition {
         @Override
         public SelectedProfileCondition read(JsonObject json) {
             JsonObject jsonProperties = GsonHelper.getAsJsonObject(json, "properties");
-            Map<String, String> properties = EntryStream.of(jsonProperties.entrySet().iterator())
+            return EntryStream.of(jsonProperties.entrySet().iterator())
                 .mapValues(JsonElement::getAsString)
-                .toMap();
-            return new SelectedProfileCondition(properties);
+                .toMapAndThen(SelectedProfileCondition::new);
         }
 
         @Override

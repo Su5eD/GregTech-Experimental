@@ -1,11 +1,13 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -18,7 +20,7 @@ public class HybridRecipeIngredient implements RecipeIngredient<Either<ItemStack
     }
 
     @Override
-    public RecipeIngredientType<?> getType() {
+    public RecipeIngredientType<?, Either<ItemStack, FluidStack>> getType() {
         return ModRecipeIngredientTypes.HYBRID;
     }
 
@@ -43,10 +45,17 @@ public class HybridRecipeIngredient implements RecipeIngredient<Either<ItemStack
     }
 
     @Override
-    public JsonObject toJson() {
-        JsonObject json = this.ingredient.map(RecipeIngredient::toJson, RecipeIngredient::toJson);
+    public JsonElement toJson() {
+        JsonObject json = this.ingredient.map(RecipeIngredient::toJson, RecipeIngredient::toJson).getAsJsonObject();
         json.addProperty("type", this.ingredient.<String>map(i -> "item", i -> "fluid"));
         return json;
+    }
+
+    @Override
+    public void validate(ResourceLocation id, String name) {
+        if (isEmpty()) {
+            throw new RuntimeException("Empty " + name + " ingredient in recipe " + id);
+        }
     }
 
     @Override

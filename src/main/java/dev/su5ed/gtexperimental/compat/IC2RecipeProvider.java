@@ -2,7 +2,7 @@ package dev.su5ed.gtexperimental.compat;
 
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import ic2.api.recipe.IRecipeInput;

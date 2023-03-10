@@ -42,7 +42,6 @@ public class ToolCraftingIngredient extends AbstractIngredient {
 
     protected ToolCraftingIngredient(Stream<? extends Value> values, int damage) {
         super(values);
-
         this.damage = damage;
     }
 
@@ -100,7 +99,7 @@ public class ToolCraftingIngredient extends AbstractIngredient {
 
         @Override
         public ToolCraftingIngredient parse(FriendlyByteBuf buffer) {
-            Stream<? extends Value> values = RecipeUtil.ingredientFromNetwork(buffer);
+            Stream<? extends Value> values = RecipeUtil.ingredientValuesFromNetwork(buffer);
             int damage = buffer.readInt();
             return new ToolCraftingIngredient(values, damage);
         }

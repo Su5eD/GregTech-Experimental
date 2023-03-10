@@ -3,11 +3,12 @@ package dev.su5ed.gtexperimental.recipe.gen;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Smalldust;
-import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
 import dev.su5ed.gtexperimental.recipe.gen.compat.IC2MachineRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.compat.RCCrusherRecipeBuilder;
 import dev.su5ed.gtexperimental.recipe.gen.compat.TEMachineRecipeBuilder;
+import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
+import dev.su5ed.gtexperimental.recipe.SIMORecipe;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,7 +24,7 @@ import static dev.su5ed.gtexperimental.datagen.RecipeGen.NOT_RAILCRAFT_LOADED;
 public class PulverizerRecipeBuilder extends SIMORecipeBuilder<ItemStack, List<ItemStack>> {
     private static final ItemStack OBSIDIAN = new ItemStack(Items.OBSIDIAN);
 
-    public PulverizerRecipeBuilder(PulverizerRecipe recipe) {
+    public PulverizerRecipeBuilder(SIMORecipe<ItemStack, List<ItemStack>> recipe) {
         super(recipe);
     }
 
@@ -41,7 +42,7 @@ public class PulverizerRecipeBuilder extends SIMORecipeBuilder<ItemStack, List<I
             Ingredient ingredient = input.asIngredient();
             List<ItemStack> output = this.recipe.getOutput();
             ItemStack primaryOutput = output.get(0);
-            int chance = ((PulverizerRecipe) this.recipe).getChance();
+            int chance = this.recipe.getProperty(ModRecipeProperty.CHANCE);
             int actualChance = output.size() >= 2 ? Math.max(chance, 10) : 0;
 
             if (!this.conditions.contains(NOT_IC2_LOADED)) {

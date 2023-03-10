@@ -13,8 +13,6 @@ import dev.su5ed.gtexperimental.recipe.crafting.ToolShapedRecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
-import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.NonNullList;
@@ -211,7 +209,7 @@ public class RecipeProcessor {
                 Ingredient ingredient = recipe.getIngredients().get(0);
                 ItemStack planks = ItemHandlerHelper.copyStackWithSize(result, result.getCount() * 3 / 2);
                 String name = GtUtil.itemName(ingredient.getItems()[0]);
-                Recipe<?> sawmillRecipe = new IndustrialSawmillRecipe(location("generated", "industrial_sawmill", name + "_to_planks"), new VanillaRecipeIngredient(ingredient), WATER, List.of(planks, Dust.WOOD.getItemStack()));
+                Recipe<?> sawmillRecipe = IFMORecipe.industrialSawmill(location("generated", "industrial_sawmill", name + "_to_planks"), new VanillaRecipeIngredient(ingredient), WATER, List.of(planks, Dust.WOOD.getItemStack()), RecipePropertyMap.empty());
                 if (GregTechConfig.COMMON.woodNeedsSawForCrafting.get()) {
                     return Stream.of(
                         new ShapelessRecipe(replacedId(recipe.getId()), recipe.getGroup(), ItemHandlerHelper.copyStackWithSize(result, result.getCount() / 2), recipe.getIngredients()),

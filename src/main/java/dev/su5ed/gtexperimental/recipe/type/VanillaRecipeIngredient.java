@@ -1,10 +1,12 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,7 +29,7 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     }
 
     @Override
-    public RecipeIngredientType<?> getType() {
+    public RecipeIngredientType<?, ItemStack> getType() {
         return ModRecipeIngredientTypes.ITEM;
     }
 
@@ -52,13 +54,20 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     }
 
     @Override
-    public JsonObject toJson() {
+    public JsonElement toJson() {
         JsonObject json = new JsonObject();
         json.add("value", this.ingredient.toJson());
         if (this.count > 1) {
             json.addProperty("count", this.count);
         }
         return json;
+    }
+
+    @Override
+    public void validate(ResourceLocation id, String name) {
+        if (isEmpty()) {
+            throw new RuntimeException("Empty " + name + " ingredient in recipe " + id);
+        }
     }
 
     @Override

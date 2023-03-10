@@ -14,7 +14,7 @@ import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

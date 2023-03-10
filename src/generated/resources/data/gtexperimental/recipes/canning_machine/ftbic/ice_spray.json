@@ -1,0 +1,44 @@
+{
+  "type": "gtexperimental:canning_machine",
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "ic2"
+      }
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ftbic"
+    }
+  ],
+  "duration": 1600,
+  "energy_cost": 2.0,
+  "input": [
+    {
+      "value": {
+        "type": "gtexperimental:fluid_item_ingredient",
+        "fluid_ingredient": {
+          "type": "fluid",
+          "amount": 16000,
+          "fluid": "gtexperimental:nitrogen_fluid"
+        }
+      }
+    },
+    {
+      "value": {
+        "tag": "gtexperimental:crafting/spray_can"
+      }
+    }
+  ],
+  "output": [
+    {
+      "item": "gtexperimental:ice_spray"
+    },
+    {
+      "count": 16,
+      "item": "ftbic:fluid_cell"
+    }
+  ]
+}

@@ -67,10 +67,10 @@ public class ClassicIC2RecipesPackGen extends IC2RecipesPackGen {
 
         // Blast Furnace
         // TODO Use calcite dust?
-        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE, buckets(1)), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 3), 100, 1000)
+        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Tags.Items.ORES_IRON), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 3), 100, 1000)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, BlastFurnaceRecipesGen.id("iron_ingot_from_iron_ore"));
-        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Ore.PYRITE.getTag()), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE, buckets(1)), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 2), 100, 1500)
+        blastFurnace(ModRecipeIngredientTypes.ITEM.of(Ore.PYRITE.getTag()), ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.CALCIUM_CARBONATE), new ItemStack(Ic2Items.REFINED_IRON_INGOT, 2), 100, 1500)
             .addConditions(IC2_LOADED)
             .build(finishedRecipeConsumer, BlastFurnaceRecipesGen.id("iron_ingot_from_pyrite_ore"));
 

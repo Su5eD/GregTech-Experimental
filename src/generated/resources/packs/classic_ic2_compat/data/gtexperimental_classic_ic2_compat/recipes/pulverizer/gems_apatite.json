@@ -1,6 +1,12 @@
 {
   "type": "gtexperimental:pulverizer",
   "chance": 50,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
+    }
+  ],
   "energy_cost": 3.0,
   "input": {
     "value": {

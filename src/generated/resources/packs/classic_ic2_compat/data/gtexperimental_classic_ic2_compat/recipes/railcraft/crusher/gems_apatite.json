@@ -4,6 +4,10 @@
     {
       "type": "forge:mod_loaded",
       "modid": "railcraft"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "ic2"
     }
   ],
   "ingredient": {

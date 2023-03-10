@@ -8,6 +8,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
@@ -45,7 +46,7 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     @Override
-    public RecipeIngredientType<?> getType() {
+    public RecipeIngredientType<?, FluidStack> getType() {
         return ModRecipeIngredientTypes.FLUID;
     }
 
@@ -72,12 +73,19 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
     }
 
     @Override
-    public JsonObject toJson() {
+    public JsonElement toJson() {
         JsonObject json = new JsonObject();
         json.addProperty("type", this.value.name());
         json.add(this.value.name(), this.value.toJson());
         json.addProperty("amount", this.amount);
         return json;
+    }
+
+    @Override
+    public void validate(ResourceLocation id, String name) {
+        if (isEmpty()) {
+            throw new RuntimeException("Empty " + name + " ingredient in recipe " + id);
+        }
     }
 
     @Override

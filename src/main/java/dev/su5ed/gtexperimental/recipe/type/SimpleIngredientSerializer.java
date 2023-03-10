@@ -18,7 +18,7 @@ public class SimpleIngredientSerializer<T extends Ingredient> implements IIngred
 
     @Override
     public T parse(FriendlyByteBuf buffer) {
-        return this.factory.apply(RecipeUtil.ingredientFromNetwork(buffer));
+        return this.factory.apply(RecipeUtil.ingredientValuesFromNetwork(buffer));
     }
 
     @Override

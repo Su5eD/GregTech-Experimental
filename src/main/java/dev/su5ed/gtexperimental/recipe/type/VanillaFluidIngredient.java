@@ -20,10 +20,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
+import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class VanillaFluidIngredient extends AbstractIngredient {
     private final RecipeIngredient<FluidStack> fluidIngredient;
+
+    public static VanillaFluidIngredient ofFluid(TagKey<Fluid> tag) {
+        return of(tag, buckets(1));
+    }
 
     public static VanillaFluidIngredient of(TagKey<Fluid> tag, int amount) {
         return new VanillaFluidIngredient(ModRecipeIngredientTypes.FLUID.of(tag, amount));

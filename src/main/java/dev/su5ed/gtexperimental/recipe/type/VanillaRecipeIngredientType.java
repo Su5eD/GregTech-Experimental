@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.su5ed.gtexperimental.api.recipe.ListRecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
@@ -14,13 +15,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import one.util.streamex.StreamEx;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public class VanillaRecipeIngredientType implements RecipeIngredientType<VanillaRecipeIngredient> {
+import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
+
+public class VanillaRecipeIngredientType implements RecipeIngredientType<RecipeIngredient<ItemStack>, ItemStack> {
     public VanillaRecipeIngredient of(ItemLike... items) {
         return new VanillaRecipeIngredient(Ingredient.of(items));
     }
@@ -63,36 +65,33 @@ public class VanillaRecipeIngredientType implements RecipeIngredientType<Vanilla
         return new VanillaRecipeIngredient(Ingredient.fromValues(Stream.of(values)));
     }
 
-    // TODO use buckets instead of amount
-    public VanillaRecipeIngredient ofFluid(FluidStack stack) {
-        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(stack));
+    public VanillaRecipeIngredient ofFluid(FluidProvider provider) {
+        return ofFluidBuckets(provider, 1);
     }
 
-    public VanillaRecipeIngredient ofFluid(FluidProvider provider, int amount) {
-        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(provider, amount));
+    public VanillaRecipeIngredient ofFluidBuckets(FluidProvider provider, int count) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(provider, buckets(count)));
     }
 
-    public VanillaRecipeIngredient ofFluid(List<Fluid> fluids, int amount) {
-        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(fluids, amount));
-    }
-
-    public VanillaRecipeIngredient ofFluid(TagKey<Fluid> tag, int amount) {
-        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(tag, amount));
-    }
-
-    public VanillaRecipeIngredient ofFluid(RecipeIngredient<FluidStack> fluidIngredient) {
-        return new VanillaRecipeIngredient(fluidIngredient);
+    public VanillaRecipeIngredient ofFluidBuckets(TagKey<Fluid> tag, int count) {
+        return new VanillaRecipeIngredient(ModRecipeIngredientTypes.FLUID.of(tag, buckets(count)));
     }
 
     @Override
-    public VanillaRecipeIngredient create(JsonObject json) {
-        JsonElement value = json.get("value");
-        int count = GsonHelper.getAsInt(json, "count", 1);
+    public VanillaRecipeIngredient create(JsonElement json) {
+        JsonObject obj = json.getAsJsonObject();
+        JsonElement value = obj.get("value");
+        int count = GsonHelper.getAsInt(obj, "count", 1);
         return new VanillaRecipeIngredient(Ingredient.fromJson(value), count);
     }
 
     @Override
     public VanillaRecipeIngredient create(FriendlyByteBuf buffer) {
         return new VanillaRecipeIngredient(Ingredient.fromNetwork(buffer));
+    }
+
+    @Override
+    public ListRecipeIngredientType<List<RecipeIngredient<ItemStack>>, ItemStack> listOf(int count) {
+        return new ListRecipeIngredientTypeImpl<>(this, count);
     }
 }

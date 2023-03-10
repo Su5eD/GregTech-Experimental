@@ -1,7 +1,9 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Either;
+import dev.su5ed.gtexperimental.api.recipe.ListRecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
@@ -15,7 +17,11 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class HybridRecipeIngredientType implements RecipeIngredientType<HybridRecipeIngredient> {
+import java.util.List;
+
+import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
+
+public class HybridRecipeIngredientType implements RecipeIngredientType<HybridRecipeIngredient, Either<ItemStack, FluidStack>> {
     public HybridRecipeIngredient of(ItemLike... items) {
         return new HybridRecipeIngredient(Either.left(ModRecipeIngredientTypes.ITEM.of(items)));
     }
@@ -44,13 +50,22 @@ public class HybridRecipeIngredientType implements RecipeIngredientType<HybridRe
         return new HybridRecipeIngredient(Either.left(ModRecipeIngredientTypes.ITEM.of(tag, count)));
     }
 
+    public HybridRecipeIngredient ofFluid(TagKey<Fluid> tag) {
+        return ofFluidBuckets(tag, 1);
+    }
+
+    public HybridRecipeIngredient ofFluidBuckets(TagKey<Fluid> tag, int count) {
+        return ofFluid(tag, buckets(count));
+    }
+
     public HybridRecipeIngredient ofFluid(TagKey<Fluid> tag, int amount) {
         return new HybridRecipeIngredient(Either.right(ModRecipeIngredientTypes.FLUID.of(tag, amount)));
     }
 
     @Override
-    public HybridRecipeIngredient create(JsonObject json) {
-        String type = GsonHelper.getAsString(json, "type");
+    public HybridRecipeIngredient create(JsonElement json) {
+        JsonObject obj = json.getAsJsonObject();
+        String type = GsonHelper.getAsString(obj, "type");
         Either<RecipeIngredient<ItemStack>, RecipeIngredient<FluidStack>> either = switch (type) {
             case "item" -> Either.left(ModRecipeIngredientTypes.ITEM.create(json));
             case "fluid" -> Either.right(ModRecipeIngredientTypes.FLUID.create(json));
@@ -63,5 +78,10 @@ public class HybridRecipeIngredientType implements RecipeIngredientType<HybridRe
     public HybridRecipeIngredient create(FriendlyByteBuf buffer) {
         Either<RecipeIngredient<ItemStack>, RecipeIngredient<FluidStack>> either = buffer.readEither(ModRecipeIngredientTypes.ITEM::create, ModRecipeIngredientTypes.FLUID::create);
         return new HybridRecipeIngredient(either);
+    }
+
+    @Override
+    public ListRecipeIngredientType<List<HybridRecipeIngredient>, Either<ItemStack, FluidStack>> listOf(int count) {
+        return new ListRecipeIngredientTypeImpl<>(this, count);
     }
 }

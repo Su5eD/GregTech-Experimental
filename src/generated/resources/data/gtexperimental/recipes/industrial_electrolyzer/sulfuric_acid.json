@@ -4,7 +4,7 @@
   "energy_cost": 100.0,
   "input": {
     "type": "fluid",
-    "amount": 7,
+    "amount": 7000,
     "tag": "forge:sulfuric_acid"
   },
   "output": [

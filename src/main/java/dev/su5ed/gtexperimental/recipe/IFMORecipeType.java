@@ -1,4 +1,4 @@
-package dev.su5ed.gtexperimental.recipe.type;
+package dev.su5ed.gtexperimental.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -7,6 +7,8 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeIngredientTypes;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeTypeImpl;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -16,9 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public class IFMORecipeType<R extends IFMORecipe> extends BaseRecipeTypeImpl<R, List<ItemStack>> {
-    public final RecipeIngredientType<? extends RecipeIngredient<ItemStack>> inputType;
-    public final RecipeIngredientType<? extends RecipeIngredient<FluidStack>> fluidType;
-    public final IFMORecipeFactory<R> factory;
+    private final RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack> inputType;
+    private final RecipeIngredientType<? extends RecipeIngredient<FluidStack>, FluidStack> fluidType;
+    private final IFMORecipeFactory<R> factory;
 
     public IFMORecipeType(ResourceLocation name, int outputCount, List<RecipeProperty<?>> properties, IFMORecipeFactory<R> factory) {
         super(name, ModRecipeOutputTypes.ITEM.listOf(outputCount), properties);

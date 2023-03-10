@@ -1,10 +1,11 @@
-package dev.su5ed.gtexperimental.recipe.type;
+package dev.su5ed.gtexperimental.recipe;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import net.minecraft.network.FriendlyByteBuf;
+import dev.su5ed.gtexperimental.recipe.type.ModRecipe;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -13,9 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Single Input, Single Output recipe
  */
-public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OUT>, IN, OUT, SISORecipe<IN, OUT>> {
-    protected final RecipeIngredient<IN> input;
-
+public class SISORecipe<IN, OUT> extends ModRecipe<SISORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SISORecipe<IN, OUT>> {
     public static SISORecipe<ItemStack, ItemStack> bender(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.BENDER.get(), ModRecipeSerializers.BENDER.get(), id, input, output, properties);
     }
@@ -26,6 +25,14 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
 
     public static SISORecipe<ItemStack, ItemStack> macerator(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.MACERATOR.get(), ModRecipeSerializers.MACERATOR.get(), id, input, output, properties);
+    }
+
+    public static SISORecipe<FluidStack, FluidStack> vacuumFreezerFluid(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.VACUUM_FREEZER_FLUID.get(), ModRecipeSerializers.VACUUM_FREEZER_FLUID.get(), id, input, output, properties.withTransient(b -> b.energyCost(128)));
+    }
+
+    public static SISORecipe<ItemStack, ItemStack> vacuumFreezerSolid(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.VACUUM_FREEZER_SOLID.get(), ModRecipeSerializers.VACUUM_FREEZER_SOLID.get(), id, input, output, properties.withTransient(b -> b.energyCost(128)));
     }
 
     public static SISORecipe<FluidStack, FluidStack> denseLiquid(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, RecipePropertyMap properties) {
@@ -53,51 +60,14 @@ public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OU
     }
 
     public SISORecipe(SISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, int duration, double energyCost) {
-        this(type, serializer, id, input, output, RecipePropertyMap.builder()
-            .duration(duration)
-            .energyCost(energyCost)
-            .build());
+        super(type, serializer, id, input, output, duration, energyCost);
     }
 
     public SISORecipe(SISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, RecipePropertyMap properties) {
-        this(type, serializer, id, input, output, properties, false);
+        super(type, serializer, id, input, output, properties);
     }
 
     public SISORecipe(SISORecipeType<?, IN, OUT> type, RecipeSerializer<?> serializer, ResourceLocation id, RecipeIngredient<IN> input, OUT output, RecipePropertyMap properties, boolean allowEmptyOutput) {
-        super(type, serializer, id, output, properties);
-
-        this.input = input;
-
-        RecipeUtil.validateInput(this.id, "input", this.input);
-        this.type.outputType.validate(this.id, "output", this.output, allowEmptyOutput);
-    }
-
-    public RecipeIngredient<IN> getInput() {
-        return this.input;
-    }
-
-    public int getDuration() {
-        return this.properties.get(ModRecipeProperty.DURATION);
-    }
-
-    public double getEnergyCost() {
-        return this.properties.get(ModRecipeProperty.ENERGY_COST);
-    }
-
-    @Override
-    public boolean matches(IN input) {
-        return this.input.test(input);
-    }
-
-    @Override
-    public int compareInputCount(SISORecipe<IN, OUT> other) {
-        return this.input.getCount() - other.input.getCount();
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buffer) {
-        this.input.toNetwork(buffer);
-        this.type.outputType.toNetwork(buffer, this.output);
-        this.properties.toNetwork(buffer);
+        super(type, serializer, id, input, output, properties, allowEmptyOutput);
     }
 }

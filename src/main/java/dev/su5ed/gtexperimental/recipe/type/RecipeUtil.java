@@ -5,9 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Pair;
 import dev.su5ed.gtexperimental.api.Reference;
-import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.ModFluid;
 import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
@@ -57,49 +55,6 @@ public final class RecipeUtil {
     public static final RecipeIngredient<FluidStack> MERCURY = ModRecipeIngredientTypes.FLUID.of(ModFluid.MERCURY, buckets(1));
     private static final List<String> MOD_PRIORITY = List.of(ModHandler.FTBIC_MODID, ModHandler.IC2_MODID, Reference.MODID);
     private static final ResourceLocation EMPTY = new ResourceLocation("empty");
-
-    public static <T> List<? extends RecipeIngredient<T>> parseInputs(RecipeIngredientType<? extends RecipeIngredient<T>> inputType, int inputCount, JsonArray json) {
-        if (!json.isEmpty() && inputCount >= json.size()) {
-            return StreamEx.of(json.getAsJsonArray().iterator())
-                .map(JsonElement::getAsJsonObject)
-                .map(inputType::create)
-                .toList();
-        }
-        throw new IllegalArgumentException("Expected " + inputCount + " inputs, got " + json.size());
-    }
-
-    public static ItemStack parseItemStack(JsonElement json) {
-        if (json.isJsonObject()) {
-            return CraftingHelper.getItemStack(json.getAsJsonObject(), true, false);
-        }
-        else {
-            String resultJson = json.getAsString();
-            ResourceLocation name = new ResourceLocation(resultJson);
-            return new ItemStack(Optional.ofNullable(ForgeRegistries.ITEMS.getValue(name)).orElseThrow(() -> new IllegalStateException("Item: " + resultJson + " does not exist")));
-        }
-    }
-
-    public static void validateInput(ResourceLocation id, String name, RecipeIngredient<?> ingredient) {
-        if (ingredient.isEmpty()) {
-            throw new RuntimeException("Empty " + name + " ingredient in recipe " + id);
-        }
-    }
-
-    public static void validateInputList(ResourceLocation id, String name, List<? extends RecipeIngredient<?>> ingredients, int maxSize) {
-        if (ingredients.isEmpty()) {
-            throw new RuntimeException("Empty " + name + " for recipe " + id);
-        }
-        else if (ingredients.size() > maxSize) {
-            throw new RuntimeException(name + " exceeded max size of " + maxSize + " for recipe " + id);
-        }
-        else if (StreamEx.of(ingredients).allMatch(RecipeIngredient::isEmpty)) {
-            throw new RuntimeException(name + " contained no ingredients for recipe " + id);
-        }
-    }
-
-    public static <R extends BaseRecipe<?, ?, ?, ? super R>> int compareCount(R first, R second) {
-        return second.compareInputCount(first);
-    }
 
     public static JsonArray serializeConditions(Collection<ICondition> conditions) {
         JsonArray jsonConditions = new JsonArray();
@@ -152,7 +107,7 @@ public final class RecipeUtil {
             }));
     }
 
-    public static Stream<? extends Ingredient.Value> ingredientFromNetwork(FriendlyByteBuf buffer) {
+    public static Stream<? extends Ingredient.Value> ingredientValuesFromNetwork(FriendlyByteBuf buffer) {
         var size = buffer.readVarInt();
         return Stream.generate(() -> new Ingredient.ItemValue(buffer.readItem())).limit(size);
     }

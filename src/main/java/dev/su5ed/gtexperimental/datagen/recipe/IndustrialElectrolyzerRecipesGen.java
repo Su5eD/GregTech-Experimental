@@ -1,6 +1,5 @@
 package dev.su5ed.gtexperimental.datagen.recipe;
 
-import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.ModFluid;
@@ -37,7 +36,7 @@ public final class IndustrialElectrolyzerRecipesGen implements ModRecipeProvider
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.CHARCOAL.getTag()), ModFluid.CARBON.getBuckets(1), 20, 50).build(finishedRecipeConsumer, id("charcoal_dust"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.LAZURITE.getTag(), 29), Dust.ALUMINIUM.getItemStack(3), ModFluid.SILICON.getBuckets(3), ModFluid.CALCIUM.getBuckets(4), ModFluid.SODIUM.getBuckets(4), 1475, 100).build(finishedRecipeConsumer, id("lazurite_dust"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.SODALITE.getTag(), 23), ModFluid.SODIUM.getBuckets(4), Dust.ALUMINIUM.getItemStack(3), ModFluid.SILICON.getBuckets(3), ModFluid.CHLORITE.getBuckets(1), 1350, 90).build(finishedRecipeConsumer, id("sodalite_dust"));
-        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.METHANE.getTag(), buckets(5)), ModFluid.HYDROGEN.getBuckets(4), ModFluid.CARBON.getBuckets(1), 150, 50).build(finishedRecipeConsumer, id("methane"));
+        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.METHANE.getTag(), 5), ModFluid.HYDROGEN.getBuckets(4), ModFluid.CARBON.getBuckets(1), 150, 50).build(finishedRecipeConsumer, id("methane"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Items.BONE_MEAL, 3), ModFluid.CALCIUM.getBuckets(1), 24, 106).build(finishedRecipeConsumer, id("bone_meal"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Items.BLAZE_POWDER, 4), Dust.DARK_ASHES.getItemStack(), Dust.SULFUR.getItemStack(), 300, 25).build(finishedRecipeConsumer, id("blaze_powder"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.SALTPETER.getTag(), 10), ModFluid.POTASSIUM.getBuckets(2), ModFluid.NITROGEN.getBuckets(2), 50, 110).build(finishedRecipeConsumer, id("saltpeter_dust"));
@@ -55,8 +54,8 @@ public final class IndustrialElectrolyzerRecipesGen implements ModRecipeProvider
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.PYRITE.getTag(), 3), Dust.IRON.getItemStack(), Dust.SULFUR.getItemStack(2), 120, 128).build(finishedRecipeConsumer, id("pyrite_dust"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.FLINT.getTag(), 8), ModFluid.SILICON.getBuckets(1), 1000, 5).build(finishedRecipeConsumer, id("flint_dust"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Dust.BAUXITE.getTag(), 12), Dust.ALUMINIUM.getItemStack(8), Smalldust.TITANIUM.getItemStack(2), ModFluid.HYDROGEN.getBuckets(5), 2000, 128).build(finishedRecipeConsumer, id("bauxite_dust"));
-        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluid(ModFluid.SULFURIC_ACID.getTag(), 7), ModFluid.HYDROGEN.getBuckets(2), ModFluid.SULFUR.getBuckets(1), 40, 100).build(finishedRecipeConsumer, id("sulfuric_acid"));
-        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluid(FluidTags.WATER, 6), ModFluid.HYDROGEN.getBuckets(4), 775, 120).build(finishedRecipeConsumer, id("water"));
+        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(ModFluid.SULFURIC_ACID.getTag(), 7), ModFluid.HYDROGEN.getBuckets(2), ModFluid.SULFUR.getBuckets(1), 40, 100).build(finishedRecipeConsumer, id("sulfuric_acid"));
+        industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.ofFluidBuckets(FluidTags.WATER, 6), ModFluid.HYDROGEN.getBuckets(4), 775, 120).build(finishedRecipeConsumer, id("water"));
         industrialElectrolyzer(ModRecipeIngredientTypes.HYBRID.of(Items.SAND, 16), ModFluid.SILICON.getBuckets(1), 1000, 25).build(finishedRecipeConsumer, id("sand"));
     }
 

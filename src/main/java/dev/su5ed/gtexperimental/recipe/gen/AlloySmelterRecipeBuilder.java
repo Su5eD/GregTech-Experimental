@@ -3,7 +3,7 @@ package dev.su5ed.gtexperimental.recipe.gen;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.datagen.RecipeGen;
 import dev.su5ed.gtexperimental.recipe.gen.compat.TEInductionSmelterRecipeBuilder;
-import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
+import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.RecipeName;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +23,7 @@ public class AlloySmelterRecipeBuilder extends MISORecipeBuilder<ItemStack, Item
         super.build(finishedRecipeConsumer, recipeId, universal);
 
         if (universal) {
-            RecipeIngredient<ItemStack> input = this.recipe.getInputs().get(0);
+            RecipeIngredient<ItemStack> input = this.recipe.getInput().get(0);
             Ingredient ingredient = input.asIngredient();
             ItemStack output = this.recipe.getOutput();
             new SmeltingRecipeBuilder(

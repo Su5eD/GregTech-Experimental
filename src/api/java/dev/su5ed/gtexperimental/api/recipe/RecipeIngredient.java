@@ -1,13 +1,14 @@
 package dev.su5ed.gtexperimental.api.recipe;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Predicate;
 
 public interface RecipeIngredient<T> extends Predicate<T> {
-    RecipeIngredientType<?> getType();
+    RecipeIngredientType<?, T> getType();
     
     int getCount();
     
@@ -17,5 +18,7 @@ public interface RecipeIngredient<T> extends Predicate<T> {
 
     void toNetwork(FriendlyByteBuf buffer);
     
-    JsonObject toJson();
+    JsonElement toJson();
+    
+    void validate(ResourceLocation id, String name);
 }

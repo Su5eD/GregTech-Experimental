@@ -10,7 +10,7 @@
   "energy_cost": 120.0,
   "input": {
     "type": "fluid",
-    "amount": 6,
+    "amount": 6000,
     "tag": "minecraft:water"
   },
   "output": [

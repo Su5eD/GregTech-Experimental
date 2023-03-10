@@ -27,7 +27,6 @@ import java.util.function.Consumer;
 import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.crafting.ConditionalShapedRecipeBuilder.conditionalShaped;
 import static dev.su5ed.gtexperimental.recipe.type.RecipeUtil.tagsIngredient;
-import static dev.su5ed.gtexperimental.util.GtUtil.buckets;
 import static net.minecraft.data.recipes.ShapelessRecipeBuilder.shapeless;
 
 public class HarderRecipesPackGen extends RecipeProvider {
@@ -58,7 +57,7 @@ public class HarderRecipesPackGen extends RecipeProvider {
             .addCondition(IC2_LOADED, SelectedProfileCondition.CLASSIC)
             .save(finishedRecipeConsumer, ic2("shaped/re_battery"));
         conditionalShaped(Ic2Items.THICK_NEUTRON_REFLECTOR)
-            .define('B', VanillaFluidIngredient.of(ModFluid.BERYLIUM.getTag(), buckets(1)))
+            .define('B', VanillaFluidIngredient.ofFluid(ModFluid.BERYLIUM.getTag()))
             .define('N', Ic2Items.NEUTRON_REFLECTOR)
             .pattern(" N ")
             .pattern("NBN")

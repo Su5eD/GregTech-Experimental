@@ -24,13 +24,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.FTBIC_LOADED;
-import static dev.su5ed.gtexperimental.datagen.RecipeGen.IC2_LOADED;
+import static dev.su5ed.gtexperimental.datagen.RecipeGen.*;
 import static dev.su5ed.gtexperimental.recipe.gen.ModRecipeBuilders.canningMachine;
 
 public final class CanningMachineRecipesGen implements ModRecipeProvider {
@@ -44,9 +42,8 @@ public final class CanningMachineRecipesGen implements ModRecipeProvider {
         fluidCellFilling(ModRecipeIngredientTypes.ITEM.of(Dust.CALCITE.getTag()), ModFluid.CALCIUM_CARBONATE, finishedRecipeConsumer);
         cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.PLUTONIUM.getTag()), NuclearFuelRod.PLUTONIUM, finishedRecipeConsumer);
         cellFilling(ModRecipeIngredientTypes.ITEM.of(Ingot.THORIUM.getTag()), NuclearFuelRod.THORIUM, finishedRecipeConsumer);
-        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(FluidTags.WATER, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HYDRATION_SPRAY.getItemStack(), 1600, 2).build(finishedRecipeConsumer, id("hydration_spray"));
+        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluidBuckets(FluidTags.WATER, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HYDRATION_SPRAY.getItemStack(), 1600, 2).build(finishedRecipeConsumer, id("hydration_spray"));
         canningMachine(ModRecipeIngredientTypes.ITEM.of(Tags.Items.SAND, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.HARDENER_SPRAY.getItemStack(), 1600, 2).build(finishedRecipeConsumer, id("hardener_spray"));
-        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluid(ModFluid.NITROGEN, 16 * FluidType.BUCKET_VOLUME), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.ICE_SPRAY.getItemStack(), new ItemStack(Ic2Items.EMPTY_CELL, 16), 1600, 2).build(finishedRecipeConsumer, id("ice_spray"));
         for (ColorSpray value : ColorSpray.values()) {
             canningMachine(ModRecipeIngredientTypes.ITEM.of(value.getColor().getTag(), 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), value.getItemStack(), 800, 1).build(finishedRecipeConsumer, id(value.getRegistryName()));
         }
@@ -63,6 +60,13 @@ public final class CanningMachineRecipesGen implements ModRecipeProvider {
         cannedFood(ModRecipeIngredientTypes.ITEM.of(Items.COOKED_PORKCHOP, Items.COOKED_BEEF, Items.PUMPKIN_PIE), 4, finishedRecipeConsumer, "filled_tin_can_from_cooked");
         cannedFood(ModRecipeIngredientTypes.ITEM.of(Items.RABBIT_STEW), new ItemStack(Items.BOWL), 5, finishedRecipeConsumer, "filled_tin_can_from_stew");
         cannedFood(ModRecipeIngredientTypes.ITEM.of(Items.CAKE), 6, finishedRecipeConsumer, "filled_tin_can_from_cake");
+
+        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluidBuckets(ModFluid.NITROGEN, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.ICE_SPRAY.getItemStack(), new ItemStack(Ic2Items.EMPTY_CELL, 16), 1600, 2)
+            .addConditions(IC2_LOADED)
+            .build(finishedRecipeConsumer, id("ic2/ice_spray"));
+        canningMachine(ModRecipeIngredientTypes.ITEM.ofFluidBuckets(ModFluid.NITROGEN, 16), ModRecipeIngredientTypes.ITEM.of(GregTechTags.CRAFTING_SPRAY_CAN), Tool.ICE_SPRAY.getItemStack(), new ItemStack(FTBICItems.FLUID_CELL.get(), 16), 1600, 2)
+            .addConditions(NOT_IC2_LOADED, FTBIC_LOADED)
+            .build(finishedRecipeConsumer, id("ftbic/ice_spray"));
 
         // Railcraft
         // DynamicRecipes.addCannerRecipe(RecipeCanner.create(RecipeIngredientOre.create(name, 3), RecipeIngredientFluid.fromFluid(creosote, 1), Collections.singletonList(ModHandler.woodenTie), 200, 4));

@@ -1,7 +1,7 @@
 package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.google.gson.JsonObject;
-import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.SIMORecipe;
 
 public class SIMORecipeBuilder<IN, OUT> extends ModRecipeBuilder<SIMORecipe<IN, OUT>> {
 

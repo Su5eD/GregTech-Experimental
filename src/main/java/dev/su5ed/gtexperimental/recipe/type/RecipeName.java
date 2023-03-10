@@ -35,8 +35,6 @@ public final class RecipeName {
         return new RecipeName(this.namespace, this.modid, type, this.profile, this.name);
     }
 
-    // Input: pulverizer/classic/ic2/ores_iridium
-    // Output: ic2/macerator/classic/ores_iridium
     public RecipeName toForeign(ResourceLocation location) {
         return toForeign(location.getNamespace(), location.getPath());
     }

@@ -1,21 +1,24 @@
 {
-  "type": "thermal:pulverizer",
+  "type": "gtexperimental:pulverizer",
+  "chance": 50,
   "conditions": [
     {
       "type": "forge:mod_loaded",
-      "modid": "thermal"
+      "modid": "ic2"
     }
   ],
-  "ingredient": {
-    "tag": "forge:gems/apatite"
+  "energy_cost": 3.0,
+  "input": {
+    "value": {
+      "tag": "forge:gems/apatite"
+    }
   },
-  "result": [
+  "output": [
     {
       "count": 4,
       "item": "ic2:fertilizer"
     },
     {
-      "chance": 0.5,
       "item": "gtexperimental:phosphorus_dust"
     }
   ]

@@ -2,23 +2,12 @@ package dev.su5ed.gtexperimental.recipe.gen;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
-import dev.su5ed.gtexperimental.recipe.ChemicalRecipe;
-import dev.su5ed.gtexperimental.recipe.DistillationRecipe;
-import dev.su5ed.gtexperimental.recipe.FusionFluidRecipe;
-import dev.su5ed.gtexperimental.recipe.FusionSolidRecipe;
-import dev.su5ed.gtexperimental.recipe.ImplosionRecipe;
-import dev.su5ed.gtexperimental.recipe.IndustrialCentrifugeRecipe;
-import dev.su5ed.gtexperimental.recipe.IndustrialGrinderRecipe;
-import dev.su5ed.gtexperimental.recipe.IndustrialSawmillRecipe;
-import dev.su5ed.gtexperimental.recipe.PulverizerRecipe;
-import dev.su5ed.gtexperimental.recipe.VacuumFreezerFluidRecipe;
-import dev.su5ed.gtexperimental.recipe.VacuumFreezerSolidRecipe;
-import dev.su5ed.gtexperimental.recipe.type.IFMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.MIMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.MISORecipe;
+import dev.su5ed.gtexperimental.recipe.IFMORecipe;
+import dev.su5ed.gtexperimental.recipe.MIMORecipe;
+import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
-import dev.su5ed.gtexperimental.recipe.type.SIMORecipe;
-import dev.su5ed.gtexperimental.recipe.type.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.SIMORecipe;
+import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -78,7 +67,7 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<FluidStack, FluidStack> chemical(List<? extends RecipeIngredient<FluidStack>> inputs, FluidStack output, int duration) {
-        MISORecipe<FluidStack, FluidStack> recipe = new ChemicalRecipe(null, inputs, output, duration);
+        MISORecipe<FluidStack, FluidStack> recipe = MISORecipe.chemical(null, inputs, output, RecipePropertyMap.builder().duration(duration).build());
         return new MISORecipeBuilder<>(recipe);
     }
 
@@ -87,7 +76,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<FluidStack, List<FluidStack>> distillation(RecipeIngredient<FluidStack> input, List<FluidStack> outputs, int duration) {
-        SIMORecipe<FluidStack, List<FluidStack>> recipe = new DistillationRecipe(null, input, outputs, duration);
+        SIMORecipe<FluidStack, List<FluidStack>> recipe = SIMORecipe.distillation(null, input, outputs, RecipePropertyMap.builder().duration(duration).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -96,7 +85,7 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<FluidStack, ItemStack> fusionSolid(List<? extends RecipeIngredient<FluidStack>> inputs, ItemStack output, int duration, double energyCost, double startEnergy) {
-        MISORecipe<FluidStack, ItemStack> recipe = new FusionSolidRecipe(null, inputs, output, duration, energyCost, startEnergy);
+        MISORecipe<FluidStack, ItemStack> recipe = MISORecipe.fusionSolid(null, inputs, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).startEnergy(startEnergy).build());
         return new MISORecipeBuilder<>(recipe);
     }
 
@@ -105,7 +94,7 @@ public final class ModRecipeBuilders {
     }
 
     public static MISORecipeBuilder<FluidStack, FluidStack> fusionFluid(List<? extends RecipeIngredient<FluidStack>> inputs, FluidStack output, int duration, double energyCost, double startEnergy) {
-        MISORecipe<FluidStack, FluidStack> recipe = new FusionFluidRecipe(null, inputs, output, duration, energyCost, startEnergy);
+        MISORecipe<FluidStack, FluidStack> recipe = MISORecipe.fusionFluid(null, inputs, output, RecipePropertyMap.builder().duration(duration).energyCost(energyCost).startEnergy(startEnergy).build());
         return new MISORecipeBuilder<>(recipe);
     }
 
@@ -114,7 +103,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<ItemStack, List<ItemStack>> implosion(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, int tnt) {
-        SIMORecipe<ItemStack, List<ItemStack>> recipe = new ImplosionRecipe(null, input, outputs, tnt);
+        SIMORecipe<ItemStack, List<ItemStack>> recipe = SIMORecipe.implosion(null, input, outputs, RecipePropertyMap.builder().tnt(tnt).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -156,7 +145,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> industrialCentrifuge(RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> outputs, int duration) {
-        SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> recipe = new IndustrialCentrifugeRecipe(null, input, outputs, duration);
+        SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> recipe = SIMORecipe.industrialCentrifuge(null, input, outputs, RecipePropertyMap.builder().duration(duration).build());
         return new SIMORecipeBuilder<>(recipe);
     }
 
@@ -194,7 +183,7 @@ public final class ModRecipeBuilders {
     }
 
     public static IFMORecipeBuilder industrialGrinder(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
-        IFMORecipe recipe = new IndustrialGrinderRecipe(null, input, fluid, output);
+        IFMORecipe recipe = IFMORecipe.industrialGrinder(null, input, fluid, output, RecipePropertyMap.empty());
         return new IFMORecipeBuilder(recipe);
     }
 
@@ -237,7 +226,7 @@ public final class ModRecipeBuilders {
     }
 
     public static SIMORecipeBuilder<ItemStack, List<ItemStack>> pulverizer(RecipeIngredient<ItemStack> input, List<ItemStack> outputs, double energyCost, int chance) {
-        PulverizerRecipe recipe = new PulverizerRecipe(null, input, outputs, energyCost, chance);
+        SIMORecipe<ItemStack, List<ItemStack>> recipe = SIMORecipe.pulverizer(null, input, outputs, RecipePropertyMap.builder().energyCost(energyCost).chance(chance).build());
         return new PulverizerRecipeBuilder(recipe);
     }
 
@@ -246,17 +235,17 @@ public final class ModRecipeBuilders {
     }
 
     public static IFMORecipeBuilder industrialSawmill(RecipeIngredient<ItemStack> input, RecipeIngredient<FluidStack> fluid, List<ItemStack> output) {
-        IFMORecipe recipe = new IndustrialSawmillRecipe(null, input, fluid, output);
+        IFMORecipe recipe = IFMORecipe.industrialSawmill(null, input, fluid, output, RecipePropertyMap.empty());
         return new IndustrialSawmillRecipeBuilder(recipe);
     }
 
     public static SISORecipeBuilder<ItemStack, ItemStack> vacuumFreezerSolid(RecipeIngredient<ItemStack> input, ItemStack output, int duration) {
-        SISORecipe<ItemStack, ItemStack> recipe = new VacuumFreezerSolidRecipe(null, input, output, duration);
+        SISORecipe<ItemStack, ItemStack> recipe = SISORecipe.vacuumFreezerSolid(null, input, output, RecipePropertyMap.builder().duration(duration).build());
         return new SISORecipeBuilder<>(recipe);
     }
 
     public static SISORecipeBuilder<FluidStack, FluidStack> vacuumFreezerFluid(RecipeIngredient<FluidStack> input, FluidStack output, int duration) {
-        SISORecipe<FluidStack, FluidStack> recipe = new VacuumFreezerFluidRecipe(null, input, output, duration);
+        SISORecipe<FluidStack, FluidStack> recipe = SISORecipe.vacuumFreezerFluid(null, input, output, RecipePropertyMap.builder().duration(duration).build());
         return new SISORecipeBuilder<>(recipe);
     }
 
