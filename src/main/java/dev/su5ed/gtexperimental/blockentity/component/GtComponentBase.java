@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-// TODO use interface instead of BaseBlockEntity
 public abstract class GtComponentBase<T extends BaseBlockEntity> implements BlockEntityComponent {
     protected final T parent;
 

@@ -56,7 +56,7 @@ public class SlotAwareItemHandler implements SidedItemHandler, INBTSerializable<
 
     @Override
     public int getSlots(@Nullable Direction side) {
-        return this.slots.size();
+        return this.slotMap.size();
     }
 
     @Override
@@ -110,8 +110,8 @@ public class SlotAwareItemHandler implements SidedItemHandler, INBTSerializable<
     }
 
     protected void validateSlotIndex(int slot) {
-        if (slot < 0 || slot >= this.slots.size()) {
-            throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.slots.size() + ")");
+        if (slot < 0 || slot >= this.slotMap.size()) {
+            throw new RuntimeException("Slot " + slot + " not in valid range - [0," + this.slotMap.size() + ")");
         }
     }
 

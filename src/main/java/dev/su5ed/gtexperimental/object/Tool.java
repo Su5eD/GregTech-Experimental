@@ -20,6 +20,7 @@ import dev.su5ed.gtexperimental.item.RubberHammerItem;
 import dev.su5ed.gtexperimental.item.ScannerItem;
 import dev.su5ed.gtexperimental.item.ScrewdriverItem;
 import dev.su5ed.gtexperimental.item.SolderingToolItem;
+import dev.su5ed.gtexperimental.item.SonictronItem;
 import dev.su5ed.gtexperimental.item.TeslaStaffItem;
 import dev.su5ed.gtexperimental.util.ProfileManager;
 import dev.su5ed.gtexperimental.util.TaggedItemProvider;
@@ -55,8 +56,8 @@ public enum Tool implements TaggedItemProvider {
     SCANNER(ScannerItem::new),
     SCREWDRIVER(ScrewdriverItem::new, GregTechTags.SCREWDRIVER),
     SOLDERING_TOOL(SolderingToolItem::new, GregTechTags.SOLDERING_IRON),
-    TESLA_STAFF(TeslaStaffItem::new);
-    // TODO Portable Sonictron
+    TESLA_STAFF(TeslaStaffItem::new),
+    PORTABLE_SONICTRON(SonictronItem::new);
 
     private final Lazy<Item> instance;
     private final TagKey<Item> tag;

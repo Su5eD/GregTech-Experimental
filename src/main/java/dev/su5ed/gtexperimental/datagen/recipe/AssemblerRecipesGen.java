@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.object.Armor;
 import dev.su5ed.gtexperimental.object.Component;
 import dev.su5ed.gtexperimental.object.Dust;
+import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.ModBlock;
 import dev.su5ed.gtexperimental.object.ModCoverItem;
@@ -74,7 +75,7 @@ public final class AssemblerRecipesGen implements ModRecipeProvider {
         assembler(ModRecipeIngredientTypes.ITEM.of(Component.PROCESSOR_CIRCUIT_BOARD), ModRecipeIngredientTypes.ITEM.of(Component.DATA_STORAGE_CIRCUIT), ModCoverItem.DATA_CONTROL_CIRCUIT.getItemStack(), 3200, 4).build(finishedRecipeConsumer, id("data_control_circuit"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Component.PROCESSOR_CIRCUIT_BOARD), ModRecipeIngredientTypes.ITEM.of(GregTechTags.LAPOTRON_CRYSTAL), ModCoverItem.ENERGY_FLOW_CIRCUIT.getItemStack(), 3200, 4).build(finishedRecipeConsumer, id("energy_flow_circuit"));
         assembler(ModRecipeIngredientTypes.ITEM.of(ModCoverItem.DATA_CONTROL_CIRCUIT), ModRecipeIngredientTypes.ITEM.of(Component.DATA_STORAGE_CIRCUIT, 8), Component.DATA_ORB.getItemStack(), 12800, 16).build(finishedRecipeConsumer, id("data_orb"));
-//        assembler(ModRecipeIngredientTypes.ITEM.of(GTBlockEntity.SONICTRON), ModRecipeIngredientTypes.ITEM.of(Component.DATA_STORAGE_CIRCUIT, 4), Tool.PORTABLE_SONICTRON, 6400, 8).build(finishedRecipeConsumer, id("portable_sonictron"));
+        assembler(ModRecipeIngredientTypes.ITEM.of(GTBlockEntity.SONICTRON), ModRecipeIngredientTypes.ITEM.of(Component.DATA_STORAGE_CIRCUIT, 4), Tool.PORTABLE_SONICTRON.getItemStack(), 6400, 8).build(finishedRecipeConsumer, id("portable_sonictron"));
         assembler(ModRecipeIngredientTypes.ITEM.of(Armor.LITHIUM_BATPACK), Component.LITHIUM_RE_BATTERY.getItemStack(6), 3200, 4).build(finishedRecipeConsumer, id("lithium_re_battery_from_batpack"));
         assembler(ModRecipeIngredientTypes.ITEM.of(GregTechTags.HV_TRANSFORMER), ModRecipeIngredientTypes.ITEM.of(GregTechTags.TRANSFORMER_UPGRADE), Upgrade.HV_TRANSFORMER_UPGRADE.getItemStack(), 3200, 4).build(finishedRecipeConsumer, id("hv_transformer_upgrade"));
         assembler(ModRecipeIngredientTypes.ITEM.of(ModCoverItem.CONVEYOR), ModRecipeIngredientTypes.ITEM.of(ModCoverItem.PUMP_MODULE), ModCoverItem.ITEM_VALVE.getItemStack(), 3200, 4).build(finishedRecipeConsumer, id("item_valve"));

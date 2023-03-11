@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-16T19:18:07.4921948	Item Models: gtexperimental
+// 1.19.2	2023-03-11T12:34:16.7063741	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -300,6 +300,7 @@ d8486abcd593de8cac63aac460a937d076307188 assets/gtexperimental/models/item/pluto
 2a8adfafe268485e2edb896b15ee2110c7e0640e assets/gtexperimental/models/item/plutonium_ingot.json
 3dfa76d0c6094ef74a1025681177bcdb71a9ba76 assets/gtexperimental/models/item/plutonium_smalldust.json
 59ba8269cbb7bc4c66aec882d3147d8c9789cca6 assets/gtexperimental/models/item/pneumatic_generator.json
+ed676086233743007926d40173934af047721ff1 assets/gtexperimental/models/item/portable_sonictron.json
 a5edc7b83d0f0573ca3abe4b58de670750b9958c assets/gtexperimental/models/item/potassium_bucket.json
 71cace4ea3e546151262eab98649bcf80d597bdd assets/gtexperimental/models/item/processor_circuit_board.json
 ee20383046806ddd62f4c6dcb1cb99cf012a5e44 assets/gtexperimental/models/item/pump_module.json

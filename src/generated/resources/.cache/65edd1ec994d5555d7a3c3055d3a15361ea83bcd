@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-10T20:07:57.6256092	Gregtech Experimental Recipes
+// 1.19.2	2023-03-11T12:34:16.7158989	Gregtech Experimental Recipes
 bb4db1007c148ab5a8a2f3aebaceea052086708c data/gtexperimental/advancements/recipes/food/smelting/dusts_wheat_to_bread.json
 384bae2cba4be7a899c605f83b3d4a6d05dd4ece data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_block_from_aluminium_ingot.json
 c40afbb733d3f1dca4fea5258130b0c14321b57d data/gtexperimental/advancements/recipes/gtexperimental/shaped/aluminium_ingot_from_nuggets.json
@@ -436,6 +436,7 @@ ab6dd433e640ddf261718f4cdc9778b1db3580bd data/gtexperimental/recipes/assembler/m
 377a2f68d6e3eb2ce340c7ce6585c786525ddac2 data/gtexperimental/recipes/assembler/machine_parts_from_iron.json
 fbcc01444a07f3c3b00162a3df05bb99efec21d9 data/gtexperimental/recipes/assembler/note_block.json
 dfb44ecead86280c78181a80d834bc9e3b3c1efc data/gtexperimental/recipes/assembler/pneumatic_generator.json
+ee098d3557dbd71fcdde009801958ba18c2436e7 data/gtexperimental/recipes/assembler/portable_sonictron.json
 b785eceaf164f59494fa25978f897c7b5a47398e data/gtexperimental/recipes/assembler/processor_circuit_board.json
 aa5c0acd3b0a47dfce244697d3b48567d2389e81 data/gtexperimental/recipes/assembler/pump_module.json
 0c49a4b78c336caa9486352aca24f87bca51a75d data/gtexperimental/recipes/assembler/redstone_conductor.json

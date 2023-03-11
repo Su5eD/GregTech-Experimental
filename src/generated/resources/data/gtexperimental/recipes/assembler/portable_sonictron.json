@@ -1,0 +1,21 @@
+{
+  "type": "gtexperimental:assembler",
+  "duration": 6400,
+  "energy_cost": 8.0,
+  "input": [
+    {
+      "value": {
+        "item": "gtexperimental:sonictron"
+      }
+    },
+    {
+      "count": 4,
+      "value": {
+        "item": "gtexperimental:data_storage_circuit"
+      }
+    }
+  ],
+  "output": {
+    "item": "gtexperimental:portable_sonictron"
+  }
+}
