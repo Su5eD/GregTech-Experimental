@@ -54,7 +54,7 @@ public class IC2EnergyStorage<T extends BaseBlockEntity & ElectricBlockEntity> e
 
     @Override
     public int getPriority() {
-        return 0;
+        return 10;
     }
 
     @Override

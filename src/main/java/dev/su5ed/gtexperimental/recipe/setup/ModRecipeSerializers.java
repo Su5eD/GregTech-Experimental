@@ -58,7 +58,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<SIMORecipe<Either<ItemStack, FluidStack>, List<ItemStack>>>> HOT_FUEL = register("fuels/hot", ModRecipeTypes.HOT_FUEL);
     public static final RegistryObject<RecipeSerializer<SISORecipe<Either<ItemStack, FluidStack>, ItemStack>>> MAGIC_FUEL = register("fuels/magic", ModRecipeTypes.MAGIC_FUEL);
     public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> PLASMA_FUEL = register("fuels/plasma", ModRecipeTypes.PLASMA_FUEL);
-    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> STEAM_FUEL = register("fuels/steam", ModRecipeTypes.PLASMA_FUEL);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> STEAM_FUEL = register("fuels/steam", ModRecipeTypes.STEAM_FUEL);
 
     public static final RegistryObject<RecipeSerializer<ShapedRecipe>> TOOL_SHAPED_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shaped", () -> ToolShapedRecipe.SERIALIZER);
     public static final RegistryObject<RecipeSerializer<ShapelessRecipe>> TOOL_SHAPELESS_RECIPE = RECIPE_SERIALIZERS.register("tool_crafting_shapeless", () -> ToolShapelessRecipe.SERIALIZER);

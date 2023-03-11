@@ -28,7 +28,7 @@ public class SteamPowerProvider implements PowerProvider {
 
     @Override
     public int getPriority() {
-        return 2;
+        return 5;
     }
 
     @Override

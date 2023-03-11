@@ -45,7 +45,7 @@ public class EnergyMeterCover extends BaseCover {
                 capacity = this.energyHandler.getEnergyCapacity();
             }
             else if (this.mode == Mode.ELECTRICITY || this.mode == Mode.ELECTRICITY_INVERTED) {
-                PowerProvider defaultProvider = this.energyHandler.getDefaultPowerProvider();
+                PowerProvider defaultProvider = this.energyHandler.getPrimaryPowerProvider();
                 stored = defaultProvider.getStoredEnergy();
                 capacity = defaultProvider.getCapacity();
             }

@@ -12,7 +12,7 @@ public interface PowerHandler {
 
     <T extends PowerProvider> Optional<T> getPowerProvider(Class<T> type);
     
-    PowerProvider getDefaultPowerProvider();
+    PowerProvider getPrimaryPowerProvider();
 
     boolean addEnergy(double amount);
 

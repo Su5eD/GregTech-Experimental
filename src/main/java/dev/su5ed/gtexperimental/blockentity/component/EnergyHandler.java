@@ -36,7 +36,6 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     private final PowerStorage storage;
     private final LazyOptional<PowerHandler> optional = LazyOptional.of(() -> this);
 
-    // TODO draw power from providers
     private final List<PowerProvider> powerProviders = new ArrayList<>();
 
     public EnergyHandler(T parent) {
@@ -61,7 +60,7 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     }
 
     @Override
-    public PowerProvider getDefaultPowerProvider() {
+    public PowerProvider getPrimaryPowerProvider() {
         return this.storage;
     }
 
@@ -76,7 +75,7 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         super.wasExploded(level, pos, explosion);
-        
+
         if (GregTechConfig.COMMON.machineChainExplosions.get()) {
             this.storage.overload();
         }
@@ -99,14 +98,14 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
     @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
-        
+
         tag.put("storage", this.storage.serializeNBT());
     }
 
     @Override
     public void load(FriendlyCompoundTag tag) {
         super.load(tag);
-        
+
         this.storage.deserializeNBT(tag.getCompound("storage"));
     }
 
@@ -162,7 +161,16 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
 
     @Override
     public double useEnergy(double amount, boolean simulate) {
-        return this.storage.useEnergy(amount, simulate);
+        double used = 0;
+        for (PowerProvider provider : this.powerProviders) {
+            if (used < amount) {
+                used += provider.useEnergy(amount - used, simulate);
+            }
+            else {
+                break;
+            }
+        }
+        return used;
     }
 
     @Override
@@ -192,12 +200,16 @@ public class EnergyHandler<T extends BaseBlockEntity & ElectricBlockEntity> exte
 
     @Override
     public double getStoredEnergy() {
-        return this.storage.getStoredEnergy();
+        return StreamEx.of(this.powerProviders)
+            .mapToDouble(PowerProvider::getStoredEnergy)
+            .sum();
     }
 
     @Override
     public int getEnergyCapacity() {
-        return this.storage.getCapacity();
+        return StreamEx.of(this.powerProviders)
+            .mapToInt(PowerProvider::getCapacity)
+            .sum();
     }
 
     @Override
