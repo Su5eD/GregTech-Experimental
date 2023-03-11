@@ -40,8 +40,10 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,11 +58,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import one.util.streamex.StreamEx;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @EventBusSubscriber(modid = Reference.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class ClientSetup {
     private static final ItemColor BUCKET_ITEM_COLOR = new DynamicFluidContainerModel.Colors();
+
+    private static final Map<BlockPos, SoundInstance> SINGLE_PLAYING_SOUNDS = new HashMap<>();
 
     @SubscribeEvent
     public static void clientSetup(final FMLClientSetupEvent event) {
@@ -129,10 +135,17 @@ public final class ClientSetup {
             .toArray(ItemLike[]::new));
     }
 
-    public static void playSound(SoundEvent sound, float pitch) {
+    public static void playSingleSound(SoundEvent sound, float pitch) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.level != null && minecraft.player != null) {
-            minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), sound, SoundSource.BLOCKS, 1, pitch);
+        BlockPos pos = minecraft.player.blockPosition();
+        SoundInstance playing = SINGLE_PLAYING_SOUNDS.get(pos);
+        if (playing == null) {
+            SoundInstance instance = SimpleSoundInstance.forUI(sound, pitch, 1);
+            SINGLE_PLAYING_SOUNDS.put(pos, instance);
+            minecraft.getSoundManager().play(instance);
+        }
+        else if (!minecraft.getSoundManager().isActive(playing)) {
+            SINGLE_PLAYING_SOUNDS.remove(pos);
         }
     }
 
