@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.cover;
 
 import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.cover.Cover;
+import dev.su5ed.gtexperimental.api.cover.CoverHandler;
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
@@ -26,6 +27,7 @@ public abstract class BaseCover implements Cover {
     protected final Direction side;
     protected final Item item;
 
+    protected final CoverHandler coverHandler;
     @Nullable
     protected final MachineController machineController;
     @Nullable
@@ -39,6 +41,7 @@ public abstract class BaseCover implements Cover {
         this.side = side;
         this.item = item;
 
+        this.coverHandler = be.getCapability(Capabilities.COVER_HANDLER).orElseThrow(() -> new IllegalStateException("Missing CoverHandler capability"));
         this.machineController = be.getCapability(Capabilities.MACHINE_CONTROLLER).orElse(null);
         this.machineProgress = be.getCapability(Capabilities.MACHINE_PROGRESS).orElse(null);
         this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);
@@ -118,7 +121,7 @@ public abstract class BaseCover implements Cover {
 
     @Override
     public boolean opensGui(Direction side) {
-        return false;
+        return true;
     }
 
     @Override

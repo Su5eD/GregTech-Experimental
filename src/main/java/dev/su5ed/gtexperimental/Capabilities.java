@@ -30,7 +30,7 @@ public final class Capabilities {
     public static final Capability<DataOrbSerializable> DATA_ORB = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<Upgrade> UPGRADE = CapabilityManager.get(new CapabilityToken<>() {});
 
-    // Electric Armor
+    // Electric Armor Player capabilities
     public static final Capability<JumpCharge> JUMP_CHARGE = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<LightSource> LIGHT_SOURCE = CapabilityManager.get(new CapabilityToken<>() {});
 

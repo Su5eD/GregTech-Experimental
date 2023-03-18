@@ -22,6 +22,8 @@ public class ScreenCover extends BaseCover {
 
     @Override
     public boolean opensGui(Direction side) {
-        return side == this.side;
+        return this.coverHandler.getCoverAtSide(side)
+            .map(c -> c.getType() == getType())
+            .orElse(false);
     }
 }

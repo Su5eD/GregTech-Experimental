@@ -109,7 +109,9 @@ public final class NetworkHandler {
                 serializeClass(buf, value);
             }, () -> buf.writeBoolean(false));
         }
-        else throw new RuntimeException("Could not serialize field " + field.name);
+        else {
+            throw new RuntimeException("Could not serialize field " + field.name);
+        }
     }
 
     public static void deserializeClass(FriendlyByteBuf buf, Object instance) {

@@ -13,8 +13,8 @@ public final class GtLocale {
         if (number >= 1000000) {
             return Component.literal(number / (double) 1000000 + "M");
         }
-        else if (number >= 10000) {
-            return Component.literal(number / (double) 10000 + "k");
+        else if (number >= 1000) {
+            return Component.literal(number / (double) 1000 + "k");
         }
         return Component.literal(String.valueOf(number));
     }

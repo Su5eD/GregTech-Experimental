@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.cover.Cover;
 import dev.su5ed.gtexperimental.api.cover.CoverCategory;
-import dev.su5ed.gtexperimental.api.cover.CoverHandler;
 import dev.su5ed.gtexperimental.api.cover.CoverInteractionResult;
 import dev.su5ed.gtexperimental.api.cover.CoverType;
 import dev.su5ed.gtexperimental.api.machine.MachineController;
@@ -52,7 +51,7 @@ import java.util.Optional;
 
 public class CoverableBlockEntity extends InventoryBlockEntity implements ScannerInfoProvider {
     @Networked
-    private final CoverHandler coverHandler;
+    private final CoverHandlerImpl<?> coverHandler;
     protected final MachineController machineController;
 
     @Networked

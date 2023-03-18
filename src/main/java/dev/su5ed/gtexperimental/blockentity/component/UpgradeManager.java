@@ -18,7 +18,9 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import one.util.streamex.StreamEx;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
@@ -31,6 +33,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
 
     // TODO: Network to client
     private final List<UpgradeInstance> upgrades = new ArrayList<>();
+    private final Map<UpgradeCategory, Integer> countCache = new HashMap<>();
 
     public UpgradeManager(T parent, Consumer<UpgradeCategory> onUpdate) {
         super(parent);
@@ -57,12 +60,16 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
     }
 
     public int getUpgradeCount(UpgradeCategory category) {
-        // TODO CACHE
-        return this.upgrades.stream()
-            .filter(upgrade -> upgrade.upgrade.getCategory() == category)
-            .map(UpgradeInstance::stack)
-            .mapToInt(ItemStack::getCount)
-            .sum();
+        if (!this.countCache.containsKey(category)) {
+            int count = this.upgrades.stream()
+                .filter(upgrade -> upgrade.upgrade.getCategory() == category)
+                .map(UpgradeInstance::stack)
+                .mapToInt(ItemStack::getCount)
+                .sum();
+            this.countCache.put(category, count);
+            return count;
+        }
+        return this.countCache.get(category);
     }
 
     public boolean addUpgrade(ItemStack stack, Player player) {
@@ -110,6 +117,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
                 instance.upgrade().update(this.parent, player, copy);
                 this.onUpdate.accept(category);
                 this.parent.setChanged();
+                this.countCache.remove(category);
                 return true;
             }
         }
@@ -128,9 +136,7 @@ public class UpgradeManager<T extends BaseBlockEntity & UpgradableBlockEntity> e
     }
 
     @Override
-    public void onFieldUpdate(String name) {
-
-    }
+    public void onFieldUpdate(String name) {}
 
     @Override
     public void save(FriendlyCompoundTag tag) {
