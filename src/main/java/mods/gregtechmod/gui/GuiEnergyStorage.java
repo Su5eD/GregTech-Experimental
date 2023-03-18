@@ -32,9 +32,9 @@ public class GuiEnergyStorage extends GuiSimple<ContainerEnergyStorage<?>> {
         double capacity = this.container.base.getEUCapacity();
         int offsetY = getInfoOffsetY();
         drawString("jei.energy", offsetY, JavaUtil.formatNumber(this.container.base.getStoredEU()));
-        drawString("teblock.lesu.max_energy", offsetY + 8, JavaUtil.formatNumber(capacity));
-        drawString("teblock.lesu.max_input", offsetY + 16, JavaUtil.formatNumber(this.container.base.getMaxInputEUp()));
-        drawString("teblock.lesu.output", offsetY + 24, JavaUtil.formatNumber(this.container.base.getMaxOutputEUp()));
+        drawString("teblock.gregtechmod_lesu.max_energy", offsetY + 8, JavaUtil.formatNumber(capacity));
+        drawString("teblock.gregtechmod_lesu.max_input", offsetY + 16, JavaUtil.formatNumber(this.container.base.getMaxInputEUp()));
+        drawString("teblock.gregtechmod_lesu.output", offsetY + 24, JavaUtil.formatNumber(this.container.base.getMaxOutputEUp()));
 
         drawChargeBar(this, this.container.base, 8, 73, this.chargeBoltOffset, this.chargeBarLength);
     }

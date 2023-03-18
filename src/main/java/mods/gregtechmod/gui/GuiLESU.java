@@ -13,8 +13,8 @@ public class GuiLESU extends GuiEnergyStorage {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
 
         if (this.container.base.getEUCapacity() >= 1999999999) {
-            drawString("teblock.lesu.warning", 48);
-            drawString("teblock.lesu.max_reached", 56);
+            drawString("teblock.gregtechmod_lesu.warning", 48);
+            drawString("teblock.gregtechmod_lesu.max_reached", 56);
         }
     }
 }

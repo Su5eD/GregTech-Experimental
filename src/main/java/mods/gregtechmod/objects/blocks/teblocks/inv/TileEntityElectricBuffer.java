@@ -130,9 +130,9 @@ public abstract class TileEntityElectricBuffer extends TileEntityUpgradable impl
     protected void updateTargetStackSize(EntityPlayer player) {
         this.targetStackSize = (this.targetStackSize + 1) % 64;
         if (this.targetStackSize == 0)
-            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "electric_buffer_small", "no_regulate"));
+            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "gregtechmod_electric_buffer_small", "no_regulate"));
         else
-            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "electric_buffer_small", "regulate"), this.targetStackSize);
+            GtUtil.sendMessage(player, GtLocale.buildKey("teblock", "gregtechmod_electric_buffer_small", "regulate"), this.targetStackSize);
     }
 
     @Override

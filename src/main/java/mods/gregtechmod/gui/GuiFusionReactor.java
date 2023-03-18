@@ -19,7 +19,7 @@ public class GuiFusionReactor extends GuiSimple<ContainerFusionReactor> {
     @Override
     protected void drawBackgroundAndTitle(float partialTicks, int mouseX, int mouseY) {
         super.drawBackgroundAndTitle(partialTicks, mouseX, mouseY);
-        
+
         GuiEnergyStorage.drawChargeBar(this, this.container.base, 5, 156, 78, 147);
     }
 }

@@ -15,7 +15,7 @@ public class GuiIDSU extends GuiEnergyStorage {
 
         GameProfile owner = this.container.base.getOwner();
         String id = owner != null ? String.valueOf(owner.getId().hashCode()) : "unknown";
-        drawString("teblock.idsu.id", 16, id);
+        drawString("teblock.gregtechmod_idsu.id", 16, id);
     }
 
     @Override
