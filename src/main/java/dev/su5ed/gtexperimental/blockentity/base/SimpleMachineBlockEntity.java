@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
 import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.network.Networked;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -28,6 +29,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implements MenuProvider {
     private final ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor;
@@ -42,6 +44,9 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     public boolean provideEnergy;
     @Networked
     public boolean autoOutput = true;
+
+    private final SynchronizedData.Key provideEnergyKey = SynchronizedData.Key.field("provideEnergy");
+    private final SynchronizedData.Key autoOutputKey = SynchronizedData.Key.field("autoOutput");
 
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor) {
         super(provider, pos, state);
@@ -82,6 +87,13 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
 
     public void switchSplitInput() {
         this.machineController.setStrictInputSides(!this.machineController.isStrictInputSides());
+    }
+
+    @Override
+    public void addSyncedData(Set<? super SynchronizedData.Key> keys) {
+        super.addSyncedData(keys);
+        keys.add(provideEnergyKey);
+        keys.add(autoOutputKey);
     }
 
     @Override

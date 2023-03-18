@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.menu;
 
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.util.TriFunction;
 import dev.su5ed.gtexperimental.util.inventory.ButtonClick;
 import dev.su5ed.gtexperimental.util.inventory.InteractiveSlot;
@@ -8,6 +9,7 @@ import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
 import dev.su5ed.gtexperimental.util.inventory.ScrollDirection;
 import dev.su5ed.gtexperimental.util.inventory.SlotInventory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -21,13 +23,16 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
     public final T blockEntity;
     protected final Player player;
     protected final IItemHandler playerInventory;
+    private final SynchronizedData syncedData;
 
     private final List<Slot> blockEntitySlots = new ArrayList<>();
 
@@ -38,6 +43,9 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
         this.blockEntity = (T) player.getCommandSenderWorld().getBlockEntity(pos, blockEntityType).orElseThrow();
         this.player = player;
         this.playerInventory = new InvWrapper(playerInventory);
+        Set<SynchronizedData.Key> keys = new HashSet<>();
+        this.blockEntity.addSyncedData(keys);
+        this.syncedData = new SynchronizedData(keys);
     }
 
     protected Slot addInventorySlot(InventorySlot slot, int x, int y) {
@@ -115,6 +123,15 @@ public class BlockEntityMenu<T extends BaseBlockEntity> extends BaseMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(this.blockEntity.getLevel(), this.blockEntity.getBlockPos()), this.player, this.blockEntity.getBlockState().getBlock());
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        
+        if (this.player instanceof ServerPlayer serverPlayer) {
+            this.syncedData.sync(serverPlayer, this.blockEntity);
+        }
     }
 
     // Modified version of AbstractContainerMenu#moveItemStackTo

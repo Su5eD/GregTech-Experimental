@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.block.BaseEntityBlock;
 import dev.su5ed.gtexperimental.blockentity.component.BlockEntityComponent;
 import dev.su5ed.gtexperimental.network.GregTechNetwork;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,6 +40,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class BaseBlockEntity extends BlockEntity {
     protected final BlockEntityProvider.AllowedFacings allowedFacings;
@@ -178,6 +180,12 @@ public abstract class BaseBlockEntity extends BlockEntity {
         }
         BlockState state = getBlockState();
         this.level.sendBlockUpdated(this.worldPosition, state, state, Block.UPDATE_IMMEDIATE);
+    }
+    
+    public void addSyncedData(Set<? super SynchronizedData.Key> keys) {
+        for (BlockEntityComponent component : this.components) {
+            component.addSyncedData(keys);
+        }
     }
 
     @Override

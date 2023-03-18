@@ -15,7 +15,7 @@ public class CoverableModelLoader implements IGeometryLoader<CoverableModelGeome
 
     @Override
     public CoverableModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
-        jsonObject.remove("loader"); // Remove before parsing BlockModel to prevent SO
+        jsonObject.remove("loader"); // Remove before parsing BlockModel to prevent SOE
         BlockModel blockModel = ExtendedBlockModelDeserializer.INSTANCE.getAdapter(BlockModel.class).fromJsonTree(jsonObject);
         return new CoverableModelGeometry(blockModel);
     }

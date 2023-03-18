@@ -87,10 +87,7 @@ public final class NetworkHandler {
     }
 
     public static void serializeField(FriendlyByteBuf buf, Object instance, String field) {
-        FieldHandle handle = withParents(instance.getClass())
-            .mapPartial(clazz -> findFieldHandle(clazz, field))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Handle for field " + field + " not found"));
+        FieldHandle handle = getHandle(instance.getClass(), field);
         serializeField(buf, instance, handle);
     }
 
@@ -213,6 +210,18 @@ public final class NetworkHandler {
     public static StreamEx<Class<?>> withParents(Class<?> clazz) {
         return StreamEx.<Class<?>>iterate(clazz, Objects::nonNull, Class::getSuperclass)
             .without(Object.class);
+    }
+
+    public static Object getFieldValue(Object instance, String field) {
+        FieldHandle handle = getHandle(instance.getClass(), field);
+        return handle.getValue(instance).orElse(null);
+    }
+
+    private static FieldHandle getHandle(Class<?> cls, String field) {
+        return withParents(cls)
+            .mapPartial(clazz -> findFieldHandle(clazz, field))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Handle for field " + field + " not found"));
     }
 
     private NetworkHandler() {}

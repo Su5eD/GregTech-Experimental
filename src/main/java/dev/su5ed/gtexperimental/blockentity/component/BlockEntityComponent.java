@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.blockentity.component;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.FieldUpdateListener;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import java.util.List;
+import java.util.Set;
 
 public interface BlockEntityComponent extends FieldUpdateListener, ICapabilityProvider {
     BaseBlockEntity getParent();
@@ -34,6 +36,8 @@ public interface BlockEntityComponent extends FieldUpdateListener, ICapabilityPr
     void wasExploded(Level level, BlockPos pos, Explosion explosion);
 
     void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel);
+    
+    void addSyncedData(Set<? super SynchronizedData.Key> keys);
 
     default FriendlyCompoundTag save() {
         FriendlyCompoundTag tag = new FriendlyCompoundTag();

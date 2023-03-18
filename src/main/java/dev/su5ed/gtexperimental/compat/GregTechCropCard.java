@@ -1,7 +1,8 @@
-package dev.su5ed.gtexperimental.util;
+package dev.su5ed.gtexperimental.compat;
 
 import com.google.common.base.Strings;
 import dev.su5ed.gtexperimental.GregTechMod;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import ic2.api.crops.CropCard;
 import ic2.api.crops.CropProperties;
 import ic2.api.crops.Crops;
@@ -14,7 +15,7 @@ import one.util.streamex.IntStreamEx;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GtCropCard extends CropCard {
+public class GregTechCropCard extends CropCard {
     private final String id;
     private final String owner;
     private final String discoveredBy;
@@ -28,7 +29,7 @@ public class GtCropCard extends CropCard {
     private final int afterHarvestSize;
     private final List<BaseSeed> baseSeeds;
 
-    public GtCropCard(CropBuilder builder) {
+    public GregTechCropCard(CropBuilder builder) {
         this.id = builder.id;
         this.owner = builder.owner;
         this.discoveredBy = builder.discoveredBy;
@@ -118,7 +119,7 @@ public class GtCropCard extends CropCard {
                 return new ItemStack[] { this.specialDrops[drop].copy() };
             }
         }
-        else if (this.drops != null && this.drops.length > 0) {
+        else if (this.drops != null) {
             for (ItemStack stack : this.drops) {
                 if (stack.getCraftingRemainingItem().isEmpty()) {
                     return new ItemStack[] { stack.copy() };
@@ -241,8 +242,8 @@ public class GtCropCard extends CropCard {
             return this;
         }
 
-        public GtCropCard build() {
-            return new GtCropCard(this);
+        public GregTechCropCard build() {
+            return new GregTechCropCard(this);
         }
     }
     

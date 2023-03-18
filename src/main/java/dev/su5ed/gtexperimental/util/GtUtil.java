@@ -1,6 +1,7 @@
 package dev.su5ed.gtexperimental.util;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.JsonObject;
 import dev.su5ed.gtexperimental.Capabilities;
 import dev.su5ed.gtexperimental.api.Reference;
 import net.minecraft.ChatFormatting;
@@ -32,6 +33,7 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.registries.ForgeRegistries;
+import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -246,5 +249,14 @@ public final class GtUtil {
 
     public static int buckets(int buckets) {
         return buckets * FluidType.BUCKET_VOLUME;
+    }
+
+    public static Map<Direction, ResourceLocation> generateTextureMap(JsonObject json) {
+        return json != null ? EntryStream.of(json.entrySet().iterator())
+            .withoutKeys("particle")
+            .mapKeys(Direction::byName)
+            .mapValues(element -> new ResourceLocation(element.getAsString()))
+            .toImmutableMap()
+            : Map.of();
     }
 }

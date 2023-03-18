@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.blockentity.component;
 
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.GregTechNetwork;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class GtComponentBase<T extends BaseBlockEntity> implements BlockEntityComponent {
     protected final T parent;
@@ -57,4 +59,7 @@ public abstract class GtComponentBase<T extends BaseBlockEntity> implements Bloc
 
     @Override
     public void getScanInfo(List<Component> scan, Player player, BlockPos pos, int scanLevel) {}
+
+    @Override
+    public void addSyncedData(Set<? super SynchronizedData.Key> keys) {}
 }

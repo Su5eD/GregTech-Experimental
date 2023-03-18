@@ -1,13 +1,10 @@
 package dev.su5ed.gtexperimental.menu;
 
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
-import dev.su5ed.gtexperimental.blockentity.component.MachineControllerImpl;
-import dev.su5ed.gtexperimental.network.GregTechNetwork;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.util.inventory.SlotButton;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
@@ -34,19 +31,5 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
         addInventorySlot(SlotButton.serverOnly(8, 63, this.blockEntity::switchProvideEnergy));
         addInventorySlot(SlotButton.serverOnly(26, 63, this.blockEntity::switchAutoOutput));
         addInventorySlot(SlotButton.serverOnly(44, 63, this.blockEntity::switchSplitInput));
-    }
-
-    @Override
-    public void broadcastChanges() {
-        super.broadcastChanges();
-
-        // TODO Track changes
-        if (this.player instanceof ServerPlayer serverPlayer) {
-            GregTechNetwork.updatePlayerClientComponent(serverPlayer, this.blockEntity, this.blockEntity.recipeHandler);
-            // TODO Don't reference fields by name
-            GregTechNetwork.updatePlayerClientComponentField(serverPlayer, this.blockEntity, this.blockEntity.getComponent(MachineControllerImpl.NAME).orElseThrow(), "strictInputSides");
-        }
-        GregTechNetwork.updateClientField(this.blockEntity, "provideEnergy");
-        GregTechNetwork.updateClientField(this.blockEntity, "autoOutput");
     }
 }

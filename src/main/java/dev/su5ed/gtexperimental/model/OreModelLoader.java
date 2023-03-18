@@ -3,7 +3,7 @@ package dev.su5ed.gtexperimental.model;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import dev.su5ed.gtexperimental.util.ModelUtil;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
@@ -19,13 +19,13 @@ public class OreModelLoader implements IGeometryLoader<OreModelGeometry> {
     public OreModelGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
         JsonObject json = jsonObject.getAsJsonObject("textures");
         ResourceLocation particle = new ResourceLocation(json.get("particle").getAsString());
-        Map<Direction, ResourceLocation> textures = ModelUtil.generateTextureMap(json);
+        Map<Direction, ResourceLocation> textures = GtUtil.generateTextureMap(json);
         Map<Direction, ResourceLocation> texturesNether = generateTextureMap(jsonObject, "textures_nether");
         Map<Direction, ResourceLocation> texturesEnd = generateTextureMap(jsonObject, "textures_end");
         return new OreModelGeometry(particle, textures, texturesNether, texturesEnd);
     }
 
     public Map<Direction, ResourceLocation> generateTextureMap(JsonObject json, String elementName) {
-        return ModelUtil.generateTextureMap(json.getAsJsonObject(elementName));
+        return GtUtil.generateTextureMap(json.getAsJsonObject(elementName));
     }
 }

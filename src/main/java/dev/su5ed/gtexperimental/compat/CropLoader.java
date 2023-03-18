@@ -6,7 +6,6 @@ import dev.su5ed.gtexperimental.object.Dust;
 import dev.su5ed.gtexperimental.object.Miscellaneous;
 import dev.su5ed.gtexperimental.object.Nugget;
 import dev.su5ed.gtexperimental.object.Smalldust;
-import dev.su5ed.gtexperimental.util.GtCropCard;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -70,7 +69,7 @@ public final class CropLoader {
         GregTechMod.LOGGER.info("Registering Crops");
         for (Crop type : Crop.values()) {
             String name = type.name().toLowerCase(Locale.ROOT);
-            GtCropCard.create()
+            GregTechCropCard.create()
                 .id(name)
                 .owner(Reference.MODID)
                 .discoveredBy(type.discoverer)

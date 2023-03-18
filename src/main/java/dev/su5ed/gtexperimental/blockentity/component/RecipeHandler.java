@@ -14,6 +14,7 @@ import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.util.GtLocale;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
@@ -53,6 +55,9 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     @Networked
     private double progress;
     private boolean outputBlocked;
+
+    private final SynchronizedData.Key pendingRecipeKey = SynchronizedData.Key.component(this, "pendingRecipe");
+    private final SynchronizedData.Key progressKey = SynchronizedData.Key.component(this, "progress");
 
     static {
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
@@ -120,6 +125,13 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     }
 
     @Override
+    public void addSyncedData(Set<? super SynchronizedData.Key> keys) {
+        super.addSyncedData(keys);
+        keys.add(this.pendingRecipeKey);
+        keys.add(this.progressKey);
+    }
+
+    @Override
     public boolean isActive() {
         return this.parent.isActive();
     }
@@ -158,7 +170,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
             if (this.controller.isAllowedToWork() && this.energy.tryUseEnergy(energyCost)) {
                 int maxProgress = getMaxProgress();
                 this.parent.setActive(true);
-                this.progress += 1 << this.upgrades.getUpgradeCount(UpgradeCategory.OVERCLOCKER);
+                increaseProgress(1 << this.upgrades.getUpgradeCount(UpgradeCategory.OVERCLOCKER));
                 if (this.progress >= maxProgress) {
                     addOutput(this.pendingRecipe.recipe);
                     this.pendingRecipe = null;

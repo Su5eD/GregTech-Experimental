@@ -5,6 +5,7 @@ import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.Networked;
+import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.util.BooleanCountdown;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
@@ -24,12 +26,14 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     private final Map<Direction, Integer> levels = new HashMap<>();
     private final BooleanCountdown workStartedNow = new BooleanCountdown(2);
     private final LazyOptional<MachineController> optional = LazyOptional.of(() -> this);
-    
+
     private boolean enableWorking = true;
     private boolean enableInput = true;
     private boolean enableOutput = true;
-    @Networked // TODO Menu networked field filter
+    @Networked
     private boolean strictInputSides;
+
+    private final SynchronizedData.Key strictInputSidesKey = SynchronizedData.Key.component(this, "strictInputSides");
 
     public MachineControllerImpl(BaseBlockEntity parent) {
         super(parent);
@@ -38,6 +42,12 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     @Override
     public ResourceLocation getName() {
         return NAME;
+    }
+
+    @Override
+    public void addSyncedData(Set<? super SynchronizedData.Key> keys) {
+        super.addSyncedData(keys);
+        keys.add(this.strictInputSidesKey);
     }
 
     @Override
@@ -121,14 +131,14 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     @Override
     public void tickServer() {
         super.tickServer();
-        
+
         this.workStartedNow.countDown();
     }
 
     @Override
     public void save(FriendlyCompoundTag tag) {
         super.save(tag);
-        
+
         tag.putBoolean("enableWorking", this.enableWorking);
         tag.putBoolean("enableInput", this.enableInput);
         tag.putBoolean("enableOutput", this.enableOutput);
@@ -137,7 +147,7 @@ public class MachineControllerImpl extends GtComponentBase<BaseBlockEntity> impl
     @Override
     public void load(FriendlyCompoundTag tag) {
         super.load(tag);
-        
+
         this.enableWorking = tag.getBoolean("enableWorking");
         this.enableInput = tag.getBoolean("enableInput");
         this.enableOutput = tag.getBoolean("enableOutput");
