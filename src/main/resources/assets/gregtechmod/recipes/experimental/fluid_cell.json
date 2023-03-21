@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "gregtechmod:remainderless",
   "ingredients": [
     {
       "type": "gregtechmod:fluid_cell",

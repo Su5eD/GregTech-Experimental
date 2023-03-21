@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.IIngredientFactory;
+import net.minecraftforge.common.crafting.IngredientNBT;
 import net.minecraftforge.common.crafting.JsonContext;
 
 import javax.annotation.Nonnull;
@@ -19,6 +20,12 @@ public class FluidCellIngredientFactory implements IIngredientFactory {
         String fluidName = JsonUtils.getString(json, "fluid");
         ItemStack fluidCell = ProfileDelegate.getCell(fluidName);
 
-        return Ingredient.fromStacks(fluidCell);
+        return new ModNBTIngredient(fluidCell);
+    }
+    
+    public static class ModNBTIngredient extends IngredientNBT {
+        public ModNBTIngredient(ItemStack stack) {
+            super(stack);
+        }
     }
 }

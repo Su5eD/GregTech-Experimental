@@ -15,6 +15,7 @@
     "replace_shaped": "mods.gregtechmod.recipe.crafting.ReplaceShapedRecipeFactory",
     "replace_shapeless": "mods.gregtechmod.recipe.crafting.ReplaceShapelessRecipeFactory",
     "crafting_wrench_shaped": "mods.gregtechmod.recipe.crafting.WrenchCraftingRecipeShapedFactory",
-    "crafting_wrench_shapeless": "mods.gregtechmod.recipe.crafting.WrenchCraftingRecipeShapelessFactory"
+    "crafting_wrench_shapeless": "mods.gregtechmod.recipe.crafting.WrenchCraftingRecipeShapelessFactory",
+    "remainderless": "mods.gregtechmod.recipe.crafting.RemainderLessShapelessRecipeFactory"
   }
 }
