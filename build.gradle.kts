@@ -195,34 +195,13 @@ reobf {
 }
 
 repositories {
-    maven {
-        name = "Su5eD Artifactory"
-        url = uri("https://su5ed.jfrog.io/artifactory/maven")
-    }
-    maven {
-        name = "IC2"
-        url = uri("https://maven.ic2.player.to")
-    }
-    maven {
-        name = "BuildCraft"
-        url = uri("https://mod-buildcraft.com/maven")
-    }
-    maven {
-        name = "CurseMaven"
-        url = uri("https://cfa2.cursemaven.com")
-    }
-    maven {
-        name = "Progwml6 maven"
-        url = uri("https://dvs1.progwml6.com/files/maven")
-    }
-    maven {
-        name = "CoFH Maven"
-        url = uri("https://maven.covers1624.net")
-    }
-    maven {
-        name = "CraftTweaker"
-        url = uri("https://maven.blamejared.com")
-    }
+    exclusiveRepo("https://maven.ic2.player.to", "net.industrial-craft")
+    exclusiveRepo("https://maven.covers1624.net", "cofh", "codechicken")
+    exclusiveRepo("https://dvs1.progwml6.com/files/maven", "mezz.jei", "slimeknights", "slimeknights.mantle")
+    exclusiveRepo("https://mod-buildcraft.com/maven", "com.mod-buildcraft")
+    exclusiveRepo("https://cfa2.cursemaven.com", "curse.maven")
+    exclusiveRepo("https://su5ed.jfrog.io/artifactory/maven", "one.util")
+    exclusiveRepo("https://maven.blamejared.com", "CraftTweaker2")
     mavenCentral()
 }
 
@@ -341,4 +320,19 @@ fun getGitVersion(): String {
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
+}
+
+// Adapted from https://gist.github.com/pupnewfster/6c21401789ca6d74f9892be8c1c505c9
+fun RepositoryHandler.exclusiveRepo(location: String, vararg groups: String) {
+    exclusiveRepo(location) {
+        for (group in groups) {
+            includeGroup(group)
+        }
+    }
+}
+fun RepositoryHandler.exclusiveRepo(location: String, config: Action<InclusiveRepositoryContentDescriptor>) {
+    exclusiveContent { 
+        forRepositories(maven { url = uri(location) }, fg.repository)
+        filter(config)
+    }
 }
