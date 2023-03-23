@@ -81,6 +81,7 @@ public class BaseEntityBlock extends Block implements EntityBlock, IWrenchable {
             }
             return null;
         });
+        registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
     }
 
     @Override

@@ -2,7 +2,6 @@ import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
 import wtf.gofancy.fancygradle.script.extensions.curse
-import wtf.gofancy.fancygradle.script.extensions.curseForge
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
 
@@ -161,27 +160,27 @@ reobf {
 }
 
 repositories {
-    maven {
-        name = "Modmaven"
-        url = uri("https://modmaven.dev/")
-    }
-    maven {
-        name = "Progwml6"
-        url = uri("https://dvs1.progwml6.com/files/maven")
-    }
+    exclusiveRepo("https://modmaven.dev", "mekanism", "teamtwilight")
+    exclusiveRepo("https://cursemaven.com", "curse.maven")
+    exclusiveRepo("https://dvs1.progwml6.com/files/maven", "mezz.jei")
+    
     // 1.19 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
-    ivy {
-        val build = versionIC2.substringBefore('+').substringAfterLast('.')
-        name = "IC2 Jenkins"
-        url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.19/$build/artifact/tmp/out")
-        patternLayout {
-            artifact("[module]-[revision]-$versionMc-forge.[ext]")
-        }
-        metadataSources {
-            artifact()
+    exclusiveContent {
+        forRepositories(ivy {
+            val build = versionIC2.substringBefore('+').substringAfterLast('.')
+            name = "IC2 Jenkins"
+            url = uri("https://jenkins.ic2.player.to/job/IC2/job/1.19/$build/artifact/tmp/out")
+            patternLayout {
+                artifact("[module]-[revision]-$versionMc-forge.[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+        }, fg.repository)
+        filter { 
+            includeGroup("net.industrial-craft")
         }
     }
-    curseForge()
     mavenCentral()
 }
 
@@ -245,4 +244,19 @@ fun getGitVersion(): String {
         .setStrategy(Strategies.SCRIPT)
         .setScript("print \"\${metadata.CURRENT_VERSION_MAJOR};\${metadata.CURRENT_VERSION_MINOR};\${metadata.CURRENT_VERSION_PATCH + metadata.COMMIT_DISTANCE}\"")
     return jgitver.version
+}
+
+// Adapted from https://gist.github.com/pupnewfster/6c21401789ca6d74f9892be8c1c505c9
+fun RepositoryHandler.exclusiveRepo(location: String, vararg groups: String) {
+    exclusiveRepo(location) {
+        for (group in groups) {
+            includeGroup(group)
+        }
+    }
+}
+fun RepositoryHandler.exclusiveRepo(location: String, config: Action<InclusiveRepositoryContentDescriptor>) {
+    exclusiveContent { 
+        forRepositories(maven { url = uri(location) }, fg.repository)
+        filter(config)
+    }
 }
