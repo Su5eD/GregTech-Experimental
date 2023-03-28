@@ -14,10 +14,6 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
 
     private final RecipeProgressBar progressBar;
 
-    public static SimpleMachineScreen autoMacerator(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
-        return new SimpleMachineScreen(menu, playerInventory, title, background("auto_macerator"), RecipeProgressBar.MACERATING);
-    }
-
     public static ResourceLocation background(String name) {
         return BACKGROUNDS.apply(name);
     }
@@ -40,5 +36,11 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
 
     private double getProgressRatio() {
         return this.menu.blockEntity.recipeHandler.getProgress() / (double) Math.max(this.menu.blockEntity.recipeHandler.getMaxProgress(), 1);
+    }
+    
+    public static class AutomaticMaceratorScreen extends SimpleMachineScreen {
+        public AutomaticMaceratorScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, background("auto_macerator"), RecipeProgressBar.MACERATING);
+        }
     }
 }

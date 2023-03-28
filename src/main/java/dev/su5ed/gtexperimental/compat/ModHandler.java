@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 import one.util.streamex.EntryStream;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +28,6 @@ public final class ModHandler {
     public static final Map<String, BaseMod.Provider> BASE_MODS = Map.of( // More mods to come
         IC2_MODID, new IC2BaseMod.Provider()
     );
-    private static BaseMod.Provider activeBaseModProvider;
     private static BaseMod activeBaseMod;
 
     public static boolean ic2Loaded;
@@ -59,8 +57,7 @@ public final class ModHandler {
             }
         }
         else {
-            activeBaseModProvider = baseMod.get();
-            activeBaseMod = activeBaseModProvider.createBaseMod();
+            activeBaseMod = baseMod.get().createBaseMod();
         }
     }
 
@@ -119,16 +116,6 @@ public final class ModHandler {
 
     public static <T extends BaseBlockEntity & ElectricBlockEntity> PowerStorage createEnergyProvider(T parent) {
         return activeBaseMod.createEnergyProvider(parent);
-    }
-
-    public static Item getModItem(String name) {
-        return getModItem(activeBaseModProvider.getModid(), activeBaseModProvider.mapItemName(name));
-    }
-
-    public static Item getModItem(String modid, String name) {
-        String mapped = BASE_MODS.containsKey(modid) ? BASE_MODS.get(modid).mapItemName(name) : name;
-        ResourceLocation location = new ResourceLocation(modid, mapped);
-        return ForgeRegistries.ITEMS.getValue(location);
     }
 
     public static Map<String, ResourceLocation> getAliasedModItems(String name) {

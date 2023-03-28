@@ -152,6 +152,6 @@ public final class ClientSetup {
     private static void registerScreens() {
         MenuScreens.register(ModMenus.DESTRUCTORPACK.get(), DestructorPackScreen::new);
         MenuScreens.register(ModMenus.SONICTRON.get(), SonictronScreen::new);
-        MenuScreens.register(ModMenus.AUTO_MACERATOR.get(), SimpleMachineScreen::autoMacerator);
+        MenuScreens.register(ModMenus.AUTO_MACERATOR.get(), SimpleMachineScreen.AutomaticMaceratorScreen::new);
     }
 }
