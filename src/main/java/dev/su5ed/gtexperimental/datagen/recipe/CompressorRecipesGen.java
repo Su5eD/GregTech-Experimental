@@ -30,7 +30,7 @@ public final class CompressorRecipesGen implements ModRecipeProvider {
         compressor(Dust.LAZURITE.getTag(), 8, Miscellaneous.LAZURITE_CHUNK.getItemStack(), finishedRecipeConsumer);
         compressor(Nugget.IRIDIUM.getTag(), 9, Ingot.IRIDIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Nugget.OSMIUM.getTag(), 9, Ingot.OSMIUM.getItemStack(), finishedRecipeConsumer);
-        compressor(GregTechTags.material("nuggets", "plutonium"), 9, Ingot.PLATINUM.getItemStack(), finishedRecipeConsumer);
+        compressor(GregTechTags.material("nuggets", "plutonium"), 9, Ingot.PLUTONIUM.getItemStack(), finishedRecipeConsumer);
         compressor(GregTechTags.material("nuggets", "thorium"), 9, Ingot.THORIUM.getItemStack(), finishedRecipeConsumer);
         compressor(Tags.Items.GEMS_PRISMARINE, 9, new ItemStack(Items.PRISMARINE_BRICKS), finishedRecipeConsumer);
     }

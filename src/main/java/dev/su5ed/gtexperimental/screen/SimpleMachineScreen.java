@@ -53,4 +53,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.EXTRACTING);
         }
     }
+
+    public static class AutomaticCompressorScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_compressor");
+
+        public AutomaticCompressorScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.COMPRESSING);
+        }
+    }
 }

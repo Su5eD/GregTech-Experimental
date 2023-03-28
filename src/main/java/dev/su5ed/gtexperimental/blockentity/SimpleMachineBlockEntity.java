@@ -60,6 +60,10 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_EXTRACTOR, pos, state, SimpleMachineMenu::autoExtractor, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.EXTRACTOR));
     }
 
+    public static SimpleMachineBlockEntity autoCompressor(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_COMPRESSOR, pos, state, SimpleMachineMenu::autoCompressor, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.COMPRESSOR));
+    }
+
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;

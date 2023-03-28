@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/auto_compressor"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/auto_compressor_active"
+    }
+  }
+}

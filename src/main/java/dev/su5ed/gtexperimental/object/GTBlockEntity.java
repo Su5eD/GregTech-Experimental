@@ -19,6 +19,7 @@ import java.util.function.Function;
 public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     AUTO_MACERATOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoMacerator, AllowedFacings.HORIZONTAL, true),
     AUTO_EXTRACTOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoExtractor, AllowedFacings.HORIZONTAL, true),
+    AUTO_COMPRESSOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoCompressor, AllowedFacings.HORIZONTAL, true),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, true);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;

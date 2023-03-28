@@ -1,6 +1,7 @@
-// 1.19.2	2023-03-28T18:25:52.3728793	Block States: gtexperimental
+// 1.19.2	2023-03-28T20:14:22.7802591	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
+ba4b105ad1d153dabc9b1baeeafa72c484f1e6bd assets/gtexperimental/blockstates/auto_compressor.json
 ffdb3198cc2f5a8252490a907a48e9f88e6e675c assets/gtexperimental/blockstates/auto_extractor.json
 b7dec862156876728e81f8ec15ccfa6d2bb1a055 assets/gtexperimental/blockstates/auto_macerator.json
 636dea2add68235f7ccda1b1a2951f1a956ca7ed assets/gtexperimental/blockstates/bauxite_ore.json

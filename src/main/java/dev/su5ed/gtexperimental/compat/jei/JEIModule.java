@@ -29,6 +29,7 @@ public class JEIModule implements IModPlugin {
     private static final List<MachineCategory> MACHINE_CATEGORIES = new ArrayList<>();
     static final String RECIPE_MACERATOR = "macerator";
     static final String RECIPE_EXTRACTOR = "extractor";
+    static final String RECIPE_COMPRESSOR = "compressor";
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -37,6 +38,7 @@ public class JEIModule implements IModPlugin {
 
         addBasicMachineCategory(GTBlockEntity.AUTO_MACERATOR, SimpleMachineScreen.AutomaticMaceratorScreen.class, RECIPE_MACERATOR);
         addBasicMachineCategory(GTBlockEntity.AUTO_EXTRACTOR, SimpleMachineScreen.AutomaticExtractorScreen.class, RECIPE_EXTRACTOR);
+        addBasicMachineCategory(GTBlockEntity.AUTO_COMPRESSOR, SimpleMachineScreen.AutomaticCompressorScreen.class, RECIPE_COMPRESSOR);
     }
 
     @Override

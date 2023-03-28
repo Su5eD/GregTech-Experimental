@@ -9,6 +9,7 @@ import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,7 +42,7 @@ public abstract class BaseCover implements Cover {
         this.side = side;
         this.item = item;
 
-        this.coverHandler = be.getCapability(Capabilities.COVER_HANDLER).orElseThrow(() -> new IllegalStateException("Missing CoverHandler capability"));
+        this.coverHandler = GtUtil.getRequiredCapability(be, Capabilities.COVER_HANDLER);
         this.machineController = be.getCapability(Capabilities.MACHINE_CONTROLLER).orElse(null);
         this.machineProgress = be.getCapability(Capabilities.MACHINE_PROGRESS).orElse(null);
         this.energyHandler = be.getCapability(Capabilities.ENERGY_HANDLER).orElse(null);

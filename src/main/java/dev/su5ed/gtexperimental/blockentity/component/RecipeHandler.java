@@ -10,14 +10,15 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
-import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.util.GtLocale;
+import dev.su5ed.gtexperimental.util.GtUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -70,9 +71,9 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     protected RecipeHandler(T parent, RecipeManager<R, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
         super(parent);
 
-        this.energy = parent.getCapability(Capabilities.ENERGY_HANDLER).orElseThrow(() -> new IllegalStateException("Required PowerHandler capability not found"));
+        this.energy = GtUtil.getRequiredCapability(parent, Capabilities.ENERGY_HANDLER);
         this.upgrades = (UpgradeManager<?>) parent.getComponent(UpgradeManager.NAME).orElseThrow(() -> new IllegalStateException("Required UpgradeManager component not found"));
-        this.controller = parent.getCapability(Capabilities.MACHINE_CONTROLLER).orElseThrow(() -> new IllegalStateException("Required MachineController capability not found"));
+        this.controller = GtUtil.getRequiredCapability(parent, Capabilities.MACHINE_CONTROLLER);
         this.manager = manager;
         this.inputSerializer = inputSerializer;
         this.outputSerializer = outputSerializer;

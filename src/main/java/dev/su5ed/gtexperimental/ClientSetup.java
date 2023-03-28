@@ -154,5 +154,6 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.SONICTRON.get(), SonictronScreen::new);
         MenuScreens.register(ModMenus.AUTO_MACERATOR.get(), SimpleMachineScreen.AutomaticMaceratorScreen::new);
         MenuScreens.register(ModMenus.AUTO_EXTRACTOR.get(), SimpleMachineScreen.AutomaticExtractorScreen::new);
+        MenuScreens.register(ModMenus.AUTO_COMPRESSOR.get(), SimpleMachineScreen.AutomaticCompressorScreen::new);
     }
 }

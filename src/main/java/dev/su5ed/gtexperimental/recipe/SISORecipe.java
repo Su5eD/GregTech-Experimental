@@ -31,6 +31,10 @@ public class SISORecipe<IN, OUT> extends ModRecipe<SISORecipeType<?, IN, OUT>, R
         return new SISORecipe<>(ModRecipeTypes.EXTRACTOR.get(), ModRecipeSerializers.EXTRACTOR.get(), id, input, output, properties);
     }
 
+    public static SISORecipe<ItemStack, ItemStack> compressor(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
+        return new SISORecipe<>(ModRecipeTypes.COMPRESSOR.get(), ModRecipeSerializers.COMPRESSOR.get(), id, input, output, properties);
+    }
+
     public static SISORecipe<FluidStack, FluidStack> vacuumFreezerFluid(ResourceLocation id, RecipeIngredient<FluidStack> input, FluidStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.VACUUM_FREEZER_FLUID.get(), ModRecipeSerializers.VACUUM_FREEZER_FLUID.get(), id, input, output, properties.withTransient(b -> b.energyCost(128)));
     }

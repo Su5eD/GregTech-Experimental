@@ -27,7 +27,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
@@ -258,5 +260,9 @@ public final class GtUtil {
             .mapValues(element -> new ResourceLocation(element.getAsString()))
             .toImmutableMap()
             : Map.of();
+    }
+
+    public static <T> T getRequiredCapability(ICapabilityProvider provider, Capability<T> capability) {
+        return provider.getCapability(capability).orElseThrow(() -> new IllegalStateException("Required " + capability.getName() + " capability not found"));
     }
 }

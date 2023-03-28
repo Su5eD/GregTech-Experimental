@@ -66,6 +66,8 @@
   "block.gtexperimental.auto_macerator.description": "Maceratron-E-901",
   "block.gtexperimental.auto_extractor": "Automatic Extractor",
   "block.gtexperimental.auto_extractor.description": "Dejuicer-Device of Doom - D123",
+  "block.gtexperimental.auto_compressor": "Automatic Compressor",
+  "block.gtexperimental.auto_compressor.description": "Compress-O-Matic C77",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",
