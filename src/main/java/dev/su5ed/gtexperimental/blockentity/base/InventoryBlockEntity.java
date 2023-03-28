@@ -22,7 +22,9 @@ public abstract class InventoryBlockEntity extends BaseBlockEntity {
         return new SlotAwareItemHandler(this::onInventoryChanged);
     }
 
-    protected void onInventoryChanged() {}
+    protected void onInventoryChanged() {
+        setChanged();
+    }
 
     @Override
     public void provideAdditionalDrops(List<? super ItemStack> drops) {

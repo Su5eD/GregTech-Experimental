@@ -3,7 +3,8 @@ package dev.su5ed.gtexperimental.screen;
 import net.minecraft.resources.ResourceLocation;
 
 public enum RecipeProgressBar {
-    MACERATING(SimpleMachineScreen.background("auto_macerator"));
+    MACERATING(SimpleMachineScreen.AutomaticMaceratorScreen.BACKGROUND),
+    EXTRACTING(SimpleMachineScreen.AutomaticExtractorScreen.BACKGROUND);
 
     public final ResourceLocation texture;
     public final int x;

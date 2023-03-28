@@ -43,6 +43,7 @@ public final class ModRecipeManagers {
     public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack> VACUUM_FREEZER_FLUID = create(ModRecipeTypes.VACUUM_FREEZER_FLUID);
 
     public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> MACERATOR = create(ModRecipeTypes.MACERATOR);
+    public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> EXTRACTOR = create(ModRecipeTypes.EXTRACTOR);
 
     public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack> DENSE_LIQUID_FUEL = create(ModRecipeTypes.DENSE_LIQUID_FUEL);
     public static final RecipeManager<SISORecipe<Either<ItemStack, FluidStack>, FluidStack>, Either<ItemStack, FluidStack>, FluidStack> DIESEL_FUEL = create(ModRecipeTypes.DIESEL_FUEL);

@@ -20,6 +20,7 @@ public class MachineSlotItemHandler extends SlotAwareItemHandler {
         super(onChanged);
 
         this.parent = parent;
+        // TODO Util required capability method
         this.coverHandler = Lazy.of(() -> parent.getCapability(Capabilities.COVER_HANDLER).orElseThrow(() -> new IllegalStateException("Missing CoverHandler capability")));
         this.controller = Lazy.of(() -> parent.getCapability(Capabilities.MACHINE_CONTROLLER).orElseThrow(() -> new IllegalStateException("Missing MachineController capability")));
     }

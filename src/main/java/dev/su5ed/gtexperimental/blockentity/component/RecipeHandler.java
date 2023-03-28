@@ -11,7 +11,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
-import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.network.SynchronizedData;
@@ -286,6 +286,11 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
     public static class SISO extends RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> {
         private static final ResourceLocation NAME = location("siso_recipe_handler");
+
+        public static SISO create(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager) {
+            RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
+            return new SISO(parent, manager, outputType, outputType);
+        }
 
         public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
             super(parent, manager, inputSerializer, outputSerializer);

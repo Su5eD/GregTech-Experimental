@@ -66,7 +66,7 @@ public class SynchronizedData {
     public static class Value {
         private final Key key;
 
-        private int previousValueHashCode;
+        private Integer previousValueHashCode;
 
         public Value(Key key) {
             this.key = key;
@@ -75,7 +75,7 @@ public class SynchronizedData {
         public boolean isChanged(BlockEntity be) {
             Object value = this.key.getValue(be);
             int hashCode = value == null ? 0 : value.hashCode();
-            if (this.previousValueHashCode != hashCode) {
+            if (this.previousValueHashCode == null || this.previousValueHashCode != hashCode) {
                 this.previousValueHashCode = hashCode;
                 return true;
             }

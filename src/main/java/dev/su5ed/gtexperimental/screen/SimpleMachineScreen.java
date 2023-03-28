@@ -37,10 +37,20 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
     private double getProgressRatio() {
         return this.menu.blockEntity.recipeHandler.getProgress() / (double) Math.max(this.menu.blockEntity.recipeHandler.getMaxProgress(), 1);
     }
-    
+
     public static class AutomaticMaceratorScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_macerator");
+
         public AutomaticMaceratorScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
-            super(menu, playerInventory, title, background("auto_macerator"), RecipeProgressBar.MACERATING);
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.MACERATING);
+        }
+    }
+
+    public static class AutomaticExtractorScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_extractor");
+
+        public AutomaticExtractorScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.EXTRACTING);
         }
     }
 }

@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.compat;
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
 import dev.su5ed.gtexperimental.util.GtUtil;
@@ -46,7 +47,8 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 public class IC2BaseMod implements BaseMod {
     
     public IC2BaseMod() {
-        ModRecipeManagers.MACERATOR.registerProvider(new IC2RecipeProvider());
+        ModRecipeManagers.MACERATOR.registerProvider(new IC2RecipeProvider("macerator", () -> Recipes.macerator, SISORecipe::macerator));
+        ModRecipeManagers.EXTRACTOR.registerProvider(new IC2RecipeProvider("extractor", () -> Recipes.extractor, SISORecipe::extractor));
     }
     
     @Override

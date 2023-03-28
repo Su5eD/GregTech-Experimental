@@ -1,12 +1,15 @@
-package dev.su5ed.gtexperimental.blockentity.base;
+package dev.su5ed.gtexperimental.blockentity;
 
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
+import dev.su5ed.gtexperimental.blockentity.base.MachineBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.network.SynchronizedData;
+import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.InvUtil;
@@ -30,8 +33,9 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
-public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implements MenuProvider {
+public class SimpleMachineBlockEntity extends MachineBlockEntity implements MenuProvider {
     private final ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor;
     public final InventorySlot queueInputSlot;
     public final InventorySlot inputSlot;
@@ -48,7 +52,15 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
     private final SynchronizedData.Key provideEnergyKey = SynchronizedData.Key.field("provideEnergy");
     private final SynchronizedData.Key autoOutputKey = SynchronizedData.Key.field("autoOutput");
 
-    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor) {
+    public static SimpleMachineBlockEntity autoMacerator(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_MACERATOR, pos, state, SimpleMachineMenu::autoMacerator, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.MACERATOR));
+    }
+
+    public static SimpleMachineBlockEntity autoExtractor(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_EXTRACTOR, pos, state, SimpleMachineMenu::autoExtractor, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.EXTRACTOR));
+    }
+
+    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
         // Slot registration order defines the order in which items are inserted/extracted
@@ -57,10 +69,8 @@ public abstract class SimpleMachineBlockEntity extends MachineBlockEntity implem
         this.outputSlot = this.inventoryHandler.addSlot("output", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
         this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
         this.extraSlot = createExtraSlot();
-        this.recipeHandler = addComponent(createRecipeHandler());
+        this.recipeHandler = addComponent(recipeHandlerFactory.apply(this));
     }
-
-    protected abstract RecipeHandler<?, ?, ?, ?> createRecipeHandler();
 
     protected InventorySlot createExtraSlot() {
         DischargingInventorySlot slot = this.inventoryHandler.addSlot(handler -> new DischargingInventorySlot(handler, "battery", InventorySlot.Mode.BOTH, SlotDirection.NONE, 1));

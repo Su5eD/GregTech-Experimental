@@ -24,6 +24,7 @@ public final class ModMenus {
 
     public static final RegistryObject<MenuType<SonictronMenu>> SONICTRON = register("sonictron", SonictronMenu::new);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_MACERATOR = register("auto_macerator", SimpleMachineMenu::autoMacerator);
+    public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_EXTRACTOR = register("auto_extractor", SimpleMachineMenu::autoExtractor);
 
     public static void init(IEventBus bus) {
         MENU_TYPES.register(bus);

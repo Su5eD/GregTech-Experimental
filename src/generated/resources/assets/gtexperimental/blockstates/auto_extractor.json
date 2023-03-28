@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/auto_extractor"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/auto_extractor_active"
+    }
+  }
+}

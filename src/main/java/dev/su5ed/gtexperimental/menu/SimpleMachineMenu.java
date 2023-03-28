@@ -1,6 +1,6 @@
 package dev.su5ed.gtexperimental.menu;
 
-import dev.su5ed.gtexperimental.blockentity.base.SimpleMachineBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.util.inventory.SlotButton;
@@ -15,6 +15,10 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
 
     public static SimpleMachineMenu autoMacerator(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         return new SimpleMachineMenu(ModMenus.AUTO_MACERATOR.get(), GTBlockEntity.AUTO_MACERATOR.getType(), containerId, pos, playerInventory, player);
+    }
+
+    public static SimpleMachineMenu autoExtractor(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        return new SimpleMachineMenu(ModMenus.AUTO_EXTRACTOR.get(), GTBlockEntity.AUTO_EXTRACTOR.getType(), containerId, pos, playerInventory, player);
     }
 
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {

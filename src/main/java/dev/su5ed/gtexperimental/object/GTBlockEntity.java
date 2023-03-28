@@ -2,9 +2,9 @@ package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.block.BaseEntityBlock;
 import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
-import dev.su5ed.gtexperimental.blockentity.AutomaticMaceratorBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SonictronBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.BlockItemProvider;
 import net.minecraft.core.BlockPos;
@@ -17,7 +17,8 @@ import net.minecraftforge.common.util.Lazy;
 import java.util.function.Function;
 
 public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
-    AUTO_MACERATOR(SimpleMachineBlock::new, AutomaticMaceratorBlockEntity::new, AllowedFacings.HORIZONTAL, true),
+    AUTO_MACERATOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoMacerator, AllowedFacings.HORIZONTAL, true),
+    AUTO_EXTRACTOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoExtractor, AllowedFacings.HORIZONTAL, true),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, true);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;

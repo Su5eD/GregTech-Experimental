@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-11T12:34:16.7063741	Item Models: gtexperimental
+// 1.19.2	2023-03-28T18:25:52.3853257	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -24,6 +24,7 @@ dee4499d51918ad853ebb07d45aaed5875469073 assets/gtexperimental/models/item/andra
 cd5c84576b6c1200fcf93400681b4f55891f5edb assets/gtexperimental/models/item/antimony_smalldust.json
 b65c27e0e6751715a5926b501842e7d931805d69 assets/gtexperimental/models/item/ashes_dust.json
 1a0811dcd4702bec517d6909a171436951d5041f assets/gtexperimental/models/item/ashes_smalldust.json
+3c115683e03da8210fbb2f458fd9312fc0644eb3 assets/gtexperimental/models/item/auto_extractor.json
 e876ffbc533ddd15a20412418f421d89eafc6f20 assets/gtexperimental/models/item/auto_macerator.json
 26f2ba2b684c21604066a99eeb04a7cef0c9c2e4 assets/gtexperimental/models/item/basalt_dust.json
 a832e24c60f2133b597cc89ada520e3126a05128 assets/gtexperimental/models/item/basalt_smalldust.json

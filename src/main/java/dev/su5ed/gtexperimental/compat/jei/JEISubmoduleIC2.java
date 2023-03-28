@@ -8,8 +8,12 @@ import java.util.Map;
 
 public class JEISubmoduleIC2 implements JEIModule.SubModule {
     private static final RecipeType<IORecipeWrapper> MACERATOR = RecipeType.create(ModHandler.IC2_MODID, JEIModule.RECIPE_MACERATOR, IORecipeWrapper.class);
+    private static final RecipeType<IORecipeWrapper> EXTRACTOR = RecipeType.create(ModHandler.IC2_MODID, JEIModule.RECIPE_EXTRACTOR, IORecipeWrapper.class);
     
-    private static final Map<String, RecipeType<?>> RECIPE_TYPES = Map.of(JEIModule.RECIPE_MACERATOR, MACERATOR);
+    private static final Map<String, RecipeType<?>> RECIPE_TYPES = Map.of(
+        JEIModule.RECIPE_MACERATOR, MACERATOR,
+        JEIModule.RECIPE_EXTRACTOR, EXTRACTOR
+    );
     
     @Override
     public RecipeType<?> getRecipeType(String name) {

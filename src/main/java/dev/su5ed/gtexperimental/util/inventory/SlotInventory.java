@@ -31,13 +31,11 @@ public class SlotInventory extends Slot {
     @Override
     public void set(@NotNull ItemStack stack) {
         this.inventorySlot.setItem(this.index, stack);
-        setChanged();
     }
 
     @Override
     public void initialize(ItemStack stack) {
         this.inventorySlot.setItem(this.index, stack);
-        setChanged();
     }
 
     @Override
