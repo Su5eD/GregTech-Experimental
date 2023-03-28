@@ -44,9 +44,9 @@ import static dev.su5ed.gtexperimental.util.GtUtil.locationNullable;
 
 class ItemModelGen extends ItemModelProvider {
     private static final ResourceLocation FORGE_BUCKET = new ResourceLocation("forge", "item/bucket");
-    
+
     private final ResourceLocation generatedParent = mcLoc("item/generated");
-    
+
     public ItemModelGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, Reference.MODID, existingFileHelper);
     }
@@ -55,11 +55,16 @@ class ItemModelGen extends ItemModelProvider {
     protected void registerModels() {
         StreamEx.<ItemProvider>of(ModBlock.values())
             .append(Ore.values())
-            .append(GTBlockEntity.values())
             .map(GtUtil::itemName)
             .mapToEntry(name -> location("block", name))
             .forKeyValue(this::withExistingParent);
-        
+
+        StreamEx.of(GTBlockEntity.values())
+            .mapToEntry(GtUtil::itemName)
+            .invert()
+            .mapToValue((name, provider) -> location("block", provider.hasActiveItemModel() ? name + "_active" : name))
+            .forKeyValue(this::withExistingParent);
+
         registerItems(Ingot.values(), "ingot");
         registerItems(Nugget.values(), "nugget");
         registerItems(Rod.values(), "rod");
@@ -81,14 +86,14 @@ class ItemModelGen extends ItemModelProvider {
         registerItems(NuclearCoolantPack.values(), "coolant");
         registerItems(NuclearFuelRod.values(), "fuel_rod");
         registerItems(Armor.values(), "armor");
-        
+
         String fullName = Component.LITHIUM_RE_BATTERY.getName() + "_full";
         providerModel(Component.LITHIUM_RE_BATTERY, "component")
             .override()
-                .model(singleItemTexture(fullName, this.generatedParent, location("item", "component", fullName)))
-                .predicate(LithiumBatteryItem.CHARGE_PROPERTY, 1)
-                .end();
-        
+            .model(singleItemTexture(fullName, this.generatedParent, location("item", "component", fullName)))
+            .predicate(LithiumBatteryItem.CHARGE_PROPERTY, 1)
+            .end();
+
         StreamEx.of(ModFluid.values())
             .forEach(this::registerBucket);
     }
@@ -97,16 +102,16 @@ class ItemModelGen extends ItemModelProvider {
         StreamEx.of(providers)
             .forEach(provider -> providerModel(provider, folder));
     }
-    
+
     public ItemModelBuilder providerModel(ItemProvider provider, @Nullable String folder) {
         ResourceLocation texture = locationNullable("item", folder, provider.getName());
         return singleItemTexture(GtUtil.itemName(provider), this.generatedParent, texture);
     }
-    
+
     public ItemModelBuilder singleItemTexture(String name, ResourceLocation parent, ResourceLocation texture) {
         return singleTexture(name, parent, "layer0", texture);
     }
-    
+
     public <T extends FluidProvider & ItemProvider> void registerBucket(T provider) {
         withExistingParent(provider.getRegistryName(), FORGE_BUCKET)
             .customLoader(DynamicFluidContainerModelBuilder::begin)

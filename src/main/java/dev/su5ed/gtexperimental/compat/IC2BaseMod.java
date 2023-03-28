@@ -50,6 +50,7 @@ public class IC2BaseMod implements BaseMod {
         ModRecipeManagers.MACERATOR.registerProvider(new IC2RecipeProvider("macerator", () -> Recipes.macerator, SISORecipe::macerator));
         ModRecipeManagers.EXTRACTOR.registerProvider(new IC2RecipeProvider("extractor", () -> Recipes.extractor, SISORecipe::extractor));
         ModRecipeManagers.COMPRESSOR.registerProvider(new IC2RecipeProvider("compressor", () -> Recipes.compressor, SISORecipe::compressor));
+        ModRecipeManagers.RECYCLER.registerProvider(new IC2RecipeProvider("recycler", () -> level -> Recipes.recycler, SISORecipe::recycler));
     }
 
     @Override

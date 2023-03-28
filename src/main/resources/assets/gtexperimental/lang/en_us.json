@@ -68,6 +68,8 @@
   "block.gtexperimental.auto_extractor.description": "Dejuicer-Device of Doom - D123",
   "block.gtexperimental.auto_compressor": "Automatic Compressor",
   "block.gtexperimental.auto_compressor.description": "Compress-O-Matic C77",
+  "block.gtexperimental.auto_recycler": "Automatic Recycler",
+  "block.gtexperimental.auto_recycler.description": "Compress, burn, obliterate and filter EVERYTHING",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

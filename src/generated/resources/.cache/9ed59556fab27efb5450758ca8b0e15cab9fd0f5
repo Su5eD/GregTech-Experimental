@@ -1,9 +1,10 @@
-// 1.19.2	2023-03-28T20:14:22.7847684	Gregtech ExperimentalLootTables
+// 1.19.2	2023-03-28T20:47:17.9915002	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
 745a1e489a88dc76857a3e4cebcfc23c84c83afa data/gtexperimental/loot_tables/blocks/auto_compressor.json
 3da5c80f109fe30f4f80e56f7eaa29f049f747bd data/gtexperimental/loot_tables/blocks/auto_extractor.json
 4feb8cd507d6a0398ea427a50f056a2daf28f9e4 data/gtexperimental/loot_tables/blocks/auto_macerator.json
+a024242fd9bc1dcb711a7a00a5b81a0d066ca1b7 data/gtexperimental/loot_tables/blocks/auto_recycler.json
 9e4a4c41cbbb05535bc82b709dcd496d2a9e7c78 data/gtexperimental/loot_tables/blocks/bauxite_ore.json
 c5cb81d819cf67586d1be109a76858239e886bd8 data/gtexperimental/loot_tables/blocks/brass_block.json
 40a7c3d0fd179d0f513a54a7cc3f579cd3467395 data/gtexperimental/loot_tables/blocks/cassiterite_ore.json

@@ -5,7 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 public enum RecipeProgressBar {
     MACERATING(SimpleMachineScreen.AutomaticMaceratorScreen.BACKGROUND),
     EXTRACTING(SimpleMachineScreen.AutomaticExtractorScreen.BACKGROUND),
-    COMPRESSING(SimpleMachineScreen.AutomaticCompressorScreen.BACKGROUND);
+    COMPRESSING(SimpleMachineScreen.AutomaticCompressorScreen.BACKGROUND),
+    RECYCLING(SimpleMachineScreen.AutomaticRecyclerScreen.BACKGROUND);
 
     public final ResourceLocation texture;
     public final int x;

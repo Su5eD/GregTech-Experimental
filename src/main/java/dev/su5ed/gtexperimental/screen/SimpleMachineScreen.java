@@ -61,4 +61,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.COMPRESSING);
         }
     }
+
+    public static class AutomaticRecyclerScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_recycler");
+
+        public AutomaticRecyclerScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.RECYCLING);
+        }
+    }
 }

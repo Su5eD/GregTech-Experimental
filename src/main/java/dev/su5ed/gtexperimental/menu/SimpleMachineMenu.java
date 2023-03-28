@@ -25,6 +25,10 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
         return new SimpleMachineMenu(ModMenus.AUTO_COMPRESSOR.get(), GTBlockEntity.AUTO_COMPRESSOR.getType(), containerId, pos, playerInventory, player);
     }
 
+    public static SimpleMachineMenu autoRecycler(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        return new SimpleMachineMenu(ModMenus.AUTO_RECYCLER.get(), GTBlockEntity.AUTO_RECYCLER.getType(), containerId, pos, playerInventory, player);
+    }
+
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);
 
