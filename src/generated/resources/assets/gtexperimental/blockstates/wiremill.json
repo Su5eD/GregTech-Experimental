@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/wiremill"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/wiremill_active"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-29T15:49:31.8149849	Block States: gtexperimental
+// 1.19.2	2023-03-29T17:34:28.0025133	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
 ba4b105ad1d153dabc9b1baeeafa72c484f1e6bd assets/gtexperimental/blockstates/auto_compressor.json
@@ -47,6 +47,7 @@ ed22e3bf40f3a38437eabf1a008ce22fbb3ed7d8 assets/gtexperimental/blockstates/sheld
 a1174c856ba1df18ccca87be56de6e9b0ab339a7 assets/gtexperimental/blockstates/tungstate_ore.json
 d57d4456ac643bd45ffd9129ee7eca73b498cec0 assets/gtexperimental/blockstates/tungsten_block.json
 01139eec8a78c419aec458c2aecccbc203763a15 assets/gtexperimental/blockstates/tungsten_steel_block.json
+d61d7887eaf4be27d623067075d91f782a79f2c8 assets/gtexperimental/blockstates/wiremill.json
 fb6498bcc6306496d058fd78f4ef5aa9f13f45e3 assets/gtexperimental/blockstates/zinc_block.json
 f172cd10822d6b68e5a7d6eb410300bef0df9338 assets/gtexperimental/models/block/advanced_machine_casing_block.json
 4a0b5a95e78e98328eecd000e0196ee18189e65f assets/gtexperimental/models/block/aluminium_block.json

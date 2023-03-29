@@ -70,11 +70,19 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
         }
     }
 
-    public static class AUtomaticElectricFurnaceScreen extends SimpleMachineScreen {
+    public static class AutomaticElectricFurnaceScreen extends SimpleMachineScreen {
         public static final ResourceLocation BACKGROUND = background("auto_electric_furnace");
 
-        public AUtomaticElectricFurnaceScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+        public AutomaticElectricFurnaceScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.SMELTING);
+        }
+    }
+
+    public static class WiremillScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("wiremill");
+
+        public WiremillScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.EXTRUDING);
         }
     }
 }

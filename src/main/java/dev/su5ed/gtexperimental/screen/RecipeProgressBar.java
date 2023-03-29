@@ -7,7 +7,8 @@ public enum RecipeProgressBar {
     EXTRACTING(SimpleMachineScreen.AutomaticExtractorScreen.BACKGROUND),
     COMPRESSING(SimpleMachineScreen.AutomaticCompressorScreen.BACKGROUND),
     RECYCLING(SimpleMachineScreen.AutomaticRecyclerScreen.BACKGROUND),
-    SMELTING(SimpleMachineScreen.AUtomaticElectricFurnaceScreen.BACKGROUND);
+    SMELTING(SimpleMachineScreen.AutomaticElectricFurnaceScreen.BACKGROUND),
+    EXTRUDING(SimpleMachineScreen.WiremillScreen.BACKGROUND);
 
     public final ResourceLocation texture;
     public final int x;

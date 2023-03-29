@@ -72,6 +72,8 @@
   "block.gtexperimental.auto_recycler.description": "Compress, burn, obliterate and filter EVERYTHING",
   "block.gtexperimental.auto_electric_furnace": "Automatic E-Furnace",
   "block.gtexperimental.auto_electric_furnace.description": "Not like using a Commodore 64",
+  "block.gtexperimental.wiremill": "Automatic Wiremill",
+  "block.gtexperimental.wiremill.description": "Produces Wires more efficiently",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",
@@ -770,5 +772,9 @@
   "item.gtexperimental.nitrogen_bucket": "Nitrogen Bucket",
   "item.gtexperimental.nitrogen_dioxide_bucket": "Nitrogen Dioxide Bucket",
   "item.gtexperimental.tritium_bucket": "Tritium Bucket",
-  "item.gtexperimental.steam_bucket": "Steam Bucket"
+  "item.gtexperimental.steam_bucket": "Steam Bucket",
+  
+  "jei.gtexperimental.energy": "EU: %s",
+  "jei.gtexperimental.max_energy": "MaxEnergy: %s EU/t",
+  "jei.gtexperimental.time": "Time: %s s"
 }
