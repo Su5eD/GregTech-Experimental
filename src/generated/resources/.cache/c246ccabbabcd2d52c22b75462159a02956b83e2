@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-28T21:13:10.5258998	Item Models: gtexperimental
+// 1.19.2	2023-03-29T15:49:31.7944292	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -25,6 +25,7 @@ cd5c84576b6c1200fcf93400681b4f55891f5edb assets/gtexperimental/models/item/antim
 b65c27e0e6751715a5926b501842e7d931805d69 assets/gtexperimental/models/item/ashes_dust.json
 1a0811dcd4702bec517d6909a171436951d5041f assets/gtexperimental/models/item/ashes_smalldust.json
 9e3ea8e437f57ec611aed1cd8b86d2eae671cfcf assets/gtexperimental/models/item/auto_compressor.json
+f5a6c5791ec429bff961f9eb1f6e3863b26d0975 assets/gtexperimental/models/item/auto_electric_furnace.json
 61ce6033150ee9358a08bf5cfc017c63de84e47f assets/gtexperimental/models/item/auto_extractor.json
 4eb9982d7b291af41d100f985e725218d24a2ddd assets/gtexperimental/models/item/auto_macerator.json
 f88027176da176664d7c4c3b9389c0b3310876aa assets/gtexperimental/models/item/auto_recycler.json

@@ -54,6 +54,7 @@ public final class ModRecipeSerializers {
     public static final RegistryObject<RecipeSerializer<SISORecipe<ItemStack, ItemStack>>> EXTRACTOR = register("extractor", ModRecipeTypes.EXTRACTOR);
     public static final RegistryObject<RecipeSerializer<SISORecipe<ItemStack, ItemStack>>> COMPRESSOR = register("compressor", ModRecipeTypes.COMPRESSOR);
     public static final RegistryObject<RecipeSerializer<SISORecipe<ItemStack, ItemStack>>> RECYCLER = register("recycler", ModRecipeTypes.RECYCLER);
+    public static final RegistryObject<RecipeSerializer<SISORecipe<ItemStack, ItemStack>>> FURNACE = register("furnace", ModRecipeTypes.FURNACE);
 
     public static final RegistryObject<RecipeSerializer<SISORecipe<FluidStack, FluidStack>>> DENSE_LIQUID_FUEL = register("fuels/dense_liquid", ModRecipeTypes.DENSE_LIQUID_FUEL);
     public static final RegistryObject<RecipeSerializer<SISORecipe<Either<ItemStack, FluidStack>, FluidStack>>> DIESEL_FUEL = register("fuels/diesel", ModRecipeTypes.DIESEL_FUEL);

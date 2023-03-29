@@ -27,6 +27,7 @@ public final class ModMenus {
     public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_EXTRACTOR = register("auto_extractor", SimpleMachineMenu::autoExtractor);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_COMPRESSOR = register("auto_compressor", SimpleMachineMenu::autoCompressor);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_RECYCLER = register("auto_recycler", SimpleMachineMenu::autoRecycler);
+    public static final RegistryObject<MenuType<SimpleMachineMenu>> AUTO_ELECTRIC_FURNACE = register("auto_electric_furnace", SimpleMachineMenu::autoElectricFurnace);
 
     public static void init(IEventBus bus) {
         MENU_TYPES.register(bus);

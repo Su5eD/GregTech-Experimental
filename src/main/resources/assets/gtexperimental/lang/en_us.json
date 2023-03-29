@@ -70,6 +70,8 @@
   "block.gtexperimental.auto_compressor.description": "Compress-O-Matic C77",
   "block.gtexperimental.auto_recycler": "Automatic Recycler",
   "block.gtexperimental.auto_recycler.description": "Compress, burn, obliterate and filter EVERYTHING",
+  "block.gtexperimental.auto_electric_furnace": "Automatic E-Furnace",
+  "block.gtexperimental.auto_electric_furnace.description": "Not like using a Commodore 64",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

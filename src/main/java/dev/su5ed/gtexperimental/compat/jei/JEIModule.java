@@ -7,6 +7,7 @@ import dev.su5ed.gtexperimental.screen.SimpleMachineScreen;
 import dev.su5ed.gtexperimental.util.ItemProvider;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -30,6 +31,7 @@ public class JEIModule implements IModPlugin {
     static final String RECIPE_MACERATOR = "macerator";
     static final String RECIPE_EXTRACTOR = "extractor";
     static final String RECIPE_COMPRESSOR = "compressor";
+    static final String RECIPE_SMELTING = "smelting";
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -39,6 +41,7 @@ public class JEIModule implements IModPlugin {
         addBasicMachineCategory(GTBlockEntity.AUTO_MACERATOR, SimpleMachineScreen.AutomaticMaceratorScreen.class, RECIPE_MACERATOR);
         addBasicMachineCategory(GTBlockEntity.AUTO_EXTRACTOR, SimpleMachineScreen.AutomaticExtractorScreen.class, RECIPE_EXTRACTOR);
         addBasicMachineCategory(GTBlockEntity.AUTO_COMPRESSOR, SimpleMachineScreen.AutomaticCompressorScreen.class, RECIPE_COMPRESSOR);
+        addBasicMachineCategory(GTBlockEntity.AUTO_ELECTRIC_FURNACE, SimpleMachineScreen.AUtomaticElectricFurnaceScreen.class, RECIPE_SMELTING, RecipeTypes.SMELTING);
     }
 
     @Override
@@ -73,6 +76,10 @@ public class JEIModule implements IModPlugin {
         RecipeType<?>[] recipeTypes = StreamEx.of(SUBMODULES)
             .map(subModule -> subModule.getRecipeType(recipeName))
             .toArray(RecipeType<?>[]::new);
+        addBasicMachineCategory(itemProvider, screenClass, recipeName, recipeTypes);
+    }
+
+    private static void addBasicMachineCategory(ItemProvider itemProvider, Class<? extends AbstractContainerScreen<?>> screenClass, String recipeName, RecipeType<?>... recipeTypes) {
         MACHINE_CATEGORIES.add(new MachineCategory(itemProvider, screenClass, 78, 24, 18, 18, recipeTypes));
     }
 

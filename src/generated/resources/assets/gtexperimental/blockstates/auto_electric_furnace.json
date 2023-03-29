@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/auto_electric_furnace"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/auto_electric_furnace_active"
+    }
+  }
+}

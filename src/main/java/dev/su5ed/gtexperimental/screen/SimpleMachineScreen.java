@@ -69,4 +69,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.RECYCLING);
         }
     }
+
+    public static class AUtomaticElectricFurnaceScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_electric_furnace");
+
+        public AUtomaticElectricFurnaceScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.SMELTING);
+        }
+    }
 }

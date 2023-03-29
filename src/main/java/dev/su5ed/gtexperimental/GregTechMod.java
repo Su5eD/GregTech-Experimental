@@ -9,7 +9,9 @@ import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.object.ModCovers;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.object.ModObjects;
+import dev.su5ed.gtexperimental.recipe.FurnaceRecipeProvider;
 import dev.su5ed.gtexperimental.recipe.crafting.FluidItemPredicate;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
 import dev.su5ed.gtexperimental.util.ProfileManager;
@@ -38,6 +40,7 @@ public class GregTechMod {
         bus.addListener(GregTechPacks::addPackFinders);
         bus.addListener(GregTechIMC.INSTANCE::processIMC);
         ModHandler.initMods();
+        ModRecipeManagers.FURNACE.registerProvider(new FurnaceRecipeProvider());
 
         ModCovers.init(bus);
         ModMenus.init(bus);

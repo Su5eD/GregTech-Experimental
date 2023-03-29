@@ -46,6 +46,7 @@ public final class ModRecipeManagers {
     public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> EXTRACTOR = create(ModRecipeTypes.EXTRACTOR);
     public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> COMPRESSOR = create(ModRecipeTypes.COMPRESSOR);
     public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> RECYCLER = create(ModRecipeTypes.COMPRESSOR);
+    public static final RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> FURNACE = create(ModRecipeTypes.FURNACE);
 
     public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack> DENSE_LIQUID_FUEL = create(ModRecipeTypes.DENSE_LIQUID_FUEL);
     public static final RecipeManager<SISORecipe<Either<ItemStack, FluidStack>, FluidStack>, Either<ItemStack, FluidStack>, FluidStack> DIESEL_FUEL = create(ModRecipeTypes.DIESEL_FUEL);
