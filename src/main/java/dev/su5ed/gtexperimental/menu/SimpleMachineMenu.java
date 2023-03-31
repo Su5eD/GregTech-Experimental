@@ -37,6 +37,10 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
         return new SimpleMachineMenu(ModMenus.WIREMILL.get(), GTBlockEntity.WIREMILL.getType(), containerId, pos, playerInventory, player);
     }
 
+    public static SimpleMachineMenu bender(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        return new SimpleMachineMenu(ModMenus.BENDER.get(), GTBlockEntity.BENDER.getType(), containerId, pos, playerInventory, player);
+    }
+
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);
 

@@ -72,6 +72,8 @@
   "block.gtexperimental.auto_recycler.description": "Compress, burn, obliterate and filter EVERYTHING",
   "block.gtexperimental.auto_electric_furnace": "Automatic E-Furnace",
   "block.gtexperimental.auto_electric_furnace.description": "Not like using a Commodore 64",
+  "block.gtexperimental.bender": "Plate Bending Machine",
+  "block.gtexperimental.bender.description": "Boo, he's bad! We want BENDER!!!",
   "block.gtexperimental.wiremill": "Automatic Wiremill",
   "block.gtexperimental.wiremill.description": "Produces Wires more efficiently",
   "block.gtexperimental.sonictron": "Sonictron",

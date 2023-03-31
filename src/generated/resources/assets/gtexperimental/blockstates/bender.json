@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/bender"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/bender_active"
+    }
+  }
+}

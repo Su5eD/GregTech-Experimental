@@ -42,6 +42,7 @@ public class JEIModule implements IModPlugin {
     static final String RECIPE_EXTRACTOR = "extractor";
     static final String RECIPE_COMPRESSOR = "compressor";
     private static final RecipeType<SISORecipe<ItemStack, ItemStack>> RECIPE_WIREMILL = createRecipeType(Reference.MODID, "wiremill", SISORecipe.class);
+    private static final RecipeType<SISORecipe<ItemStack, ItemStack>> RECIPE_BENDER = createRecipeType(Reference.MODID, "bender", SISORecipe.class);
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -53,6 +54,7 @@ public class JEIModule implements IModPlugin {
         addBasicMachineCategory(GTBlockEntity.AUTO_COMPRESSOR, SimpleMachineScreen.AutomaticCompressorScreen.class, RECIPE_COMPRESSOR);
         addBasicMachineCategory(GTBlockEntity.AUTO_ELECTRIC_FURNACE, SimpleMachineScreen.AutomaticElectricFurnaceScreen.class, RecipeTypes.SMELTING);
         addBasicMachineCategory(GTBlockEntity.WIREMILL, SimpleMachineScreen.WiremillScreen.class, RECIPE_WIREMILL);
+        addBasicMachineCategory(GTBlockEntity.BENDER, SimpleMachineScreen.BenderScreen.class, RECIPE_BENDER);
     }
 
     @Override
@@ -78,7 +80,8 @@ public class JEIModule implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration register) {
         IGuiHelper guiHelper = register.getJeiHelpers().getGuiHelper();
         register.addRecipeCategories(
-            new SimpleMachineRecipeCategory(GTBlockEntity.WIREMILL, "wiremill", RECIPE_WIREMILL, guiHelper, RecipeProgressBar.EXTRUDING, -5, true)
+            new SimpleMachineRecipeCategory(GTBlockEntity.WIREMILL, "wiremill", RECIPE_WIREMILL, guiHelper, RecipeProgressBar.EXTRUDING, -5, true),
+            new SimpleMachineRecipeCategory(GTBlockEntity.BENDER, "bender", RECIPE_BENDER, guiHelper, RecipeProgressBar.BENDING, -5, true)
         );
     }
 
@@ -86,6 +89,7 @@ public class JEIModule implements IModPlugin {
     public void registerRecipes(IRecipeRegistration register) {
         Level level = Minecraft.getInstance().level;
         register.addRecipes(RECIPE_WIREMILL, ModRecipeManagers.WIREMILL.getRecipes(level));
+        register.addRecipes(RECIPE_BENDER, ModRecipeManagers.BENDER.getRecipes(level));
     }
 
     @Override

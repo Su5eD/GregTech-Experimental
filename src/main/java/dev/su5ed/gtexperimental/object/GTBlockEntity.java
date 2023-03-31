@@ -27,6 +27,7 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     AUTO_RECYCLER(SimpleMachineBlock::new, AutomaticRecyclerBlockEntity::new, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     AUTO_ELECTRIC_FURNACE(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoElectricFurnace, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     WIREMILL(SimpleMachineBlock::new, SimpleMachineBlockEntity::wiremill, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
+    BENDER(SimpleMachineBlock::new, SimpleMachineBlockEntity::bender, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, ACTIVE);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;

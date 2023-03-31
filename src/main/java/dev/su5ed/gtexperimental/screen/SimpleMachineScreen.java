@@ -85,4 +85,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.EXTRUDING);
         }
     }
+
+    public static class BenderScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("bender");
+
+        public BenderScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.BENDING);
+        }
+    }
 }

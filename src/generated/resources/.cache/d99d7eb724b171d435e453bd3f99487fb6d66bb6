@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-29T17:34:28.0025133	Block States: gtexperimental
+// 1.19.2	2023-03-31T19:54:43.8918873	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
 ba4b105ad1d153dabc9b1baeeafa72c484f1e6bd assets/gtexperimental/blockstates/auto_compressor.json
@@ -7,6 +7,7 @@ ffdb3198cc2f5a8252490a907a48e9f88e6e675c assets/gtexperimental/blockstates/auto_
 b7dec862156876728e81f8ec15ccfa6d2bb1a055 assets/gtexperimental/blockstates/auto_macerator.json
 aa575b63152a30134d0485320750dc8f5b49ed01 assets/gtexperimental/blockstates/auto_recycler.json
 636dea2add68235f7ccda1b1a2951f1a956ca7ed assets/gtexperimental/blockstates/bauxite_ore.json
+89538019bf3b8eee5cb9ea70657f800faab8ddb6 assets/gtexperimental/blockstates/bender.json
 68dac016c4b9b54a6c5f16e4610137404c8bce2b assets/gtexperimental/blockstates/brass_block.json
 a69918321eeaac5f21795520ef27c95eca19b5ec assets/gtexperimental/blockstates/cassiterite_ore.json
 d1352932d7224f0baed0ed1c5fd5233824d6f002 assets/gtexperimental/blockstates/chrome_block.json

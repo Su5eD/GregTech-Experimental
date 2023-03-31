@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-29T17:34:28.0040136	Item Models: gtexperimental
+// 1.19.2	2023-03-31T19:54:43.8943849	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -37,6 +37,7 @@ ecd60ae1edb73cb7f0a316e904cef4bc903b81c4 assets/gtexperimental/models/item/batte
 85f5542396b58a0018cdc33e37bcc5053a464b9f assets/gtexperimental/models/item/bauxite_dust.json
 db8ea005651cccc484005a310e6afbb95cac1c30 assets/gtexperimental/models/item/bauxite_ore.json
 fbd44248637e16fe20b34742cd8e5d007c8f7535 assets/gtexperimental/models/item/bauxite_smalldust.json
+347b10002d0b122d9c698f2f74ea9a1f0d61dd6c assets/gtexperimental/models/item/bender.json
 b16f74e9f24dfdd87b86a053faef5ece376fffc8 assets/gtexperimental/models/item/berylium_bucket.json
 ff0d766b7307c49e8dd896257e9b6b78a32301dd assets/gtexperimental/models/item/black_color_spray.json
 2b34127801a26bd4a1a6f303f1aaa8fd50858fa7 assets/gtexperimental/models/item/blue_color_spray.json

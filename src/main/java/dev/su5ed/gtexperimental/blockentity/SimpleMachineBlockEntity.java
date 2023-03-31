@@ -72,6 +72,10 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         return new SimpleMachineBlockEntity(GTBlockEntity.WIREMILL, pos, state, SimpleMachineMenu::wiremill, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.WIREMILL));
     }
 
+    public static SimpleMachineBlockEntity bender(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.BENDER, pos, state, SimpleMachineMenu::bender, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.BENDER));
+    }
+
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
