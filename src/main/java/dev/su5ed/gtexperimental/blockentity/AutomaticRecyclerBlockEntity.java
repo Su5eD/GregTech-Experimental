@@ -1,5 +1,7 @@
 package dev.su5ed.gtexperimental.blockentity;
 
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
@@ -17,19 +19,19 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 public class AutomaticRecyclerBlockEntity extends SimpleMachineBlockEntity {
 
     public AutomaticRecyclerBlockEntity(BlockPos pos, BlockState state) {
-        super(GTBlockEntity.AUTO_RECYCLER, pos, state, SimpleMachineMenu::autoRecycler, be -> RecyclerRecipeHandler.createRecycler(be, ModRecipeManagers.RECYCLER));
+        super(GTBlockEntity.AUTO_RECYCLER, pos, state, SimpleMachineMenu::autoRecycler, be -> RecyclerRecipeHandler.createRecycler(be, ModRecipeManagers.RECYCLER), true);
     }
 
     private static class RecyclerRecipeHandler extends RecipeHandler.SISO {
         private static final ResourceLocation NAME = location("recycler_recipe_handler");
         private static final int CHANCE = 8;
 
-        public static RecyclerRecipeHandler createRecycler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager) {
+        public static RecyclerRecipeHandler createRecycler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
             RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
             return new RecyclerRecipeHandler(parent, manager, outputType, outputType);
         }
 
-        public RecyclerRecipeHandler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
+        public RecyclerRecipeHandler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
             super(parent, manager, inputSerializer, outputSerializer);
         }
 

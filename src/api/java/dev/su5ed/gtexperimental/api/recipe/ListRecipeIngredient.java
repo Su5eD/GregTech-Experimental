@@ -4,4 +4,8 @@ import java.util.List;
 
 public interface ListRecipeIngredient<T> extends RecipeIngredient<List<T>> {
     RecipeIngredient<T> get(int index);
+    
+    List<RecipeIngredient<T>> getSubIngredients();
+    
+    int size();
 }

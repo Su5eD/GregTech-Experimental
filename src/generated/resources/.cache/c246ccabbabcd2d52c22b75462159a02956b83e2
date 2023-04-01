@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-31T19:54:43.8943849	Item Models: gtexperimental
+// 1.19.2	2023-04-01T11:50:56.6006284	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -6,6 +6,7 @@
 3c96b95238927ce6700ea797e8e6e0e125d7edce assets/gtexperimental/models/item/advanced_machine_casing_block.json
 c36897a238969d982def15107c0ad5d5bdce2ca1 assets/gtexperimental/models/item/advanced_saw.json
 29e3479779bc2b34c5ead05528cc2895f35ad741 assets/gtexperimental/models/item/advanced_wrench.json
+930e06fea7f9bea6f640aa66329421ec8822f027 assets/gtexperimental/models/item/alloy_smelter.json
 1f7de94b52e3853e5eae999fee3e921f3414e8cf assets/gtexperimental/models/item/almandine_dust.json
 11392f9bf28beb9976a8038faeb2bb1042a90611 assets/gtexperimental/models/item/almandine_smalldust.json
 223420c18152c6927e653f78542491cdbb64842f assets/gtexperimental/models/item/aluminium_block.json

@@ -76,6 +76,8 @@
   "block.gtexperimental.bender.description": "Boo, he's bad! We want BENDER!!!",
   "block.gtexperimental.wiremill": "Automatic Wiremill",
   "block.gtexperimental.wiremill.description": "Produces Wires more efficiently",
+  "block.gtexperimental.alloy_smelter": "Alloy Smelter",
+  "block.gtexperimental.alloy_smelter.description": "HighTech combination Smelter",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

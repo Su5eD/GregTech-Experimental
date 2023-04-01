@@ -6,6 +6,9 @@ import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
+import dev.su5ed.gtexperimental.api.recipe.ListRecipeIngredientType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
@@ -15,10 +18,13 @@ import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
 import dev.su5ed.gtexperimental.network.NetworkHandler;
 import dev.su5ed.gtexperimental.network.Networked;
 import dev.su5ed.gtexperimental.network.SynchronizedData;
+import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.util.GtLocale;
 import dev.su5ed.gtexperimental.util.GtUtil;
+import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -31,9 +37,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import one.util.streamex.StreamEx;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,14 +51,14 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     private final PowerHandler energy;
     private final UpgradeManager<?> upgrades;
     private final MachineController controller;
-    protected final RecipeManager<R, IN, OUT> manager;
+    protected final RecipeManager<R, ?, IN, OUT> manager;
     private final RecipeOutputType<IN> inputSerializer;
     private final RecipeOutputType<OUT> outputSerializer;
     private final boolean needsConstantEnergy;
     private final LazyOptional<MachineProgress> machineProgressOptional = LazyOptional.of(() -> this);
 
     private CompoundTag pendingRecipeInitTag;
-    private R availableRecipe;
+    private AvailableRecipe<R, IN> availableRecipe;
     @Networked
     protected PendingRecipe<R, IN, OUT> pendingRecipe;
     @Networked
@@ -64,11 +72,11 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
+    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
         this(parent, manager, inputSerializer, outputSerializer, true);
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
+    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
         super(parent);
 
         this.energy = GtUtil.getRequiredCapability(parent, Capabilities.ENERGY_HANDLER);
@@ -121,7 +129,13 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     public void checkRecipe() {
         if (this.pendingRecipe == null && !this.parent.getLevel().isClientSide) {
             IN input = getInput();
-            this.availableRecipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
+            R recipe = this.manager.getRecipeFor(this.parent.getLevel(), input);
+            if (recipe != null) {
+                this.availableRecipe = new AvailableRecipe<>(recipe, input);
+            }
+            else {
+                this.availableRecipe = null;
+            }
         }
     }
 
@@ -190,10 +204,9 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
             }
         }
         else if (this.availableRecipe != null) {
-            if (checkProcessRecipe(this.availableRecipe)) {
-                IN input = getInput();
-                this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(input), this.inputSerializer, this.availableRecipe.getOutput(), this.outputSerializer, this.availableRecipe);
-                consumeInput(this.availableRecipe);
+            if (checkProcessRecipe(this.availableRecipe.recipe)) {
+                this.pendingRecipe = new PendingRecipe<>(this.inputSerializer.copy(this.availableRecipe.input), this.inputSerializer, this.availableRecipe.recipe.getOutput(), this.outputSerializer, this.availableRecipe.recipe);
+                consumeInput(this.availableRecipe.recipe);
             }
         }
         else {
@@ -246,7 +259,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
 
         @Nullable
-        public static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, IN, OUT> manager) {
+        public static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, ?, IN, OUT> manager) {
             FriendlyCompoundTag tag = new FriendlyCompoundTag(nbt);
             String key = tag.getString("recipe");
             if (!key.isEmpty()) {
@@ -262,6 +275,8 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
             return null;
         }
     }
+    
+    public record AvailableRecipe<R extends BaseRecipe<?, ?, IN, ?, ? super R>, IN>(R recipe, IN input) {}
 
     public static class PendingRecipeNetworkSerializer<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> implements NetworkHandler.SerializationHandler<RecipeHandler<?, R, IN, OUT>, PendingRecipe<R, IN, OUT>> {
         @Override
@@ -288,12 +303,12 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     public static class SISO extends RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> {
         private static final ResourceLocation NAME = location("siso_recipe_handler");
 
-        public static SISO create(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager) {
+        public static SISO create(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
             RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
             return new SISO(parent, manager, outputType, outputType);
         }
 
-        public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
+        public SISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
             super(parent, manager, inputSerializer, outputSerializer);
         }
 
@@ -325,6 +340,65 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
         @Override
         protected void addOutput(SISORecipe<ItemStack, ItemStack> recipe) {
+            ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput().copy());
+            this.parent.queueOutputSlot.add(0, remainder);
+            this.parent.ejectOutput();
+        }
+    }
+
+    public static class MISO extends RecipeHandler<SimpleMachineBlockEntity, MISORecipe<ItemStack, ItemStack>, List<ItemStack>, ItemStack> {
+        private static final ResourceLocation NAME = location("miso_recipe_handler");
+
+        public static MISO create(SimpleMachineBlockEntity parent, RecipeManager<MISORecipe<ItemStack, ItemStack>, ListRecipeIngredientType<List<RecipeIngredient<ItemStack>>, ItemStack>, List<ItemStack>, ItemStack> manager) {
+            RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
+            int inputCount = manager.getRecipeType().getInputType().getIngredientCount();
+            return new MISO(parent, manager, ModRecipeOutputTypes.ITEM.listOf(inputCount), outputType);
+        }
+
+        public MISO(SimpleMachineBlockEntity parent, RecipeManager<MISORecipe<ItemStack, ItemStack>, ListRecipeIngredientType<List<RecipeIngredient<ItemStack>>, ItemStack>, List<ItemStack>, ItemStack> manager, RecipeOutputType<List<ItemStack>> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
+            super(parent, manager, inputSerializer, outputSerializer);
+        }
+
+        @Override
+        public ResourceLocation getName() {
+            return NAME;
+        }
+
+        @Override
+        public boolean accepts(ItemStack input) {
+            return !this.parent.getLevel().isClientSide && this.manager.hasRecipeFor(this.parent.getLevel(), List.of(input));
+        }
+
+        @Override
+        protected List<ItemStack> getInput() {
+            return StreamEx.of(this.parent.queueInputSlot.get(), this.parent.inputSlot.get())
+                .remove(ItemStack::isEmpty)
+                .toList();
+        }
+
+        @Override
+        protected boolean canAddOutput(MISORecipe<ItemStack, ItemStack> recipe) {
+            ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput(), true);
+            return remainder.isEmpty() || this.parent.queueOutputSlot.add(0, remainder, true).isEmpty();
+        }
+
+        @Override
+        protected void consumeInput(MISORecipe<ItemStack, ItemStack> recipe) {
+            List<RecipeIngredient<ItemStack>> ingredients = new ArrayList<>(recipe.getInput().getSubIngredients());
+            List<InventorySlot> slots = List.of(this.parent.queueInputSlot, this.parent.inputSlot);
+            for (InventorySlot slot : slots) {
+                for (RecipeIngredient<ItemStack> ingredient : ingredients) {
+                    if (ingredient.test(slot.get())) {
+                        slot.shrink(0, ingredient.getCount());
+                        ingredients.remove(ingredient);
+                        break;
+                    }
+                }
+            }
+        }
+
+        @Override
+        protected void addOutput(MISORecipe<ItemStack, ItemStack> recipe) {
             ItemStack remainder = this.parent.outputSlot.add(0, recipe.getOutput().copy());
             this.parent.queueOutputSlot.add(0, remainder);
             this.parent.ejectOutput();

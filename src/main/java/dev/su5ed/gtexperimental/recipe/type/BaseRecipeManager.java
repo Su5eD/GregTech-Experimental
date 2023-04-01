@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.type;
 
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipeType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -15,17 +16,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class BaseRecipeManager<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> implements RecipeManager<R, IN, OUT> {
-    private final Supplier<? extends BaseRecipeType<R, ?, ?, OUT>> recipeType;
+public class BaseRecipeManager<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, RIN extends RecipeIngredientType<?, ?>, IN, OUT> implements RecipeManager<R, RIN, IN, OUT> {
+    private final Supplier<? extends BaseRecipeType<R, RIN, ?, OUT>> recipeType;
     private final Collection<RecipeProvider<R, IN>> providers = new ArrayList<>();
 
     private List<R> recipes;
 
-    public BaseRecipeManager(Supplier<? extends BaseRecipeType<R, ?, ?, OUT>> recipeType) {
+    public BaseRecipeManager(Supplier<? extends BaseRecipeType<R, RIN, ?, OUT>> recipeType) {
         this.recipeType = recipeType;
     }
 
-    public BaseRecipeType<R, ?, ?, OUT> getRecipeType() {
+    @Override
+    public BaseRecipeType<R, RIN, ?, OUT> getRecipeType() {
         return this.recipeType.get();
     }
 

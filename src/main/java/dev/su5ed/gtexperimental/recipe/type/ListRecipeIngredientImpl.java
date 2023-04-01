@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import one.util.streamex.StreamEx;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ListRecipeIngredientImpl<U> implements ListRecipeIngredient<U> {
@@ -83,10 +84,12 @@ public class ListRecipeIngredientImpl<U> implements ListRecipeIngredient<U> {
 
     @Override
     public boolean testPartial(List<U> list) {
-        if (this.ingredients.size() == list.size()) {
-            for (int i = 0; i < this.ingredients.size(); i++) {
-                if (this.ingredients.get(i).testPartial(list.get(i))) {
-                    return true;
+        if (this.ingredients.size() >= list.size()) {
+            for (U value : list) {
+                for (RecipeIngredient<U> ingredient : this.ingredients) {
+                    if (ingredient.testPartial(value)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -96,5 +99,15 @@ public class ListRecipeIngredientImpl<U> implements ListRecipeIngredient<U> {
     @Override
     public RecipeIngredient<U> get(int index) {
         return this.ingredients.get(index);
+    }
+
+    @Override
+    public List<RecipeIngredient<U>> getSubIngredients() {
+        return Collections.unmodifiableList(this.ingredients);
+    }
+
+    @Override
+    public int size() {
+        return this.ingredients.size();
     }
 }

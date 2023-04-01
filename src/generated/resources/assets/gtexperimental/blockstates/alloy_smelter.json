@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/alloy_smelter"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/alloy_smelter_active"
+    }
+  }
+}
