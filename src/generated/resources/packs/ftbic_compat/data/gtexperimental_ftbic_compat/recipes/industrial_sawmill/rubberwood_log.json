@@ -1,13 +1,15 @@
 {
   "type": "gtexperimental:industrial_grinder",
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "value": {
-      "item": "myrtrees:rubberwood_log"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "value": {
+        "item": "myrtrees:rubberwood_log"
+      }
     }
   },
   "output": [

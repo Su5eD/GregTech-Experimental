@@ -6,14 +6,16 @@
       "modid": "twilightforest"
     }
   ],
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "value": {
-      "item": "twilightforest:liveroot"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "value": {
+        "item": "twilightforest:liveroot"
+      }
     }
   },
   "output": [

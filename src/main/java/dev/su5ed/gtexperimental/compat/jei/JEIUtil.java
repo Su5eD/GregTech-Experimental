@@ -14,7 +14,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.Minecraft;
 
 public final class JEIUtil {
-    public static void drawInfo(Minecraft minecraft, PoseStack poseStack, BaseRecipe<?, ?, ?, ?> recipe, int yOffset, boolean showEnergyCost) {
+    public static void drawInfo(Minecraft minecraft, PoseStack poseStack, BaseRecipe<?, ?, ?, ?, ?> recipe, int yOffset, boolean showEnergyCost) {
         int duration = recipe.getProperty(ModRecipeProperty.DURATION);
         double energyCost = recipe.getProperty(ModRecipeProperty.ENERGY_COST);
 

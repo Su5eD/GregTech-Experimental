@@ -1,13 +1,15 @@
 {
   "type": "gtexperimental:industrial_grinder",
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "value": {
-      "item": "ic2:rubber_log"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "value": {
+        "item": "ic2:rubber_log"
+      }
     }
   },
   "output": [

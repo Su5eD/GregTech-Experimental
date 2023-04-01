@@ -6,14 +6,16 @@
       "modid": "ftbic"
     }
   ],
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "value": {
-      "tag": "forge:ores/iridium"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "value": {
+        "tag": "forge:ores/iridium"
+      }
     }
   },
   "output": [

@@ -62,4 +62,9 @@ public class HybridRecipeIngredient implements RecipeIngredient<Either<ItemStack
     public boolean test(Either<ItemStack, FluidStack> either) {
         return this.ingredient.map(i -> either.left().map(i::test), i -> either.right().map(i::test)).orElse(false);
     }
+
+    @Override
+    public boolean testPartial(Either<ItemStack, FluidStack> either) {
+        return this.ingredient.map(i -> either.left().map(i::testPartial), i -> either.right().map(i::testPartial)).orElse(false);
+    }
 }

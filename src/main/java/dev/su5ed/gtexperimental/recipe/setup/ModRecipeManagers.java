@@ -57,7 +57,7 @@ public final class ModRecipeManagers {
     public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack> PLASMA_FUEL = create(ModRecipeTypes.PLASMA_FUEL);
     public static final RecipeManager<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack> STEAM_FUEL = create(ModRecipeTypes.STEAM_FUEL);
 
-    private static <R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> RecipeManager<R, IN, OUT> create(RegistryObject<? extends BaseRecipeType<R, OUT>> recipeType) {
+    private static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> RecipeManager<R, IN, OUT> create(RegistryObject<? extends BaseRecipeType<R, ?, ?, OUT>> recipeType) {
         RecipeManager<R, IN, OUT> manager = new BaseRecipeManager<>(recipeType);
         RECIPE_MANAGERS.add(manager);
         return manager;

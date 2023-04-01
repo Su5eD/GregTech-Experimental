@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import dev.su5ed.gtexperimental.recipe.type.ModRecipe;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Single Input, Single Output recipe
  */
-public class SISORecipe<IN, OUT> extends ModRecipe<SISORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SISORecipe<IN, OUT>> {
+public class SISORecipe<IN, OUT> extends BaseRecipeImpl<SISORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SISORecipe<IN, OUT>> {
     public static SISORecipe<ItemStack, ItemStack> bender(ResourceLocation id, RecipeIngredient<ItemStack> input, ItemStack output, RecipePropertyMap properties) {
         return new SISORecipe<>(ModRecipeTypes.BENDER.get(), ModRecipeSerializers.BENDER.get(), id, input, output, properties);
     }

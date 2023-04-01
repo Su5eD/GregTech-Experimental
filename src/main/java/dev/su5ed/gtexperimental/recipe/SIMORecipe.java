@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import dev.su5ed.gtexperimental.recipe.type.ModRecipe;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
-public class SIMORecipe<IN, OUT> extends ModRecipe<SIMORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SIMORecipe<IN, OUT>> {
+public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SIMORecipe<IN, OUT>> {
     public static SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> industrialElectrolyzer(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
         return new SIMORecipe<>(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER.get(), ModRecipeSerializers.INDUSTRIAL_ELECTROLYZER.get(), id, input, output, properties);
     }

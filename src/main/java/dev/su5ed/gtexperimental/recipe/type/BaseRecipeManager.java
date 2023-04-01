@@ -15,17 +15,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class BaseRecipeManager<R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> implements RecipeManager<R, IN, OUT> {
-    private final Supplier<? extends BaseRecipeType<R, OUT>> recipeType;
+public class BaseRecipeManager<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> implements RecipeManager<R, IN, OUT> {
+    private final Supplier<? extends BaseRecipeType<R, ?, ?, OUT>> recipeType;
     private final Collection<RecipeProvider<R, IN>> providers = new ArrayList<>();
 
     private List<R> recipes;
 
-    public BaseRecipeManager(Supplier<? extends BaseRecipeType<R, OUT>> recipeType) {
+    public BaseRecipeManager(Supplier<? extends BaseRecipeType<R, ?, ?, OUT>> recipeType) {
         this.recipeType = recipeType;
     }
 
-    public BaseRecipeType<R, OUT> getRecipeType() {
+    public BaseRecipeType<R, ?, ?, OUT> getRecipeType() {
         return this.recipeType.get();
     }
 
@@ -40,7 +40,7 @@ public class BaseRecipeManager<R extends BaseRecipe<?, IN, OUT, ? super R>, IN, 
     @Override
     public boolean hasRecipeFor(Level level, IN input) {
         return StreamEx.of(getRecipes(level))
-            .anyMatch(r -> r.matches(input))
+            .anyMatch(r -> r.matchesPartial(input))
             || StreamEx.of(this.providers)
             .anyMatch(provider -> provider.hasRecipeFor(level, input));
     }

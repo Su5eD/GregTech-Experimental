@@ -1,14 +1,16 @@
 {
   "type": "gtexperimental:industrial_grinder",
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "count": 16,
-    "value": {
-      "tag": "forge:netherrack"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "count": 16,
+      "value": {
+        "tag": "forge:netherrack"
+      }
     }
   },
   "output": [

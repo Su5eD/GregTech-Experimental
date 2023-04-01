@@ -14,7 +14,6 @@ public class IFMORecipeBuilder extends ModRecipeBuilder<IFMORecipe> {
         super.serializeRecipeData(json);
 
         json.add("input", this.recipe.getInput().toJson());
-        json.add("fluid", this.recipe.getFluid().toJson());
         json.add("output", this.recipe.getType().getOutputType().toJson(this.recipe.getOutput()));
         this.recipe.getProperties().toJson(json);
     }

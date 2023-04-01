@@ -6,14 +6,16 @@
       "modid": "ftbic"
     }
   ],
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "gtexperimental:mercury_fluid"
-  },
   "input": {
-    "value": {
-      "tag": "forge:ores/iridium"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "gtexperimental:mercury_fluid"
+    },
+    "item": {
+      "value": {
+        "tag": "forge:ores/iridium"
+      }
     }
   },
   "output": [

@@ -14,6 +14,8 @@ public interface RecipeIngredient<T> extends Predicate<T> {
     
     boolean isEmpty();
     
+    boolean testPartial(T value);
+    
     Ingredient asIngredient();
 
     void toNetwork(FriendlyByteBuf buffer);

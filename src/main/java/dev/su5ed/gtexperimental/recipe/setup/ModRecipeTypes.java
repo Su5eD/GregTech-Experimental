@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.recipe.setup;
 
 import com.mojang.datafixers.util.Either;
 import dev.su5ed.gtexperimental.api.Reference;
+import dev.su5ed.gtexperimental.api.recipe.CompositeRecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
@@ -55,7 +56,7 @@ public final class ModRecipeTypes {
     public static final RegistryObject<SIMORecipeType<SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>>, Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>>> INDUSTRIAL_ELECTROLYZER = ModRecipeTypes.<SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>>, Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>>simo("industrial_electrolyzer", ModRecipeIngredientTypes.HYBRID, ModRecipeOutputTypes.HYBRID.listOf(4), SIMORecipe::industrialElectrolyzer);
     public static final RegistryObject<SIMORecipeType<SIMORecipe<ItemStack, List<ItemStack>>, ItemStack, List<ItemStack>>> LATHE = ModRecipeTypes.<SIMORecipe<ItemStack, List<ItemStack>>, ItemStack, List<ItemStack>>simo("lathe", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM.listOf(2), SIMORecipe::lathe);
     public static final RegistryObject<MISORecipeType<MISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>> PRINTER = ModRecipeTypes.<MISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>miso("printer", ModRecipeIngredientTypes.ITEM, 2, ModRecipeOutputTypes.ITEM, MISORecipe::printer);
-    public static final RegistryObject<IFMORecipeType<IFMORecipe>> INDUSTRIAL_SAWMILL = ifmo("industrial_sawmill", 2, NO_PROPERTIES, IFMORecipe::industrialGrinder);
+    public static final RegistryObject<IFMORecipeType<IFMORecipe>> INDUSTRIAL_SAWMILL = ifmo("industrial_sawmill", 2, NO_PROPERTIES, IFMORecipe::industrialSawmill);
     public static final RegistryObject<SISORecipeType<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>> VACUUM_FREEZER_SOLID = ModRecipeTypes.<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>siso("vacuum_freezer_solid", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, List.of(ModRecipeProperty.DURATION), SISORecipe::vacuumFreezerSolid);
     public static final RegistryObject<SISORecipeType<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack>> VACUUM_FREEZER_FLUID = ModRecipeTypes.<SISORecipe<FluidStack, FluidStack>, FluidStack, FluidStack>siso("vacuum_freezer_fluid", ModRecipeIngredientTypes.FLUID, ModRecipeOutputTypes.FLUID, List.of(ModRecipeProperty.DURATION), SISORecipe::vacuumFreezerFluid);
     public static final RegistryObject<SISORecipeType<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>> WIREMILL = ModRecipeTypes.<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack>siso("wiremill", ModRecipeIngredientTypes.ITEM, ModRecipeOutputTypes.ITEM, SISORecipe::wiremill);
@@ -102,7 +103,7 @@ public final class ModRecipeTypes {
         return register(name, () -> new MISORecipeType<>(location(name), inputType.listOf(inputCount), outputType, properties, factory));
     }
 
-    private static <R extends IFMORecipe> RegistryObject<IFMORecipeType<R>> ifmo(String name, int outputCount, List<RecipeProperty<?>> properties, IFMORecipeType.IFMORecipeFactory<R> factory) {
+    private static <R extends IFMORecipe> RegistryObject<IFMORecipeType<R>> ifmo(String name, int outputCount, List<RecipeProperty<?>> properties, BaseRecipeFactory<R, CompositeRecipeIngredient<IFMORecipe.Input>, List<ItemStack>> factory) {
         return register(name, () -> new IFMORecipeType<>(location(name), outputCount, properties, factory));
     }
 

@@ -1,13 +1,15 @@
 {
   "type": "gtexperimental:industrial_grinder",
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "gtexperimental:sodium_persulfate_fluid"
-  },
   "input": {
-    "value": {
-      "tag": "forge:ores/sphalerite"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "gtexperimental:sodium_persulfate_fluid"
+    },
+    "item": {
+      "value": {
+        "tag": "forge:ores/sphalerite"
+      }
     }
   },
   "output": [

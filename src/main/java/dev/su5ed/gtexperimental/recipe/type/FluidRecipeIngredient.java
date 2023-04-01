@@ -93,6 +93,11 @@ public class FluidRecipeIngredient implements RecipeIngredient<FluidStack> {
         return this.value.test(fluidStack) && fluidStack.getAmount() >= this.amount;
     }
 
+    @Override
+    public boolean testPartial(FluidStack fluidStack) {
+        return this.value.test(fluidStack);
+    }
+
     public interface Value extends Predicate<FluidStack> {
         String name();
 

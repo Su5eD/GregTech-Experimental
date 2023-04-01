@@ -82,6 +82,18 @@ public class ListRecipeIngredientImpl<U> implements ListRecipeIngredient<U> {
     }
 
     @Override
+    public boolean testPartial(List<U> list) {
+        if (this.ingredients.size() == list.size()) {
+            for (int i = 0; i < this.ingredients.size(); i++) {
+                if (this.ingredients.get(i).testPartial(list.get(i))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public RecipeIngredient<U> get(int index) {
         return this.ingredients.get(index);
     }

@@ -8,10 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
 
-public class BaseRecipeSerializer<R extends BaseRecipe<?, ?, ?, ? super R>> implements RecipeSerializer<R> {
-    private final BaseRecipeType<R, ?> recipeType;
+public class BaseRecipeSerializer<R extends BaseRecipe<?, ?, ?, ?, ? super R>> implements RecipeSerializer<R> {
+    private final BaseRecipeType<R, ?, ?, ?> recipeType;
 
-    public BaseRecipeSerializer(BaseRecipeType<R, ?> recipeType) {
+    public BaseRecipeSerializer(BaseRecipeType<R, ?, ?, ?> recipeType) {
         this.recipeType = recipeType;
     }
 

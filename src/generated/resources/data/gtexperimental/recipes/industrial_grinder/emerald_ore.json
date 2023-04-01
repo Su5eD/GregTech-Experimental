@@ -1,13 +1,15 @@
 {
   "type": "gtexperimental:industrial_grinder",
-  "fluid": {
-    "type": "fluid",
-    "amount": 1000,
-    "fluid": "minecraft:water"
-  },
   "input": {
-    "value": {
-      "tag": "forge:ores/emerald"
+    "fluid": {
+      "type": "fluid",
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    },
+    "item": {
+      "value": {
+        "tag": "forge:ores/emerald"
+      }
     }
   },
   "output": [

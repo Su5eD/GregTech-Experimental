@@ -20,7 +20,7 @@ public class IndustrialSawmillRecipeBuilder extends IFMORecipeBuilder {
         super.build(finishedRecipeConsumer, recipeId, universal);
 
         if (universal) {
-            RecipeIngredient<ItemStack> input = this.recipe.getInput();
+            RecipeIngredient<ItemStack> input = this.recipe.getInput().getSubIngredient("item");
             new TEMachineRecipeBuilder(TEMachineRecipeBuilder.SAWMILL, input.asIngredient(), input.getCount(), this.recipe.getOutput(), 100, 1600)
                 .addConditions(this.conditions)
                 .build(finishedRecipeConsumer, recipeId.toForeign(TEMachineRecipeBuilder.SAWMILL));

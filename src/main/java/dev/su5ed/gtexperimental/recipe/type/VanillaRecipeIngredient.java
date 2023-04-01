@@ -74,4 +74,9 @@ public class VanillaRecipeIngredient implements RecipeIngredient<ItemStack> {
     public boolean test(ItemStack stack) {
         return this.ingredient.test(stack) && stack.getCount() >= getCount();
     }
+
+    @Override
+    public boolean testPartial(ItemStack stack) {
+        return this.ingredient.test(stack);
+    }
 }

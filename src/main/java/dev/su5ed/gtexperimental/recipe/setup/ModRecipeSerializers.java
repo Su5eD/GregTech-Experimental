@@ -72,7 +72,7 @@ public final class ModRecipeSerializers {
         RECIPE_SERIALIZERS.register(bus);
     }
 
-    private static <T extends BaseRecipeType<R, ?>, R extends BaseRecipe<?, ?, ?, ? super R>> RegistryObject<RecipeSerializer<R>> register(String name, Supplier<? extends T> type) {
+    private static <T extends BaseRecipeType<R, ?, ?, ?>, R extends BaseRecipe<?, ?, ?, ?, ? super R>> RegistryObject<RecipeSerializer<R>> register(String name, Supplier<? extends T> type) {
         return RECIPE_SERIALIZERS.register(name, () -> new BaseRecipeSerializer<>(type.get()));
     }
 

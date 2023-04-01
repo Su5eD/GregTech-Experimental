@@ -4,7 +4,7 @@ import dev.su5ed.gtexperimental.api.recipe.ListRecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeSerializers;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeTypes;
-import dev.su5ed.gtexperimental.recipe.type.ModRecipe;
+import dev.su5ed.gtexperimental.recipe.type.BaseRecipeImpl;
 import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Multi Input, Single Output recipe
  */
-public class MISORecipe<IN, OUT> extends ModRecipe<MISORecipeType<?, IN, OUT>, ListRecipeIngredient<IN>, List<IN>, OUT, MISORecipe<IN, OUT>> {
+public class MISORecipe<IN, OUT> extends BaseRecipeImpl<MISORecipeType<?, IN, OUT>, ListRecipeIngredient<IN>, List<IN>, OUT, MISORecipe<IN, OUT>> {
     public static MISORecipe<ItemStack, ItemStack> printer(ResourceLocation id, List<? extends RecipeIngredient<ItemStack>> inputs, ItemStack output, RecipePropertyMap properties) {
         return new MISORecipe<>(ModRecipeTypes.PRINTER.get(), ModRecipeSerializers.PRINTER.get(), id, inputs, output, properties);
     }

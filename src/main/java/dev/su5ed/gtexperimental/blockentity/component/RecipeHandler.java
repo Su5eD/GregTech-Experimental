@@ -39,7 +39,7 @@ import java.util.Set;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
-public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> extends GtComponentBase<T> implements MachineProgress {
+public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> extends GtComponentBase<T> implements MachineProgress {
     private final PowerHandler energy;
     private final UpgradeManager<?> upgrades;
     private final MachineController controller;
@@ -236,7 +236,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
     }
 
-    public record PendingRecipe<R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT>(IN input, RecipeOutputType<IN> inputSerializer, OUT output, RecipeOutputType<OUT> outputSerializer, R recipe) {
+    public record PendingRecipe<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT>(IN input, RecipeOutputType<IN> inputSerializer, OUT output, RecipeOutputType<OUT> outputSerializer, R recipe) {
         public CompoundTag serializeNBT() {
             FriendlyCompoundTag tag = new FriendlyCompoundTag();
             tag.put("input", this.inputSerializer.toNBT(this.input));
@@ -246,7 +246,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
 
         @Nullable
-        public static <R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, IN, OUT> manager) {
+        public static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, IN, OUT> manager) {
             FriendlyCompoundTag tag = new FriendlyCompoundTag(nbt);
             String key = tag.getString("recipe");
             if (!key.isEmpty()) {
@@ -263,7 +263,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
     }
 
-    public static class PendingRecipeNetworkSerializer<R extends BaseRecipe<?, IN, OUT, ? super R>, IN, OUT> implements NetworkHandler.SerializationHandler<RecipeHandler<?, R, IN, OUT>, PendingRecipe<R, IN, OUT>> {
+    public static class PendingRecipeNetworkSerializer<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> implements NetworkHandler.SerializationHandler<RecipeHandler<?, R, IN, OUT>, PendingRecipe<R, IN, OUT>> {
         @Override
         public void toNetwork(RecipeHandler<?, R, IN, OUT> parent, FriendlyByteBuf buf, PendingRecipe<R, IN, OUT> instance) {
             parent.inputSerializer.toNetwork(buf, instance.input);
