@@ -80,6 +80,8 @@
   "block.gtexperimental.alloy_smelter.description": "HighTech combination Smelter",
   "block.gtexperimental.assembler": "Assembling Machine",
   "block.gtexperimental.assembler.description": "Avengers, Assemble!",
+  "block.gtexperimental.auto_canner": "Automatic Canning Machine",
+  "block.gtexperimental.auto_canner.description": "Unmobile Food Canning Machine GTA4",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

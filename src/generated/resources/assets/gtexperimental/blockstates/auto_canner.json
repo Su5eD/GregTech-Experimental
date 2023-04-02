@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/auto_canner"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/auto_canner_active"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.compat.ModHandler;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.Tool;
+import dev.su5ed.gtexperimental.recipe.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
@@ -46,6 +47,7 @@ public class JEIModule implements IModPlugin {
     private static final RecipeType<SISORecipe<ItemStack, ItemStack>> RECIPE_BENDER = createRecipeType(Reference.MODID, "bender", SISORecipe.class);
     private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_ALLOY_SMELTER = createRecipeType(Reference.MODID, "alloy_smelter", MISORecipe.class);
     private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_ASSEMBLER = createRecipeType(Reference.MODID, "assembler", MISORecipe.class);
+    private static final RecipeType<MIMORecipe> RECIPE_AUTO_CANNER = createRecipeType(Reference.MODID, "auto_canner", MIMORecipe.class);
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -60,6 +62,7 @@ public class JEIModule implements IModPlugin {
         addBasicMachineCategory(GTBlockEntity.BENDER, SimpleMachineScreen.BenderScreen.class, RECIPE_BENDER);
         addBasicMachineCategory(GTBlockEntity.ALLOY_SMELTER, SimpleMachineScreen.AlloySmelterScreen.class, RECIPE_ALLOY_SMELTER);
         addBasicMachineCategory(GTBlockEntity.ASSEMBLER, SimpleMachineScreen.AssemblerScreen.class, RECIPE_ASSEMBLER);
+        addBasicMachineCategory(GTBlockEntity.AUTO_CANNER, SimpleMachineScreen.AutoCannerScreen.class, RECIPE_AUTO_CANNER);
     }
 
     @Override
@@ -88,7 +91,8 @@ public class JEIModule implements IModPlugin {
             new SimpleMachineRecipeCategory.SISO(GTBlockEntity.WIREMILL, "wiremill", RECIPE_WIREMILL, guiHelper, RecipeProgressBar.EXTRUDING, -5, true),
             new SimpleMachineRecipeCategory.SISO(GTBlockEntity.BENDER, "bender", RECIPE_BENDER, guiHelper, RecipeProgressBar.BENDING, -5, true),
             new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ALLOY_SMELTER, "alloy_smelter", RECIPE_ALLOY_SMELTER, guiHelper, RecipeProgressBar.SMELTING, -5, true),
-            new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ASSEMBLER, "assembler", RECIPE_ASSEMBLER, guiHelper, RecipeProgressBar.ASSEMBLING, -5, true)
+            new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ASSEMBLER, "assembler", RECIPE_ASSEMBLER, guiHelper, RecipeProgressBar.ASSEMBLING, -5, true),
+            new SimpleMachineRecipeCategory.MIMO(GTBlockEntity.AUTO_CANNER, "auto_canner", RECIPE_AUTO_CANNER, guiHelper, RecipeProgressBar.CANNING, -5, false)
         );
     }
 
@@ -99,6 +103,7 @@ public class JEIModule implements IModPlugin {
         register.addRecipes(RECIPE_BENDER, ModRecipeManagers.BENDER.getRecipes(level));
         register.addRecipes(RECIPE_ALLOY_SMELTER, ModRecipeManagers.ALLOY_SMELTER.getRecipes(level));
         register.addRecipes(RECIPE_ASSEMBLER, ModRecipeManagers.ASSEMBLER.getRecipes(level));
+        register.addRecipes(RECIPE_AUTO_CANNER, ModRecipeManagers.CANNING_MACHINE.getRecipes(level));
     }
 
     @Override

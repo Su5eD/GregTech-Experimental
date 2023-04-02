@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.blockentity;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
 import dev.su5ed.gtexperimental.blockentity.base.MachineBlockEntity;
+import dev.su5ed.gtexperimental.blockentity.component.ManagedRecipeHandler;
 import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.network.Networked;
@@ -43,7 +44,7 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
     public final InventorySlot outputSlot;
     public final InventorySlot extraSlot;
     public final RecipeHandler<?, ?, ?, ?> recipeHandler;
-    private final boolean queueInput;
+    private final SlotQueueMode slotQueueMode;
 
     @Networked
     public boolean provideEnergy;
@@ -54,38 +55,42 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
     private final SynchronizedData.Key autoOutputKey = SynchronizedData.Key.field("autoOutput");
 
     public static SimpleMachineBlockEntity autoMacerator(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_MACERATOR, pos, state, SimpleMachineMenu::autoMacerator, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.MACERATOR), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_MACERATOR, pos, state, SimpleMachineMenu::autoMacerator, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.MACERATOR), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity autoExtractor(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_EXTRACTOR, pos, state, SimpleMachineMenu::autoExtractor, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.EXTRACTOR), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_EXTRACTOR, pos, state, SimpleMachineMenu::autoExtractor, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.EXTRACTOR), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity autoCompressor(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_COMPRESSOR, pos, state, SimpleMachineMenu::autoCompressor, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.COMPRESSOR), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_COMPRESSOR, pos, state, SimpleMachineMenu::autoCompressor, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.COMPRESSOR), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity autoElectricFurnace(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_ELECTRIC_FURNACE, pos, state, SimpleMachineMenu::autoElectricFurnace, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.FURNACE), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_ELECTRIC_FURNACE, pos, state, SimpleMachineMenu::autoElectricFurnace, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.FURNACE), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity wiremill(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.WIREMILL, pos, state, SimpleMachineMenu::wiremill, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.WIREMILL), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.WIREMILL, pos, state, SimpleMachineMenu::wiremill, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.WIREMILL), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity bender(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.BENDER, pos, state, SimpleMachineMenu::bender, be -> RecipeHandler.SISO.create(be, ModRecipeManagers.BENDER), true);
+        return new SimpleMachineBlockEntity(GTBlockEntity.BENDER, pos, state, SimpleMachineMenu::bender, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.BENDER), SlotQueueMode.BOTH);
     }
 
     public static SimpleMachineBlockEntity alloySmelter(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.ALLOY_SMELTER, pos, state, SimpleMachineMenu::alloySmelter, be -> RecipeHandler.MISO.create(be, ModRecipeManagers.ALLOY_SMELTER), false);
+        return new SimpleMachineBlockEntity(GTBlockEntity.ALLOY_SMELTER, pos, state, SimpleMachineMenu::alloySmelter, be -> ManagedRecipeHandler.createMISO(be, ModRecipeManagers.ALLOY_SMELTER), SlotQueueMode.OUTPUT);
     }
 
     public static SimpleMachineBlockEntity assembler(BlockPos pos, BlockState state) {
-        return new SimpleMachineBlockEntity(GTBlockEntity.ASSEMBLER, pos, state, SimpleMachineMenu::assembler, be -> RecipeHandler.MISO.create(be, ModRecipeManagers.ASSEMBLER), false);
+        return new SimpleMachineBlockEntity(GTBlockEntity.ASSEMBLER, pos, state, SimpleMachineMenu::assembler, be -> ManagedRecipeHandler.createMISO(be, ModRecipeManagers.ASSEMBLER), SlotQueueMode.OUTPUT);
     }
 
-    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, boolean queueInput) {
+    public static SimpleMachineBlockEntity autoCanner(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_CANNER, pos, state, SimpleMachineMenu::autoCanner, be -> ManagedRecipeHandler.createMIMO(be, ModRecipeManagers.CANNING_MACHINE), SlotQueueMode.NONE);
+    }
+
+    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, SlotQueueMode slotQueueMode) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
         // Slot registration order defines the order in which items are inserted/extracted
@@ -95,7 +100,7 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
         this.extraSlot = createExtraSlot();
         this.recipeHandler = addComponent(recipeHandlerFactory.apply(this));
-        this.queueInput = queueInput;
+        this.slotQueueMode = slotQueueMode;
     }
 
     protected InventorySlot createExtraSlot() {
@@ -193,10 +198,12 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         super.tickServer();
 
         // Advance Queue
-        if (this.queueInput) {
+        if (this.slotQueueMode.input) {
             moveStack(this.queueInputSlot, this.inputSlot);
         }
-        moveStack(this.queueOutputSlot, this.outputSlot);
+        if (this.slotQueueMode.output) {
+            moveStack(this.queueOutputSlot, this.outputSlot);
+        }
 
         // Dump output
         if (getTicks() % 1200 == 0 || this.recipeHandler.isOutputBlocked()) {
@@ -253,6 +260,21 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
             int toMove = Math.min(destItem.getMaxStackSize() - destItem.getCount(), srcItem.getCount());
             srcItem.shrink(toMove);
             destItem.grow(toMove);
+        }
+    }
+    
+    public enum SlotQueueMode {
+        NONE(false, false),
+        INPUT(true, false),
+        OUTPUT(false, true),
+        BOTH(true, true);
+        
+        public final boolean input;
+        public final boolean output;
+
+        SlotQueueMode(boolean input, boolean output) {
+            this.input = input;
+            this.output = output;
         }
     }
 }

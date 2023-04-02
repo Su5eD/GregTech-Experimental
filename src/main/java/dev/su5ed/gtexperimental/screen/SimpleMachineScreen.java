@@ -109,4 +109,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.ASSEMBLING);
         }
     }
+
+    public static class AutoCannerScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("auto_canner");
+
+        public AutoCannerScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.CANNING);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.blockentity.component.ManagedRecipeHandler;
 import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
@@ -17,42 +18,25 @@ import net.minecraft.world.level.block.state.BlockState;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class AutomaticRecyclerBlockEntity extends SimpleMachineBlockEntity {
+    private static final ResourceLocation RECYCLER_RECIPE_HANDLER = location("recycler_recipe_handler");
+    private static final int OUTPUT_CHANCE = 8;
 
     public AutomaticRecyclerBlockEntity(BlockPos pos, BlockState state) {
-        super(GTBlockEntity.AUTO_RECYCLER, pos, state, SimpleMachineMenu::autoRecycler, be -> RecyclerRecipeHandler.createRecycler(be, ModRecipeManagers.RECYCLER), true);
+        super(GTBlockEntity.AUTO_RECYCLER, pos, state, SimpleMachineMenu::autoRecycler, be -> createRecycler(be, ModRecipeManagers.RECYCLER), SlotQueueMode.BOTH);
     }
 
-    private static class RecyclerRecipeHandler extends RecipeHandler.SISO {
-        private static final ResourceLocation NAME = location("recycler_recipe_handler");
-        private static final int CHANCE = 8;
+    public static RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> createRecycler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
+        RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
+        // TODO DISABLED Due to IC2 bug
+        // RecipeInputItemStack#listStacks returns an immutable list unlike other implementations,
+        // causing a crash in RecipeInputBase#getInputs when it tries to call replaceAll on the returned list
+        return new ManagedRecipeHandler<>(parent, manager, outputType, outputType, RECYCLER_RECIPE_HANDLER, stack -> ItemStack.EMPTY,
+            ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, AutomaticRecyclerBlockEntity::addRecyclerOutput);
+    }
 
-        public static RecyclerRecipeHandler createRecycler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
-            RecipeOutputType<ItemStack> outputType = manager.getRecipeType().getOutputType();
-            return new RecyclerRecipeHandler(parent, manager, outputType, outputType);
-        }
-
-        public RecyclerRecipeHandler(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager, RecipeOutputType<ItemStack> inputSerializer, RecipeOutputType<ItemStack> outputSerializer) {
-            super(parent, manager, inputSerializer, outputSerializer);
-        }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
-
-        @Override
-        public boolean accepts(ItemStack input) {
-            // TODO DISABLED Due to IC2 bug
-            // RecipeInputItemStack#listStacks returns an immutable list unlike other implementations,
-            // causing a crash in RecipeInputBase#getInputs when it tries to call replaceAll on the returned list
-            return false;
-        }
-
-        @Override
-        protected void addOutput(SISORecipe<ItemStack, ItemStack> recipe) {
-            if (this.parent.getLevel().random.nextInt(CHANCE) == 0) {
-                super.addOutput(recipe);
-            }
+    private static void addRecyclerOutput(ManagedRecipeHandler<?, ?, ?> handler, SISORecipe<ItemStack, ItemStack> recipe) {
+        if (handler.getParent().getLevel().random.nextInt(OUTPUT_CHANCE) == 0) {
+            ManagedRecipeHandler.addSingleOutput(handler, recipe);
         }
     }
 }

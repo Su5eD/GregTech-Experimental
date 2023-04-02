@@ -70,6 +70,10 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     public ItemStack add(int index, ItemStack stack, boolean simulate) {
         return add(index, stack, null, simulate);
     }
+    
+    public boolean canAdd(int index, ItemStack stack) {
+        return add(index, stack, true).isEmpty();
+    }
 
     /**
      * @return the insertion remainder

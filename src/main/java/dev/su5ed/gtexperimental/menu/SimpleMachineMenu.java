@@ -49,6 +49,10 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
         return new SimpleMachineMenu(ModMenus.ASSEMBLER.get(), GTBlockEntity.ASSEMBLER.getType(), containerId, pos, playerInventory, player);
     }
 
+    public static SimpleMachineMenu autoCanner(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        return new SimpleMachineMenu(ModMenus.AUTO_CANNER.get(), GTBlockEntity.AUTO_CANNER.getType(), containerId, pos, playerInventory, player);
+    }
+
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);
 

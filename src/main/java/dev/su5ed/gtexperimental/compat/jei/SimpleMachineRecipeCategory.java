@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.ListRecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.recipe.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.screen.RecipeProgressBar;
@@ -19,6 +20,8 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
@@ -78,6 +81,28 @@ public abstract class SimpleMachineRecipeCategory<T extends BaseRecipe<?, ?, ?, 
             }
             builder.addSlot(RecipeIngredientRole.OUTPUT, 107, 25)
                 .addItemStack(recipe.getOutput());
+        }
+    }
+
+    public static class MIMO extends SimpleMachineRecipeCategory<MIMORecipe> {
+        public <U extends BlockEntityProvider & ItemProvider> MIMO(U provider, String name, RecipeType<MIMORecipe> recipeType, IGuiHelper guiHelper, RecipeProgressBar progressBar, int yOffset, boolean customTexture) {
+            super(provider, name, recipeType, guiHelper, progressBar, yOffset, customTexture);
+        }
+
+        @Override
+        public void setRecipe(IRecipeLayoutBuilder builder, MIMORecipe recipe, IFocusGroup focuses) {
+            ListRecipeIngredient<ItemStack> input = recipe.getInput();
+            for (int i = 0; i < input.size(); i++) {
+                RecipeIngredient<ItemStack> ingredient = input.get(i);
+                builder.addSlot(RecipeIngredientRole.INPUT, 35 + i * 18, 25)
+                    .addItemStacks(ingredient.getItemStacks());
+            }
+            List<ItemStack> output = recipe.getOutput();
+            for (int i = 0; i < output.size(); i++) {
+                ItemStack stack = output.get(i);
+                builder.addSlot(RecipeIngredientRole.OUTPUT, 107 + i * 18, 25)
+                    .addItemStack(stack);
+            }
         }
     }
 }
