@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-02T12:31:10.8189284	Gregtech ExperimentalLootTables
+// 1.19.2	2023-04-02T22:16:41.59684	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 9e3b6fc857b777e07628b9320c21593df0adfb4c data/gtexperimental/loot_tables/blocks/alloy_smelter.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
@@ -25,6 +25,7 @@ b9874ab828d2a4699919aab7250167fe65ba2d21 data/gtexperimental/loot_tables/blocks/
 8867f2287b35e876e075ffd9b9f8c9ab8feea330 data/gtexperimental/loot_tables/blocks/iridium_ore.json
 4e2964916caed4326a707ebfdfe1d70b8f936088 data/gtexperimental/loot_tables/blocks/iridium_reinforced_stone_block.json
 22b73672a81700d916655ca71bc324a19019755a data/gtexperimental/loot_tables/blocks/iridium_reinforced_tungsten_steel_block.json
+189b615dc8eada8ff12aabafe27097d1121651d6 data/gtexperimental/loot_tables/blocks/lathe.json
 d252532f42bbfb69649323862f0c42b3d2854685 data/gtexperimental/loot_tables/blocks/lead_block.json
 7969d6fc68af007163c2054894b33fb89cb7bac2 data/gtexperimental/loot_tables/blocks/lesublock_block.json
 1067d64f6f174778e98cfeb62a1cca5d2f9f88a6 data/gtexperimental/loot_tables/blocks/nickel_block.json

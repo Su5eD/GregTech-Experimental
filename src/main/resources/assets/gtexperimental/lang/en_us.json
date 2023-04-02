@@ -82,6 +82,8 @@
   "block.gtexperimental.assembler.description": "Avengers, Assemble!",
   "block.gtexperimental.auto_canner": "Automatic Canning Machine",
   "block.gtexperimental.auto_canner.description": "Unmobile Food Canning Machine GTA4",
+  "block.gtexperimental.lathe": "Lathe",
+  "block.gtexperimental.lathe.description": "Produces Metal Rods more efficiently",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

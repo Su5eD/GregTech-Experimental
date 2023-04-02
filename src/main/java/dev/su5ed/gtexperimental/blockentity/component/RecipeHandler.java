@@ -60,8 +60,8 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer) {
-        this(parent, manager, inputSerializer, outputSerializer, true);
+    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer) {
+        this(parent, manager, inputSerializer, manager.getRecipeType().getOutputType(), true);
     }
 
     protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {

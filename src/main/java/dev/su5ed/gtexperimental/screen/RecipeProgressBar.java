@@ -11,7 +11,8 @@ public enum RecipeProgressBar {
     EXTRUDING(SimpleMachineScreen.WiremillScreen.BACKGROUND),
     BENDING(SimpleMachineScreen.BenderScreen.BACKGROUND),
     ASSEMBLING(SimpleMachineScreen.AssemblerScreen.BACKGROUND),
-    CANNING(SimpleMachineScreen.AutoCannerScreen.BACKGROUND);
+    CANNING(SimpleMachineScreen.AutoCannerScreen.BACKGROUND),
+    TURNING(SimpleMachineScreen.LatheScreen.BACKGROUND);
 
     public final ResourceLocation texture;
     public final int x;

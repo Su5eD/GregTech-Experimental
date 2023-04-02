@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Single Input, Multi Output recipe
  */
+// TODO Change OUT generic to be the same as MISORecipe IN
 public class SIMORecipe<IN, OUT> extends BaseRecipeImpl<SIMORecipeType<?, IN, OUT>, RecipeIngredient<IN>, IN, OUT, SIMORecipe<IN, OUT>> {
     public static SIMORecipe<Either<ItemStack, FluidStack>, List<Either<ItemStack, FluidStack>>> industrialElectrolyzer(ResourceLocation id, RecipeIngredient<Either<ItemStack, FluidStack>> input, List<Either<ItemStack, FluidStack>> output, RecipePropertyMap properties) {
         return new SIMORecipe<>(ModRecipeTypes.INDUSTRIAL_ELECTROLYZER.get(), ModRecipeSerializers.INDUSTRIAL_ELECTROLYZER.get(), id, input, output, properties);

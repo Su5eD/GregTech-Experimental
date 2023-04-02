@@ -90,6 +90,10 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_CANNER, pos, state, SimpleMachineMenu::autoCanner, be -> ManagedRecipeHandler.createMIMO(be, ModRecipeManagers.CANNING_MACHINE), SlotQueueMode.NONE);
     }
 
+    public static SimpleMachineBlockEntity lathe(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.LATHE, pos, state, SimpleMachineMenu::lathe, be -> ManagedRecipeHandler.createSIMO(be, ModRecipeManagers.LATHE), SlotQueueMode.INPUT);
+    }
+
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, SlotQueueMode slotQueueMode) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
@@ -262,13 +266,13 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
             destItem.grow(toMove);
         }
     }
-    
+
     public enum SlotQueueMode {
         NONE(false, false),
         INPUT(true, false),
         OUTPUT(false, true),
         BOTH(true, true);
-        
+
         public final boolean input;
         public final boolean output;
 

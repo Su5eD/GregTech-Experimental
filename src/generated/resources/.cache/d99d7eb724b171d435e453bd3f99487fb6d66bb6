@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-02T12:31:10.8239309	Block States: gtexperimental
+// 1.19.2	2023-04-02T22:16:41.5933436	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 8a5a4f9424bf32379dd70bb52f3a866dcd4997a2 assets/gtexperimental/blockstates/alloy_smelter.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
@@ -25,6 +25,7 @@ e03ce9ec7eafabf2833a6a15f7864903add77b3f assets/gtexperimental/blockstates/iridi
 c47087cf304cec339eea569765b5fb3774515aaa assets/gtexperimental/blockstates/iridium_ore.json
 6626230344833a0fb791ba47eadef5f068b714d4 assets/gtexperimental/blockstates/iridium_reinforced_stone_block.json
 195019afe60f2f68e9fc3d369cfefaa476e86dbd assets/gtexperimental/blockstates/iridium_reinforced_tungsten_steel_block.json
+5146b8b79f87bee59ae48625d4319aadc6dfb16d assets/gtexperimental/blockstates/lathe.json
 a75d544c0670c849e5fd2917092d0e6450566cd2 assets/gtexperimental/blockstates/lead_block.json
 60e23178bbc491c5e1d4bb2adb19cd9152d50c3f assets/gtexperimental/blockstates/lesublock_block.json
 3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/gtexperimental/blockstates/light_source.json

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/lathe"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/lathe_active"
+    }
+  }
+}

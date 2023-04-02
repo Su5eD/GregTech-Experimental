@@ -30,7 +30,7 @@ public class AutomaticRecyclerBlockEntity extends SimpleMachineBlockEntity {
         // TODO DISABLED Due to IC2 bug
         // RecipeInputItemStack#listStacks returns an immutable list unlike other implementations,
         // causing a crash in RecipeInputBase#getInputs when it tries to call replaceAll on the returned list
-        return new ManagedRecipeHandler<>(parent, manager, outputType, outputType, RECYCLER_RECIPE_HANDLER, stack -> ItemStack.EMPTY,
+        return new ManagedRecipeHandler<>(parent, manager, outputType, RECYCLER_RECIPE_HANDLER, stack -> ItemStack.EMPTY,
             ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, AutomaticRecyclerBlockEntity::addRecyclerOutput);
     }
 

@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-02T12:31:10.8114266	Item Models: gtexperimental
+// 1.19.2	2023-04-02T22:16:41.6003434	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -219,6 +219,7 @@ d7783bf26fe92023405ff2aad4a9e1bd97ef9e72 assets/gtexperimental/models/item/iron_
 8af156aad84e7b02371c67ef694d2077303cd15c assets/gtexperimental/models/item/lapotronic_energy_orb.json
 8aeec048a1842c806b747c6ef2487e5dd0078a34 assets/gtexperimental/models/item/lapotronpack.json
 db35b608ad3579352593b1527e96b946613c38ed assets/gtexperimental/models/item/lapotron_crystal_upgrade.json
+5463cf7ddaed56a21fc6e606d254773152dd2ab3 assets/gtexperimental/models/item/lathe.json
 0930e3af39ff063e2d319426c0c1591963804508 assets/gtexperimental/models/item/lava_filter.json
 44d341fdfc83206343a970e32afef2337211717a assets/gtexperimental/models/item/lazurite_chunk.json
 5f74551ccbff80ce907fa017069dcff63238c23c assets/gtexperimental/models/item/lazurite_dust.json
