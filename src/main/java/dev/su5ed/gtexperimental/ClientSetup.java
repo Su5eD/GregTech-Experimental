@@ -160,5 +160,6 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.WIREMILL.get(), SimpleMachineScreen.WiremillScreen::new);
         MenuScreens.register(ModMenus.BENDER.get(), SimpleMachineScreen.BenderScreen::new);
         MenuScreens.register(ModMenus.ALLOY_SMELTER.get(), SimpleMachineScreen.AlloySmelterScreen::new);
+        MenuScreens.register(ModMenus.ASSEMBLER.get(), SimpleMachineScreen.AssemblerScreen::new);
     }
 }

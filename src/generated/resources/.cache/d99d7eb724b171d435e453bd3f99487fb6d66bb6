@@ -1,7 +1,8 @@
-// 1.19.2	2023-04-01T11:50:56.599453	Block States: gtexperimental
+// 1.19.2	2023-04-02T09:47:40.9552689	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 8a5a4f9424bf32379dd70bb52f3a866dcd4997a2 assets/gtexperimental/blockstates/alloy_smelter.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
+5054501d2c977ad4d3a80f29952cfce16498b3de assets/gtexperimental/blockstates/assembler.json
 ba4b105ad1d153dabc9b1baeeafa72c484f1e6bd assets/gtexperimental/blockstates/auto_compressor.json
 7f97d7be9eba3ab86bc263e205181f0a5b28a1e3 assets/gtexperimental/blockstates/auto_electric_furnace.json
 ffdb3198cc2f5a8252490a907a48e9f88e6e675c assets/gtexperimental/blockstates/auto_extractor.json

@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-01T11:50:56.6006284	Item Models: gtexperimental
+// 1.19.2	2023-04-02T09:47:40.960768	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -25,6 +25,7 @@ dee4499d51918ad853ebb07d45aaed5875469073 assets/gtexperimental/models/item/andra
 cd5c84576b6c1200fcf93400681b4f55891f5edb assets/gtexperimental/models/item/antimony_smalldust.json
 b65c27e0e6751715a5926b501842e7d931805d69 assets/gtexperimental/models/item/ashes_dust.json
 1a0811dcd4702bec517d6909a171436951d5041f assets/gtexperimental/models/item/ashes_smalldust.json
+da0724e679ccc4e566625a808999b29fe1cf5500 assets/gtexperimental/models/item/assembler.json
 9e3ea8e437f57ec611aed1cd8b86d2eae671cfcf assets/gtexperimental/models/item/auto_compressor.json
 f5a6c5791ec429bff961f9eb1f6e3863b26d0975 assets/gtexperimental/models/item/auto_electric_furnace.json
 61ce6033150ee9358a08bf5cfc017c63de84e47f assets/gtexperimental/models/item/auto_extractor.json

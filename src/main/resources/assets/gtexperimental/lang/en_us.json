@@ -78,6 +78,8 @@
   "block.gtexperimental.wiremill.description": "Produces Wires more efficiently",
   "block.gtexperimental.alloy_smelter": "Alloy Smelter",
   "block.gtexperimental.alloy_smelter.description": "HighTech combination Smelter",
+  "block.gtexperimental.assembler": "Assembling Machine",
+  "block.gtexperimental.assembler.description": "Avengers, Assemble!",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

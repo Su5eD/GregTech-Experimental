@@ -45,6 +45,7 @@ public class JEIModule implements IModPlugin {
     private static final RecipeType<SISORecipe<ItemStack, ItemStack>> RECIPE_WIREMILL = createRecipeType(Reference.MODID, "wiremill", SISORecipe.class);
     private static final RecipeType<SISORecipe<ItemStack, ItemStack>> RECIPE_BENDER = createRecipeType(Reference.MODID, "bender", SISORecipe.class);
     private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_ALLOY_SMELTER = createRecipeType(Reference.MODID, "alloy_smelter", MISORecipe.class);
+    private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_ASSEMBLER = createRecipeType(Reference.MODID, "assembler", MISORecipe.class);
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -58,6 +59,7 @@ public class JEIModule implements IModPlugin {
         addBasicMachineCategory(GTBlockEntity.WIREMILL, SimpleMachineScreen.WiremillScreen.class, RECIPE_WIREMILL);
         addBasicMachineCategory(GTBlockEntity.BENDER, SimpleMachineScreen.BenderScreen.class, RECIPE_BENDER);
         addBasicMachineCategory(GTBlockEntity.ALLOY_SMELTER, SimpleMachineScreen.AlloySmelterScreen.class, RECIPE_ALLOY_SMELTER);
+        addBasicMachineCategory(GTBlockEntity.ASSEMBLER, SimpleMachineScreen.AssemblerScreen.class, RECIPE_ASSEMBLER);
     }
 
     @Override
@@ -85,7 +87,8 @@ public class JEIModule implements IModPlugin {
         register.addRecipeCategories(
             new SimpleMachineRecipeCategory.SISO(GTBlockEntity.WIREMILL, "wiremill", RECIPE_WIREMILL, guiHelper, RecipeProgressBar.EXTRUDING, -5, true),
             new SimpleMachineRecipeCategory.SISO(GTBlockEntity.BENDER, "bender", RECIPE_BENDER, guiHelper, RecipeProgressBar.BENDING, -5, true),
-            new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ALLOY_SMELTER, "alloy_smelter", RECIPE_ALLOY_SMELTER, guiHelper, RecipeProgressBar.SMELTING, -5, true)
+            new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ALLOY_SMELTER, "alloy_smelter", RECIPE_ALLOY_SMELTER, guiHelper, RecipeProgressBar.SMELTING, -5, true),
+            new SimpleMachineRecipeCategory.MISO(GTBlockEntity.ASSEMBLER, "assembler", RECIPE_ASSEMBLER, guiHelper, RecipeProgressBar.ASSEMBLING, -5, true)
         );
     }
 
@@ -95,6 +98,7 @@ public class JEIModule implements IModPlugin {
         register.addRecipes(RECIPE_WIREMILL, ModRecipeManagers.WIREMILL.getRecipes(level));
         register.addRecipes(RECIPE_BENDER, ModRecipeManagers.BENDER.getRecipes(level));
         register.addRecipes(RECIPE_ALLOY_SMELTER, ModRecipeManagers.ALLOY_SMELTER.getRecipes(level));
+        register.addRecipes(RECIPE_ASSEMBLER, ModRecipeManagers.ASSEMBLER.getRecipes(level));
     }
 
     @Override

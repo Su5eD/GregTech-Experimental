@@ -1,7 +1,8 @@
-// 1.19.2	2023-04-01T11:50:56.5974544	Gregtech ExperimentalLootTables
+// 1.19.2	2023-04-02T09:47:40.9597678	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 9e3b6fc857b777e07628b9320c21593df0adfb4c data/gtexperimental/loot_tables/blocks/alloy_smelter.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
+eb8556ca22dbf53a9e498b0f78e9f28783c2b9a3 data/gtexperimental/loot_tables/blocks/assembler.json
 745a1e489a88dc76857a3e4cebcfc23c84c83afa data/gtexperimental/loot_tables/blocks/auto_compressor.json
 98e10ffc149ad244dd6c9aa98ab98cd30e403bfc data/gtexperimental/loot_tables/blocks/auto_electric_furnace.json
 3da5c80f109fe30f4f80e56f7eaa29f049f747bd data/gtexperimental/loot_tables/blocks/auto_extractor.json

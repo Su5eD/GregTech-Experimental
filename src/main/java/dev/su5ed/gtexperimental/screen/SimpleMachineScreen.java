@@ -101,4 +101,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.SMELTING);
         }
     }
+
+    public static class AssemblerScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("assembler");
+
+        public AssemblerScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.ASSEMBLING);
+        }
+    }
 }

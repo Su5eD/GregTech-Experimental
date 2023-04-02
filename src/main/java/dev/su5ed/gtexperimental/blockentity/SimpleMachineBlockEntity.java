@@ -43,7 +43,7 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
     public final InventorySlot outputSlot;
     public final InventorySlot extraSlot;
     public final RecipeHandler<?, ?, ?, ?> recipeHandler;
-    private final boolean queueOutput;
+    private final boolean queueInput;
 
     @Networked
     public boolean provideEnergy;
@@ -81,7 +81,11 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         return new SimpleMachineBlockEntity(GTBlockEntity.ALLOY_SMELTER, pos, state, SimpleMachineMenu::alloySmelter, be -> RecipeHandler.MISO.create(be, ModRecipeManagers.ALLOY_SMELTER), false);
     }
 
-    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, boolean queueOutput) {
+    public static SimpleMachineBlockEntity assembler(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.ASSEMBLER, pos, state, SimpleMachineMenu::assembler, be -> RecipeHandler.MISO.create(be, ModRecipeManagers.ASSEMBLER), false);
+    }
+
+    public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, boolean queueInput) {
         super(provider, pos, state);
         this.menuConstructor = menuConstructor;
         // Slot registration order defines the order in which items are inserted/extracted
@@ -91,7 +95,7 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         this.queueOutputSlot = this.inventoryHandler.addSlot("queueOutput", InventorySlot.Mode.OUTPUT, SlotDirection.BOTTOM, 1);
         this.extraSlot = createExtraSlot();
         this.recipeHandler = addComponent(recipeHandlerFactory.apply(this));
-        this.queueOutput = queueOutput;
+        this.queueInput = queueInput;
     }
 
     protected InventorySlot createExtraSlot() {
@@ -188,11 +192,11 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
     public void tickServer() {
         super.tickServer();
 
-        if (this.queueOutput) {
-            // Advance Queue
+        // Advance Queue
+        if (this.queueInput) {
             moveStack(this.queueInputSlot, this.inputSlot);
-            moveStack(this.queueOutputSlot, this.outputSlot);
         }
+        moveStack(this.queueOutputSlot, this.outputSlot);
 
         // Dump output
         if (getTicks() % 1200 == 0 || this.recipeHandler.isOutputBlocked()) {

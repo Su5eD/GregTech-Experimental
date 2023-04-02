@@ -31,6 +31,7 @@ public final class ModMenus {
     public static final RegistryObject<MenuType<SimpleMachineMenu>> WIREMILL = register("wiremill", SimpleMachineMenu::wiremill);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> BENDER = register("bender", SimpleMachineMenu::bender);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> ALLOY_SMELTER = register("alloy_smelter", SimpleMachineMenu::alloySmelter);
+    public static final RegistryObject<MenuType<SimpleMachineMenu>> ASSEMBLER = register("assembler", SimpleMachineMenu::assembler);
 
     public static void init(IEventBus bus) {
         MENU_TYPES.register(bus);

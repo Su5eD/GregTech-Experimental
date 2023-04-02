@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/assembler"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/assembler_active"
+    }
+  }
+}

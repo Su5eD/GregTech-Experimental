@@ -57,7 +57,7 @@ public abstract class SimpleMachineRecipeCategory<T extends BaseRecipe<?, ?, ?, 
         @Override
         public void setRecipe(IRecipeLayoutBuilder builder, SISORecipe<ItemStack, ItemStack> recipe, IFocusGroup focuses) {
             builder.addSlot(RecipeIngredientRole.INPUT, 53, 25)
-                .addIngredients(recipe.getInput().asIngredient());
+                .addItemStacks(recipe.getInput().getItemStacks());
             builder.addSlot(RecipeIngredientRole.OUTPUT, 107, 25)
                 .addItemStack(recipe.getOutput());
         }
@@ -74,7 +74,7 @@ public abstract class SimpleMachineRecipeCategory<T extends BaseRecipe<?, ?, ?, 
             for (int i = 0; i < input.size(); i++) {
                 RecipeIngredient<ItemStack> ingredient = input.get(i);
                 builder.addSlot(RecipeIngredientRole.INPUT, 35 + i * 18, 25)
-                    .addIngredients(ingredient.asIngredient());
+                    .addItemStacks(ingredient.getItemStacks());
             }
             builder.addSlot(RecipeIngredientRole.OUTPUT, 107, 25)
                 .addItemStack(recipe.getOutput());
