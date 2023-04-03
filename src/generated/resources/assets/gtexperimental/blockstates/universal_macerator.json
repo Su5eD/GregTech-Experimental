@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/universal_macerator"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/universal_macerator_active"
+    }
+  }
+}

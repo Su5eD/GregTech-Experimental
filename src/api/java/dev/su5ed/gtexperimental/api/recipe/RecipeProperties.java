@@ -5,9 +5,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RecipeProperties {
     <T> T get(RecipeProperty<T> property);
+
+    <T> Optional<T> getOptional(RecipeProperty<T> property);
     
     void toNetwork(FriendlyByteBuf buffer);
     

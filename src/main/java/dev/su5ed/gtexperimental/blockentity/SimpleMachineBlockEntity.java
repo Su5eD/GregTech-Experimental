@@ -11,6 +11,7 @@ import dev.su5ed.gtexperimental.network.SynchronizedData;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.object.ModMenus;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
 import dev.su5ed.gtexperimental.util.BlockEntityProvider;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.InvUtil;
@@ -66,6 +67,19 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
         return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_COMPRESSOR, pos, state, SimpleMachineMenu::autoCompressor, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.COMPRESSOR), SlotQueueMode.BOTH);
     }
 
+    public static SimpleMachineBlockEntity autoRecycler(BlockPos pos, BlockState state) {
+        // TODO RECIPES DISABLED Due to IC2 bug
+        // RecipeInputItemStack#listStacks returns an immutable list unlike other implementations,
+        // causing a crash in RecipeInputBase#getInputs when it tries to call replaceAll on the returned list
+        return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_RECYCLER, pos, state, SimpleMachineMenu::autoRecycler,
+            be -> new ManagedRecipeHandler<>(be, ModRecipeManagers.RECYCLER, ModRecipeOutputTypes.ITEM, stack -> ItemStack.EMPTY, ManagedRecipeHandler::getSingleInput,
+                ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, (handler, recipe) -> {
+                if (handler.getParent().getLevel().random.nextInt(8) == 0) {
+                    ManagedRecipeHandler.addSingleOutput(handler, recipe);
+                }
+            }), SlotQueueMode.BOTH);
+    }
+
     public static SimpleMachineBlockEntity autoElectricFurnace(BlockPos pos, BlockState state) {
         return new SimpleMachineBlockEntity(GTBlockEntity.AUTO_ELECTRIC_FURNACE, pos, state, SimpleMachineMenu::autoElectricFurnace, be -> ManagedRecipeHandler.createSISO(be, ModRecipeManagers.FURNACE), SlotQueueMode.BOTH);
     }
@@ -92,6 +106,10 @@ public class SimpleMachineBlockEntity extends MachineBlockEntity implements Menu
 
     public static SimpleMachineBlockEntity lathe(BlockPos pos, BlockState state) {
         return new SimpleMachineBlockEntity(GTBlockEntity.LATHE, pos, state, SimpleMachineMenu::lathe, be -> ManagedRecipeHandler.createSIMO(be, ModRecipeManagers.LATHE), SlotQueueMode.INPUT);
+    }
+
+    public static SimpleMachineBlockEntity universalMacerator(BlockPos pos, BlockState state) {
+        return new SimpleMachineBlockEntity(GTBlockEntity.UNIVERSAL_MACERATOR, pos, state, SimpleMachineMenu::universalMacerator, be -> ManagedRecipeHandler.createSIMO(be, ModRecipeManagers.PULVERIZER), SlotQueueMode.INPUT);
     }
 
     public SimpleMachineBlockEntity(BlockEntityProvider provider, BlockPos pos, BlockState state, ModMenus.BlockEntityMenuConstructor<SimpleMachineMenu> menuConstructor, Function<SimpleMachineBlockEntity, RecipeHandler<?, ?, ?, ?>> recipeHandlerFactory, SlotQueueMode slotQueueMode) {

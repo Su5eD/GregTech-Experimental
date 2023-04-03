@@ -118,8 +118,9 @@ public class InventorySlot implements INBTSerializable<CompoundTag> {
     }
 
     public void setItem(int index, ItemStack stack, boolean notify) {
-        this.content[index] = stack;
-        onChanged(stack, notify);
+        ItemStack copy = stack.copy();
+        this.content[index] = copy;
+        onChanged(copy, notify);
     }
 
     public void shrink(int index, int amount) {

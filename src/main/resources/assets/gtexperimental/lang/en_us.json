@@ -84,6 +84,8 @@
   "block.gtexperimental.auto_canner.description": "Unmobile Food Canning Machine GTA4",
   "block.gtexperimental.lathe": "Lathe",
   "block.gtexperimental.lathe.description": "Produces Metal Rods more efficiently",
+  "block.gtexperimental.universal_macerator": "Universal Macerator",
+  "block.gtexperimental.universal_macerator.description": "Macerator + Pulverizer + Rock Crusher in one Machine",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

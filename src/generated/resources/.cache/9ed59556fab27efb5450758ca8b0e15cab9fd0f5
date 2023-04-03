@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-02T22:16:41.59684	Gregtech ExperimentalLootTables
+// 1.19.2	2023-04-03T17:32:54.3057466	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 9e3b6fc857b777e07628b9320c21593df0adfb4c data/gtexperimental/loot_tables/blocks/alloy_smelter.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
@@ -51,6 +51,7 @@ c5ab2cd51b43053b22890d3b62dee14d0f921272 data/gtexperimental/loot_tables/blocks/
 8e7deee92fa8c2c25ca734ef5e137580baac7800 data/gtexperimental/loot_tables/blocks/tungstate_ore.json
 f797d4306c23e3994f9f1aa0843d3be36a560892 data/gtexperimental/loot_tables/blocks/tungsten_block.json
 00ad4ef0a95c8f199c5122a5975ef87d4e5cc98e data/gtexperimental/loot_tables/blocks/tungsten_steel_block.json
+737b5a086067b61d542c158d4b2c182e1ad83d35 data/gtexperimental/loot_tables/blocks/universal_macerator.json
 39442fafc266b1c99cbfe62218ce1d8b7ac38ba9 data/gtexperimental/loot_tables/blocks/wiremill.json
 623f9ff5bc649775b620f96c48b14aedc1518dcc data/gtexperimental/loot_tables/blocks/zinc_block.json
 a1aacd886daafaa28d0f4e90e60fda2ddc675aa5 data/gtexperimental/loot_tables/chests/abandoned_mineshaft.json

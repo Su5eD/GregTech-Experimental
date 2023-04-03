@@ -20,23 +20,28 @@ public class RecipePropertyMap implements RecipeProperties {
     private static final RecipePropertyMap EMPTY = new RecipePropertyMap(Map.of());
 
     private final Map<RecipeProperty<?>, ?> properties;
-    private final Map<RecipeProperty<?>, ?> transientProperties;
+    private final Map<RecipeProperty<?>, Object> transientProperties;
 
     public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties) {
         this(properties, Map.of());
     }
 
-    public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties, Map<RecipeProperty<?>, ?> transientProperties) {
+    public RecipePropertyMap(Map<RecipeProperty<?>, ?> properties, Map<RecipeProperty<?>, Object> transientProperties) {
         this.properties = Collections.unmodifiableMap(properties);
         this.transientProperties = Collections.unmodifiableMap(transientProperties);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T get(RecipeProperty<T> property) {
-        return (T) Optional.<Object>ofNullable(this.transientProperties.get(property))
-            .or(() -> Optional.ofNullable(this.properties.get(property)))
+        return getOptional(property)
             .orElseThrow(() -> new IllegalArgumentException("Missing value for property " + property.getName()));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> Optional<T> getOptional(RecipeProperty<T> property) {
+        return (Optional<T>) Optional.<Object>ofNullable(this.transientProperties.get(property))
+            .or(() -> Optional.ofNullable(this.properties.get(property)));
     }
 
     @SuppressWarnings("unchecked")
@@ -62,11 +67,12 @@ public class RecipePropertyMap implements RecipeProperties {
     @Override
     public void validate(ResourceLocation id, List<RecipeProperty<?>> expected) {
         for (RecipeProperty<?> property : expected) {
-            if (!this.properties.containsKey(property)) {
+            if (!this.properties.containsKey(property) && !this.transientProperties.containsKey(property)) {
                 throw new IllegalStateException("Recipe " + id + " missing property " + property.getName());
             }
         }
         this.properties.forEach((property, value) -> ((RecipeProperty<Object>) property).validate(id, value));
+        this.transientProperties.forEach((property, value) -> ((RecipeProperty<Object>) property).validate(id, value));
     }
 
     public static RecipePropertyMap fromJson(ResourceLocation id, List<RecipeProperty<?>> properties, JsonObject json) {
@@ -111,7 +117,7 @@ public class RecipePropertyMap implements RecipeProperties {
     }
 
     public RecipePropertyMap withTransient(Consumer<Builder> builderConsumer) {
-        Builder builder = new Builder();
+        Builder builder = new Builder(this.transientProperties);
         builderConsumer.accept(builder);
         return builder.buildTransient(this.properties);
     }
@@ -119,8 +125,12 @@ public class RecipePropertyMap implements RecipeProperties {
     public static class Builder {
         protected final Map<RecipeProperty<?>, Object> properties;
 
-        private Builder() {
+        public Builder() {
             this.properties = new HashMap<>();
+        }
+        
+        public Builder(Map<RecipeProperty<?>, Object> existing) {
+            this.properties = new HashMap<>(existing);
         }
 
         public Builder duration(int duration) {

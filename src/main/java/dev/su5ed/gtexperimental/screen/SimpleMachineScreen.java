@@ -95,10 +95,8 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
     }
 
     public static class AlloySmelterScreen extends SimpleMachineScreen {
-        public static final ResourceLocation BACKGROUND = background("auto_electric_furnace");
-
         public AlloySmelterScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
-            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.SMELTING);
+            super(menu, playerInventory, title, AutomaticElectricFurnaceScreen.BACKGROUND, RecipeProgressBar.SMELTING);
         }
     }
 

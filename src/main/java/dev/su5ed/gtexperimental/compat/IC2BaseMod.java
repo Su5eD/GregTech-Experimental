@@ -2,10 +2,16 @@ package dev.su5ed.gtexperimental.compat;
 
 import dev.su5ed.gtexperimental.GregTechTags;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
+import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.recipe.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
+import dev.su5ed.gtexperimental.recipe.type.RecipePropertyMap;
 import dev.su5ed.gtexperimental.recipe.type.RecipeUtil;
+import dev.su5ed.gtexperimental.recipe.type.VanillaRecipeIngredient;
 import dev.su5ed.gtexperimental.util.GtUtil;
 import dev.su5ed.gtexperimental.util.power.IC2EnergyStorage;
 import dev.su5ed.gtexperimental.util.power.PowerStorage;
@@ -13,8 +19,10 @@ import dev.su5ed.gtexperimental.util.upgrade.IC2UpgradeCapabilityProvider;
 import ic2.api.energy.EnergyNet;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.MachineRecipe;
+import ic2.api.recipe.MachineRecipeResult;
 import ic2.api.recipe.Recipes;
 import ic2.api.upgrade.IUpgradeItem;
 import ic2.core.recipe.input.RecipeInputIngredient;
@@ -23,6 +31,7 @@ import ic2.core.ref.Ic2Items;
 import ic2.core.ref.Ic2RecipeSerializers;
 import ic2.core.ref.Ic2RecipeTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,16 +50,33 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class IC2BaseMod implements BaseMod {
 
     public IC2BaseMod() {
-        ModRecipeManagers.MACERATOR.registerProvider(new IC2RecipeProvider("macerator", () -> Recipes.macerator, SISORecipe::macerator));
-        ModRecipeManagers.EXTRACTOR.registerProvider(new IC2RecipeProvider("extractor", () -> Recipes.extractor, SISORecipe::extractor));
-        ModRecipeManagers.COMPRESSOR.registerProvider(new IC2RecipeProvider("compressor", () -> Recipes.compressor, SISORecipe::compressor));
-        ModRecipeManagers.RECYCLER.registerProvider(new IC2RecipeProvider("recycler", () -> level -> Recipes.recycler, SISORecipe::recycler));
+        ModRecipeManagers.MACERATOR.registerProvider(recipeTranslator("macerator", () -> Recipes.macerator, SISORecipe::macerator));
+        ModRecipeManagers.PULVERIZER.registerProvider(recipeTranslator("universal_macerator", () -> Recipes.macerator,
+            (id, input, output, properties) -> SIMORecipe.pulverizer(id, input, List.of(output), properties.withTransient(b -> b.chance(0)))));
+        ModRecipeManagers.EXTRACTOR.registerProvider(recipeTranslator("extractor", () -> Recipes.extractor, SISORecipe::extractor));
+        ModRecipeManagers.COMPRESSOR.registerProvider(recipeTranslator("compressor", () -> Recipes.compressor, SISORecipe::compressor));
+        ModRecipeManagers.RECYCLER.registerProvider(recipeTranslator("recycler", () -> level -> Recipes.recycler, SISORecipe::recycler));
+    }
+
+    private static <R extends BaseRecipe<?, ?, ItemStack, ?, ? super R>> RecipeProvider<R, ItemStack> recipeTranslator(String name, Supplier<Recipes.IGetter<IBasicMachineRecipeManager>> getter, IC2RecipeFactory<R, RecipeIngredient<ItemStack>, ItemStack> factory) {
+        return new TranslatingRecipeProvider<>(name, (level, stack) -> getter.get().get(level).apply(stack, false) != null, (level, stack) -> getter.get().get(level).apply(stack, false),
+            (stack, recipe) -> GtUtil.itemName(stack) + "_to_" + GtUtil.itemName(recipe.getOutput().iterator().next()),
+            (ResourceLocation id, ItemStack input, MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> result) -> {
+                IRecipeInput recipeInput = result.getRecipe().getInput();
+                ItemStack output = result.getOutput().iterator().next();
+                return factory.create(id, new VanillaRecipeIngredient(recipeInput.getIngredient(), recipeInput.getAmount()), output, RecipePropertyMap.builder().duration(300).energyCost(2).build());
+            });
+    }
+
+    public interface IC2RecipeFactory<R extends BaseRecipe<?, ?, ?, ?, ? super R>, IN, OUT> {
+        R create(ResourceLocation id, IN input, OUT output, RecipePropertyMap properties);
     }
 
     @Override

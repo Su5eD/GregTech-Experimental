@@ -13,6 +13,7 @@ import dev.su5ed.gtexperimental.recipe.MISORecipe;
 import dev.su5ed.gtexperimental.recipe.SIMORecipe;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
 import dev.su5ed.gtexperimental.recipe.setup.ModRecipeOutputTypes;
+import dev.su5ed.gtexperimental.recipe.type.ModRecipeProperty;
 import dev.su5ed.gtexperimental.util.inventory.InventorySlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -27,12 +28,8 @@ import java.util.function.Function;
 import static dev.su5ed.gtexperimental.util.GtUtil.location;
 
 public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> extends RecipeHandler<SimpleMachineBlockEntity, R, IN, OUT> {
-    private static final ResourceLocation RECIPE_HANDLER_SISO = location("siso_recipe_handler");
-    private static final ResourceLocation RECIPE_HANDLER_MISO = location("miso_recipe_handler");
-    private static final ResourceLocation RECIPE_HANDLER_MIMO = location("mimo_recipe_handler");
-    private static final ResourceLocation RECIPE_HANDLER_SIMO = location("simo_recipe_handler");
+    private static final ResourceLocation NAME = location("manager_recipe_handler");
 
-    private final ResourceLocation name;
     private final Function<ItemStack, IN> inputMapper;
     private final Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter;
     private final BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker;
@@ -40,30 +37,29 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
     private final BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder;
 
     public static RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> createSISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
-        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM, RECIPE_HANDLER_SISO, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addSingleOutput);
+        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addSingleOutput);
     }
 
     public static RecipeHandler<SimpleMachineBlockEntity, MISORecipe<ItemStack, ItemStack>, List<ItemStack>, ItemStack> createMISO(SimpleMachineBlockEntity parent, RecipeManager<MISORecipe<ItemStack, ItemStack>, ListRecipeIngredientType<List<RecipeIngredient<ItemStack>>, ItemStack>, List<ItemStack>, ItemStack> manager) {
         int inputCount = manager.getRecipeType().getInputType().getIngredientCount();
-        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM.listOf(inputCount), RECIPE_HANDLER_MISO, List::of, ManagedRecipeHandler::getMultiInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeMultiInput, ManagedRecipeHandler::addSingleOutput);
+        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM.listOf(inputCount), List::of, ManagedRecipeHandler::getMultiInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeMultiInput, ManagedRecipeHandler::addSingleOutput);
     }
 
     public static RecipeHandler<SimpleMachineBlockEntity, MIMORecipe, List<ItemStack>, List<ItemStack>> createMIMO(SimpleMachineBlockEntity parent, RecipeManager<MIMORecipe, ListRecipeIngredientType<List<RecipeIngredient<ItemStack>>, ItemStack>, List<ItemStack>, List<ItemStack>> manager) {
         int inputCount = manager.getRecipeType().getInputType().getIngredientCount();
-        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM.listOf(inputCount), RECIPE_HANDLER_MIMO, List::of, ManagedRecipeHandler::getMultiInput, ManagedRecipeHandler::canAddMultiOutput, ManagedRecipeHandler::consumeMultiInput, ManagedRecipeHandler::addMultiOutput);
+        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM.listOf(inputCount), List::of, ManagedRecipeHandler::getMultiInput, ManagedRecipeHandler::canAddMultiOutput, ManagedRecipeHandler::consumeMultiInput, ManagedRecipeHandler::addMultiOutput);
     }
 
     public static RecipeHandler<SimpleMachineBlockEntity, SIMORecipe<ItemStack, List<ItemStack>>, ItemStack, List<ItemStack>> createSIMO(SimpleMachineBlockEntity parent, RecipeManager<SIMORecipe<ItemStack, List<ItemStack>>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, List<ItemStack>> manager) {
-        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM, RECIPE_HANDLER_SIMO, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddMultiOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addMultiOutput);
+        return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddMultiOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addMultiOutput);
     }
 
     public ManagedRecipeHandler(SimpleMachineBlockEntity parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer,
-                                ResourceLocation name, Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
+                                Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
                                 BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker, BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer,
                                 BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder) {
         super(parent, manager, inputSerializer);
 
-        this.name = name;
         this.inputMapper = inputMapper;
         this.inputGetter = inputGetter;
         this.outputChecker = outputChecker;
@@ -73,7 +69,7 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
 
     @Override
     public ResourceLocation getName() {
-        return this.name;
+        return NAME;
     }
 
     @Override
@@ -150,7 +146,10 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
     public static void addMultiOutput(ManagedRecipeHandler<?, ?, ?> handler, BaseRecipe<?, ?, ?, List<ItemStack>, ?> recipe) {
         List<ItemStack> output = recipe.getOutput();
         handler.getParent().queueOutputSlot.add(0, output.get(0));
-        if (output.size() > 1) {
+        if (output.size() > 1 && recipe.getProperties().getOptional(ModRecipeProperty.CHANCE)
+            .map(chance -> handler.getParent().getLevel().random.nextInt(100) <= chance)
+            .orElse(true)
+        ) {
             handler.getParent().outputSlot.add(0, output.get(1));
         }
         handler.getParent().ejectOutput();

@@ -3,6 +3,7 @@ package dev.su5ed.gtexperimental.compat;
 import dev.su5ed.gtexperimental.api.Reference;
 import dev.su5ed.gtexperimental.api.machine.ElectricBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
+import dev.su5ed.gtexperimental.recipe.setup.ModRecipeManagers;
 import dev.su5ed.gtexperimental.util.power.PowerStorage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +25,7 @@ public final class ModHandler {
     public static final String RAILCRAFT_MODID = "railcraft";
     public static final String TWILIGHT_FOREST_MODID = "twilightforest";
     public static final String THERMAL_MODID = "thermal";
+    public static final String MEKANISM_MODID = "mekanism";
 
     public static final Map<String, BaseMod.Provider> BASE_MODS = Map.of( // More mods to come
         IC2_MODID, new IC2BaseMod.Provider()
@@ -35,6 +37,7 @@ public final class ModHandler {
     public static boolean buildcraftLoaded;
     public static boolean railcraftLoaded;
     public static boolean thermalLoaded;
+    public static boolean mekanismLoaded;
 
     public static void initMods() {
         ModList list = ModList.get();
@@ -42,6 +45,7 @@ public final class ModHandler {
         ftbicLoaded = list.isLoaded(FTBIC_MODID);
         railcraftLoaded = list.isLoaded(RAILCRAFT_MODID);
         thermalLoaded = list.isLoaded(THERMAL_MODID);
+        mekanismLoaded = list.isLoaded(MEKANISM_MODID);
 
         System.setProperty("coremod." + Reference.MODID + ".ic2_loaded", Boolean.toString(ic2Loaded));
         // (ugly) workaround for https://github.com/MinecraftForge/CoreMods/issues/31
@@ -58,6 +62,13 @@ public final class ModHandler {
         }
         else {
             activeBaseMod = baseMod.get().createBaseMod();
+        }
+
+        if (mekanismLoaded) {
+            ModRecipeManagers.PULVERIZER.registerProvider(MekanismHandler.crusherRecipeTranslator());
+        }
+        if (thermalLoaded) {
+            ModRecipeManagers.PULVERIZER.registerProvider(ThermalHandler.pulverizerRecipeTranslator());
         }
     }
 

@@ -2,7 +2,6 @@ package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.block.BaseEntityBlock;
 import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
-import dev.su5ed.gtexperimental.blockentity.AutomaticRecyclerBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SonictronBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
@@ -24,7 +23,7 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     AUTO_MACERATOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoMacerator, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     AUTO_EXTRACTOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoExtractor, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     AUTO_COMPRESSOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoCompressor, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
-    AUTO_RECYCLER(SimpleMachineBlock::new, AutomaticRecyclerBlockEntity::new, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
+    AUTO_RECYCLER(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoRecycler, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     AUTO_ELECTRIC_FURNACE(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoElectricFurnace, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     WIREMILL(SimpleMachineBlock::new, SimpleMachineBlockEntity::wiremill, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     BENDER(SimpleMachineBlock::new, SimpleMachineBlockEntity::bender, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
@@ -32,6 +31,7 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     ASSEMBLER(SimpleMachineBlock::new, SimpleMachineBlockEntity::assembler, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     AUTO_CANNER(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoCanner, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     LATHE(SimpleMachineBlock::new, SimpleMachineBlockEntity::lathe, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
+    UNIVERSAL_MACERATOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::universalMacerator, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, ACTIVE);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;

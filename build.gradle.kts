@@ -25,6 +25,9 @@ version = getGitVersion()
 val versionMc: String by project
 val versionIC2: String by project
 val versionJEI: String by project
+val versionMekanism: String by project
+val versionThermalCore: String by project
+val versionCofhCore: String by project
 
 val datagen: Configuration by configurations.creating
 // Create api source set
@@ -163,6 +166,7 @@ repositories {
     exclusiveRepo("https://modmaven.dev", "mekanism", "teamtwilight")
     exclusiveRepo("https://cursemaven.com", "curse.maven")
     exclusiveRepo("https://dvs1.progwml6.com/files/maven", "mezz.jei")
+    exclusiveRepo("https://nexus.covers1624.net/repository/cofh-releases", "com.teamcofh")
     
     // 1.19 IC2 builds are not available on maven yet, so we grab them from Jenkins using ivy as a workaround
     exclusiveContent {
@@ -191,6 +195,10 @@ dependencies {
     // GTE api depends on IC2 api
     apiCompileOnly(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
     implementation(fg.deobf(group = "net.industrial-craft", name = "industrialcraft-2", version = versionIC2))
+
+    compileOnly(fg.deobf(group = "mekanism", name = "Mekanism", version = versionMekanism))
+    compileOnly(fg.deobf(group = "com.teamcofh", name = "thermal_core", version = versionThermalCore))
+    compileOnly(fg.deobf(group = "com.teamcofh", name = "cofh_core", version = versionCofhCore))
 
     datagen(fg.deobf(group = "teamtwilight", name = "twilightforest", version = "4.2.1493", classifier = "universal"))
     datagen(fg.deobf(curse(mod = "ftb-industrial-contraptions-forge", projectId = 539097, fileId = 3907201)))

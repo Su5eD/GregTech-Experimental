@@ -44,14 +44,6 @@ public abstract class BaseRecipeImpl<T extends BaseRecipeType<?, ?, ?, OUT>, RIN
         this.type.getOutputType().validate(this.id, "output", this.output, allowEmptyOutput);
     }
 
-    public int getDuration() {
-        return this.properties.get(ModRecipeProperty.DURATION);
-    }
-
-    public double getEnergyCost() {
-        return this.properties.get(ModRecipeProperty.ENERGY_COST);
-    }
-
     @Override
     public boolean matches(Container container, Level level) {
         return false;

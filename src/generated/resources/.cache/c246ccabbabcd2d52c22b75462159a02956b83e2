@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-02T22:16:41.6003434	Item Models: gtexperimental
+// 1.19.2	2023-04-03T17:32:54.3067456	Item Models: gtexperimental
 1d1bcbb4cccad1ce21335b23622f4f7740420f4e assets/gtexperimental/models/item/active_detector.json
 0c8d5094b9e512aa8ef0836f71d33977c88ca06a assets/gtexperimental/models/item/advanced_circuit_board.json
 6a7b67bd2d7896edd608313603d329f942529b18 assets/gtexperimental/models/item/advanced_circuit_parts.json
@@ -458,6 +458,7 @@ bd526015b324507d9cae203dc082451c0d7f1535 assets/gtexperimental/models/item/tungs
 7983ef05190975c03de56d6a5e8f4b7cd0558af8 assets/gtexperimental/models/item/tungsten_steel_turbine_rotor.json
 07bcfd07a8449ab54ab4d4dcaaa0ba201b1272d1 assets/gtexperimental/models/item/tungsten_steel_wrench.json
 5ebf3fd761717a97de7cfa8a4222146d31eba6eb assets/gtexperimental/models/item/ultimate_cheat_armor.json
+b29dd1c55d38331b6d13cbd3885348a302852ee2 assets/gtexperimental/models/item/universal_macerator.json
 ed23cce77b7215142457a18ec5cab545ed0c9f6e assets/gtexperimental/models/item/uranium_dust.json
 3c5c323ca013ef137ea21e1173f82b66df17cf50 assets/gtexperimental/models/item/uranium_smalldust.json
 778cd18a9368485686a9501e4474d6a62053f9b7 assets/gtexperimental/models/item/uvarovite_dust.json
