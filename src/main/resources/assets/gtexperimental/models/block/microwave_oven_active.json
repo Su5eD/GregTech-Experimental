@@ -1,0 +1,13 @@
+{
+  "parent": "gtexperimental:block/directional_block",
+  "loader": "gtexperimental:coverable",
+  "textures": {
+    "particle": "gtexperimental:blockentity/machine_side",
+    "down": "gtexperimental:blockentity/machine_bottom",
+    "up": "gtexperimental:blockentity/machine_top",
+    "north": "gtexperimental:blockentity/microwave_oven/microwave_oven_front_active",
+    "south": "gtexperimental:blockentity/machine_side",
+    "east": "gtexperimental:blockentity/machine_side",
+    "west": "gtexperimental:blockentity/machine_side"
+  }
+}

@@ -7,6 +7,7 @@ import dev.su5ed.gtexperimental.api.recipe.RecipeIngredient;
 import dev.su5ed.gtexperimental.api.recipe.RecipeIngredientType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.recipe.MIMORecipe;
 import dev.su5ed.gtexperimental.recipe.MISORecipe;
@@ -58,7 +59,14 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
                                 Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
                                 BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker, BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer,
                                 BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder) {
-        super(parent, manager, inputSerializer);
+        this(parent, manager, inputSerializer, manager.getRecipeType().getOutputType(), true, inputMapper, inputGetter, outputChecker, inputConsumer, outputAdder);
+    }
+
+    public ManagedRecipeHandler(SimpleMachineBlockEntity parent, RecipeProvider<R, IN> provider, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy,
+                                Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
+                                BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker, BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer,
+                                BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder) {
+        super(parent, provider, inputSerializer, outputSerializer, needsConstantEnergy);
 
         this.inputMapper = inputMapper;
         this.inputGetter = inputGetter;

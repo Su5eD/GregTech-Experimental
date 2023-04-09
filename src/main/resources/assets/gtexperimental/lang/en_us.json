@@ -86,6 +86,8 @@
   "block.gtexperimental.lathe.description": "Produces Metal Rods more efficiently",
   "block.gtexperimental.universal_macerator": "Universal Macerator",
   "block.gtexperimental.universal_macerator.description": "Macerator + Pulverizer + Rock Crusher in one Machine",
+  "block.gtexperimental.microwave_oven": "Microwave Oven",
+  "block.gtexperimental.microwave_oven.description": "Did you really read the instruction Manual?",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

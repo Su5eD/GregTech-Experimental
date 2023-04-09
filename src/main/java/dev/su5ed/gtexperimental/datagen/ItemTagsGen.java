@@ -122,6 +122,10 @@ public class ItemTagsGen extends ItemTagsProvider {
         tag(GregTechTags.ANY_IRON_INGOT)
             .addTag(Tags.Items.INGOTS_IRON)
             .addTag(GregTechTags.UNIVERSAL_IRON_INGOT);
+        //noinspection unchecked
+        tag(GregTechTags.MICROWAVE_BLACKLIST)
+            .addTags(Tags.Items.INGOTS, Tags.Items.GUNPOWDER, Tags.Items.NETHERRACK)
+            .add(Items.EGG);
 
         // Mods
         tag(GregTechTags.CRAFTING_RAW_MACHINE_TIER_0)

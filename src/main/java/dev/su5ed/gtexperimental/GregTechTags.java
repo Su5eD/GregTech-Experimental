@@ -65,6 +65,7 @@ public final class GregTechTags {
     public static final TagKey<Item> FILE = forgeItemTag("tools/file");
     public static final TagKey<Item> SOLDERING_IRON = forgeItemTag("tools/soldering_iron");
     public static final TagKey<Item> SAW = forgeItemTag("tools/saw");
+    public static final TagKey<Item> MICROWAVE_BLACKLIST = forgeItemTag("microwave_blacklist");
 
     // Mod Items
     public static final TagKey<Item> ADVANCED_CIRCUIT = itemTag("advanced_circuit");

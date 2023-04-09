@@ -2,6 +2,7 @@ package dev.su5ed.gtexperimental.object;
 
 import dev.su5ed.gtexperimental.block.BaseEntityBlock;
 import dev.su5ed.gtexperimental.block.SimpleMachineBlock;
+import dev.su5ed.gtexperimental.blockentity.MicrowaveOvenBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SimpleMachineBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.SonictronBlockEntity;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
@@ -32,6 +33,7 @@ public enum GTBlockEntity implements BlockItemProvider, BlockEntityProvider {
     AUTO_CANNER(SimpleMachineBlock::new, SimpleMachineBlockEntity::autoCanner, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     LATHE(SimpleMachineBlock::new, SimpleMachineBlockEntity::lathe, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     UNIVERSAL_MACERATOR(SimpleMachineBlock::new, SimpleMachineBlockEntity::universalMacerator, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
+    MICROWAVE_OVEN(SimpleMachineBlock::new, MicrowaveOvenBlockEntity::new, AllowedFacings.HORIZONTAL, ACTIVE_GUI),
     SONICTRON(SonictronBlockEntity::new, AllowedFacings.NORTH, ACTIVE);
 
     private final BlockEntityType<? extends BaseBlockEntity> type;

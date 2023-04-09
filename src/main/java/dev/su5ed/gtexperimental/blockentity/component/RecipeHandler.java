@@ -8,6 +8,7 @@ import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
+import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
 import dev.su5ed.gtexperimental.api.util.FriendlyCompoundTag;
 import dev.su5ed.gtexperimental.blockentity.base.BaseBlockEntity;
@@ -39,7 +40,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
     private final PowerHandler energy;
     private final UpgradeManager<?> upgrades;
     private final MachineController controller;
-    protected final RecipeManager<R, ?, IN, OUT> manager;
+    protected final RecipeProvider<R, IN> manager;
     private final RecipeOutputType<IN> inputSerializer;
     private final RecipeOutputType<OUT> outputSerializer;
     private final boolean needsConstantEnergy;
@@ -64,7 +65,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         this(parent, manager, inputSerializer, manager.getRecipeType().getOutputType(), true);
     }
 
-    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
+    protected RecipeHandler(T parent, RecipeProvider<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
         super(parent);
 
         this.energy = GtUtil.getRequiredCapability(parent, Capabilities.ENERGY_HANDLER);
@@ -247,18 +248,21 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
         }
 
         @Nullable
-        public static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeManager<R, ?, IN, OUT> manager) {
+        public static <R extends BaseRecipe<?, ?, IN, OUT, ? super R>, IN, OUT> PendingRecipe<R, IN, OUT> fromNBT(CompoundTag nbt, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, Level level, RecipeProvider<R, IN> manager) {
             FriendlyCompoundTag tag = new FriendlyCompoundTag(nbt);
             String key = tag.getString("recipe");
             if (!key.isEmpty()) {
                 ResourceLocation recipeKey = new ResourceLocation(key);
-                R recipe = manager.getById(level, recipeKey);
+                IN input = inputSerializer.fromNBT(tag.get("input"));
+                R recipe = manager.getRecipeFor(level, input);
                 if (recipe != null) {
-                    IN input = inputSerializer.fromNBT(tag.get("input"));
+                    if (!recipe.getId().equals(recipeKey)) {
+                        GregTechMod.LOGGER.warn("Recipe id mismatch for input {}. Expected {}, got {}", input, recipeKey, recipe.getId());
+                    }
                     OUT output = outputSerializer.fromNBT(tag.get("output"));
                     return new PendingRecipe<>(input, inputSerializer, output, outputSerializer, recipe);
                 }
-                GregTechMod.LOGGER.warn("Cannot find recipe '{}', abandoning process", recipeKey);
+                GregTechMod.LOGGER.error("Cannot find recipe '{}', abandoning process", recipeKey);
             }
             return null;
         }

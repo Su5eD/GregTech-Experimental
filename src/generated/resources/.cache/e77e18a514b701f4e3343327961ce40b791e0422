@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-10T20:07:57.6401217	Gregtech ExperimentalTags for minecraft:item
+// 1.19.2	2023-04-09T09:57:15.632522	Gregtech ExperimentalTags for minecraft:item
 85ffbd482992d8f0da1e7a9e00bc04b8ed1f307a data/forge/tags/items/dusts.json
 7cf6fcaced99a49697cace24a3ee44952e2a4f6f data/forge/tags/items/dusts/almandine.json
 e2284f71ca4c16ace045b8ae48f7f614b16a45d9 data/forge/tags/items/dusts/aluminium.json
@@ -132,6 +132,7 @@ ef0e1cdca053fcda109d5682997a39bd34a2cc60 data/forge/tags/items/ingots/tungsten.j
 e22741898e09119c68d496959d06c34ae7ebff6f data/forge/tags/items/ingots/tungsten_steel.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forge/tags/items/ingots/uranium.json
 c7e8d84c27aa86bfa00463a22a6ea6458270df91 data/forge/tags/items/ingots/zinc.json
+e65e9f0c9bc8c438f89988f49f56fe6e3f3b6511 data/forge/tags/items/microwave_blacklist.json
 797143e1e42a32089be12bc3a519592047750ab3 data/forge/tags/items/nuggets.json
 f770e8845f60863703ff63093c76c106ed079d33 data/forge/tags/items/nuggets/aluminium.json
 cbe791917c02fa87ad9f3c711d37318be5bd338c data/forge/tags/items/nuggets/antimony.json

@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-03T17:32:54.3057466	Gregtech ExperimentalLootTables
+// 1.19.2	2023-04-09T09:57:15.6456045	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 9e3b6fc857b777e07628b9320c21593df0adfb4c data/gtexperimental/loot_tables/blocks/alloy_smelter.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
@@ -28,6 +28,7 @@ b9874ab828d2a4699919aab7250167fe65ba2d21 data/gtexperimental/loot_tables/blocks/
 189b615dc8eada8ff12aabafe27097d1121651d6 data/gtexperimental/loot_tables/blocks/lathe.json
 d252532f42bbfb69649323862f0c42b3d2854685 data/gtexperimental/loot_tables/blocks/lead_block.json
 7969d6fc68af007163c2054894b33fb89cb7bac2 data/gtexperimental/loot_tables/blocks/lesublock_block.json
+e3173124fc6aa92ba614756efe40866fe8548360 data/gtexperimental/loot_tables/blocks/microwave_oven.json
 1067d64f6f174778e98cfeb62a1cca5d2f9f88a6 data/gtexperimental/loot_tables/blocks/nickel_block.json
 0cc1766b87e292f7e2c74c3e37a169cf62b7c484 data/gtexperimental/loot_tables/blocks/olivine_block.json
 f0f7c6823629f3fcbe920fc8cdc4534ad02181db data/gtexperimental/loot_tables/blocks/olivine_ore.json
