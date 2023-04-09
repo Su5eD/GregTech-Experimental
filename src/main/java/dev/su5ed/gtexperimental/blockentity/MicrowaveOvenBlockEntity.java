@@ -1,8 +1,10 @@
 package dev.su5ed.gtexperimental.blockentity;
 
 import dev.su5ed.gtexperimental.GregTechTags;
+import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.blockentity.component.ManagedRecipeHandler;
+import dev.su5ed.gtexperimental.blockentity.component.RecipeHandler;
 import dev.su5ed.gtexperimental.menu.SimpleMachineMenu;
 import dev.su5ed.gtexperimental.object.GTBlockEntity;
 import dev.su5ed.gtexperimental.recipe.SISORecipe;
@@ -15,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +31,11 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 public class MicrowaveOvenBlockEntity extends SimpleMachineBlockEntity {
 
     public MicrowaveOvenBlockEntity(BlockPos pos, BlockState state) {
-        super(GTBlockEntity.MICROWAVE_OVEN, pos, state, SimpleMachineMenu::microwaveOven, MicrowaveRecipeHandler::new, SlotQueueMode.BOTH);
+        super(GTBlockEntity.MICROWAVE_OVEN, pos, state, SimpleMachineMenu::microwaveOven, MicrowaveOvenBlockEntity::createRecipeHandler, SlotQueueMode.BOTH);
+    }
+
+    public static RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> createRecipeHandler(SimpleMachineBlockEntity parent) {
+        return new ManagedRecipeHandler<>(parent, MicrowaveOvenRecipeProvider.INSTANCE, ModRecipeOutputTypes.ITEM, ModRecipeOutputTypes.ITEM, true, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, MicrowaveOvenBlockEntity::consumeMicrowaveInput, ManagedRecipeHandler::addSingleOutput);
     }
 
     public static class MicrowaveOvenRecipeProvider implements RecipeProvider<SISORecipe<ItemStack, ItemStack>, ItemStack> {
@@ -70,35 +77,20 @@ public class MicrowaveOvenBlockEntity extends SimpleMachineBlockEntity {
         }
     }
 
-    private static class MicrowaveRecipeHandler extends ManagedRecipeHandler<SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> {
-        private static final ResourceLocation NAME = location("microwave_recipe_handler");
+    private static void consumeMicrowaveInput(ManagedRecipeHandler<?, ?, ?> handler, BaseRecipe<?, ?, ItemStack, ItemStack, ?> recipe) {
+        BlockEntity parent = handler.getParent();
+        recipe.getInput().getItemStacks().forEach(stack -> checkStack(parent, stack));
+        checkStack(parent, recipe.getOutput());
+    }
 
-        protected MicrowaveRecipeHandler(SimpleMachineBlockEntity parent) {
-            super(parent, MicrowaveOvenRecipeProvider.INSTANCE, ModRecipeOutputTypes.ITEM, ModRecipeOutputTypes.ITEM, true, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addSingleOutput);
+    private static void checkStack(BlockEntity parent, ItemStack stack) {
+        if (stack.is(GregTechTags.MICROWAVE_BLACKLIST)) {
+            // You do not put these in a microwave
+            MachineSafety.explodeMachine(parent, 4);
         }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
-
-        @Override
-        protected void consumeInput(SISORecipe<ItemStack, ItemStack> recipe) {
-            recipe.getInput().getItemStacks().forEach(this::checkStack);
-            checkStack(recipe.getOutput());
-
-            super.consumeInput(recipe);
-        }
-
-        private void checkStack(ItemStack stack) {
-            if (stack.is(GregTechTags.MICROWAVE_BLACKLIST)) {
-                // You do not put these in a microwave
-                MachineSafety.explodeMachine(this.parent, 4);
-            }
-            else if (ForgeHooks.getBurnTime(stack, null) > 0) {
-                // It burns? we burn.
-                MachineSafety.setBlockOnFire(this.parent.getLevel(), this.parent.getBlockPos());
-            }
+        else if (ForgeHooks.getBurnTime(stack, null) > 0) {
+            // It burns? we burn.
+            MachineSafety.setBlockOnFire(parent.getLevel(), parent.getBlockPos());
         }
     }
 }

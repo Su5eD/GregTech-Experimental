@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtexperimental:block/printer"
+    },
+    "active=true": {
+      "model": "gtexperimental:block/printer_active"
+    }
+  }
+}

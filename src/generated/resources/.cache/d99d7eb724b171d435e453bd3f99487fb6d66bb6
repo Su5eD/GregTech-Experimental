@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-09T09:57:15.6440891	Block States: gtexperimental
+// 1.19.2	2023-04-09T16:04:32.9470909	Block States: gtexperimental
 e68b9c136a9b65f3176556a9cc3668f99a446002 assets/gtexperimental/blockstates/advanced_machine_casing_block.json
 8a5a4f9424bf32379dd70bb52f3a866dcd4997a2 assets/gtexperimental/blockstates/alloy_smelter.json
 b1757549266a5cb2f38ce0c66087315d8110aedd assets/gtexperimental/blockstates/aluminium_block.json
@@ -35,6 +35,7 @@ a0266c184b12797c1165b9fd95375fc9cbdbdfd2 assets/gtexperimental/blockstates/nicke
 c47af28b4b8171d24fb35ff3aaf1a59d718a4990 assets/gtexperimental/blockstates/olivine_ore.json
 5f7804ee0d8184dcaecd9472ec554946cf505fda assets/gtexperimental/blockstates/osmium_block.json
 0fe92111ce00bb8240ed4321a462128a84f41b1c assets/gtexperimental/blockstates/platinum_block.json
+aa913d505765912b5a4e8771e77a7e1cd8dc554d assets/gtexperimental/blockstates/printer.json
 c24a1053750adc449bf0670446b1fd7810b7441d assets/gtexperimental/blockstates/pyrite_ore.json
 ba8386715dd032a49d6b42dbc959c5b873727943 assets/gtexperimental/blockstates/reinforced_machine_casing_block.json
 c8e1760061365b633727e6035159ab91b612d8ad assets/gtexperimental/blockstates/ruby_block.json

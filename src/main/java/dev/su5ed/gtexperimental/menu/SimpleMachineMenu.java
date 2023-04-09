@@ -64,6 +64,10 @@ public class SimpleMachineMenu extends BlockEntityMenu<SimpleMachineBlockEntity>
     public static SimpleMachineMenu microwaveOven(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         return new SimpleMachineMenu(ModMenus.MICROWAVE_OVEN.get(), GTBlockEntity.MICROWAVE_OVEN.getType(), containerId, pos, playerInventory, player);
     }
+    
+    public static SimpleMachineMenu printer(int containerId, BlockPos pos, Inventory playerInventory, Player player) {
+        return new SimpleMachineMenu(ModMenus.PRINTER.get(), GTBlockEntity.PRINTER.getType(), containerId, pos, playerInventory, player);
+    }
 
     public SimpleMachineMenu(@Nullable MenuType<?> menuType, BlockEntityType<?> blockEntityType, int containerId, BlockPos pos, Inventory playerInventory, Player player) {
         super(menuType, blockEntityType, containerId, pos, playerInventory, player);

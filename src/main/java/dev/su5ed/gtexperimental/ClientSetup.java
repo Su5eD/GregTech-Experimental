@@ -165,5 +165,6 @@ public final class ClientSetup {
         MenuScreens.register(ModMenus.LATHE.get(), SimpleMachineScreen.LatheScreen::new);
         MenuScreens.register(ModMenus.UNIVERSAL_MACERATOR.get(), SimpleMachineScreen.AutomaticMaceratorScreen::new);
         MenuScreens.register(ModMenus.MICROWAVE_OVEN.get(), SimpleMachineScreen.AutomaticElectricFurnaceScreen::new);
+        MenuScreens.register(ModMenus.PRINTER.get(), SimpleMachineScreen.PrinterScreen::new);
     }
 }

@@ -1,4 +1,4 @@
-// 1.19.2	2023-04-09T09:57:15.6456045	Gregtech ExperimentalLootTables
+// 1.19.2	2023-04-09T16:04:32.9455904	Gregtech ExperimentalLootTables
 82dc62c88a9d042fc21f00268ca8803ab7bdf7ff data/gtexperimental/loot_tables/blocks/advanced_machine_casing_block.json
 9e3b6fc857b777e07628b9320c21593df0adfb4c data/gtexperimental/loot_tables/blocks/alloy_smelter.json
 c20638b50cce42aa92c4e22c8482044473d60dee data/gtexperimental/loot_tables/blocks/aluminium_block.json
@@ -34,6 +34,7 @@ e3173124fc6aa92ba614756efe40866fe8548360 data/gtexperimental/loot_tables/blocks/
 f0f7c6823629f3fcbe920fc8cdc4534ad02181db data/gtexperimental/loot_tables/blocks/olivine_ore.json
 7bfbe00493dad6c41181ebb71eaadfa0bc60796d data/gtexperimental/loot_tables/blocks/osmium_block.json
 bbf6c734a59a6aa68e13d4b46e2845401c84e78f data/gtexperimental/loot_tables/blocks/platinum_block.json
+d350c1faaee02b4b05da47e01be9ebdcc57a1fed data/gtexperimental/loot_tables/blocks/printer.json
 06a4d82b03e506dc8d78f8638885c569132ba136 data/gtexperimental/loot_tables/blocks/pyrite_ore.json
 1c2e5df9795d23d07be592b623442128375202c1 data/gtexperimental/loot_tables/blocks/reinforced_machine_casing_block.json
 64795f33be32616f5b1ff85b8202f2e0efa466de data/gtexperimental/loot_tables/blocks/ruby_block.json

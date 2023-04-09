@@ -6,7 +6,6 @@ import dev.su5ed.gtexperimental.api.machine.MachineController;
 import dev.su5ed.gtexperimental.api.machine.MachineProgress;
 import dev.su5ed.gtexperimental.api.machine.PowerHandler;
 import dev.su5ed.gtexperimental.api.recipe.BaseRecipe;
-import dev.su5ed.gtexperimental.api.recipe.RecipeManager;
 import dev.su5ed.gtexperimental.api.recipe.RecipeOutputType;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProvider;
 import dev.su5ed.gtexperimental.api.upgrade.UpgradeCategory;
@@ -59,10 +58,6 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
 
     static {
         NetworkHandler.registerHandler(RecipeHandler.class, "pendingRecipe", new PendingRecipeNetworkSerializer<>());
-    }
-
-    protected RecipeHandler(T parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer) {
-        this(parent, manager, inputSerializer, manager.getRecipeType().getOutputType(), true);
     }
 
     protected RecipeHandler(T parent, RecipeProvider<R, IN> manager, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy) {
@@ -287,7 +282,7 @@ public abstract class RecipeHandler<T extends BaseBlockEntity, R extends BaseRec
             if (recipe != null) {
                 return new PendingRecipe<>(input, parent.inputSerializer, output, parent.outputSerializer, recipe);
             }
-            GregTechMod.LOGGER.warn("Cannot find recipe '{}', abandoning process", id);
+            GregTechMod.LOGGER.warn("Cannot find client recipe '{}'", id);
             return null;
         }
     }

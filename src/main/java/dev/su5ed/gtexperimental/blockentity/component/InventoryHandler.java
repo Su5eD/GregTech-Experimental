@@ -28,7 +28,7 @@ import static dev.su5ed.gtexperimental.util.GtUtil.location;
 public class InventoryHandler extends GtComponentBase<BaseBlockEntity> {
     public static final ResourceLocation NAME = location("inventory_handler");
 
-    private final SlotAwareItemHandler itemHandler;
+    public final SlotAwareItemHandler itemHandler;
     private final Map<Direction, LazyOptional<IItemHandler>> sidedCapability;
 
     public InventoryHandler(BaseBlockEntity parent, SlotAwareItemHandler itemHandler) {

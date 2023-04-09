@@ -123,4 +123,12 @@ public class SimpleMachineScreen extends BlockEntityScreen<SimpleMachineMenu> {
             super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.TURNING);
         }
     }
+
+    public static class PrinterScreen extends SimpleMachineScreen {
+        public static final ResourceLocation BACKGROUND = background("printer");
+
+        public PrinterScreen(SimpleMachineMenu menu, Inventory playerInventory, Component title) {
+            super(menu, playerInventory, title, BACKGROUND, RecipeProgressBar.SMELTING);
+        }
+    }
 }

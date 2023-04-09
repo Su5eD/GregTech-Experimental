@@ -88,6 +88,8 @@
   "block.gtexperimental.universal_macerator.description": "Macerator + Pulverizer + Rock Crusher in one Machine",
   "block.gtexperimental.microwave_oven": "Microwave Oven",
   "block.gtexperimental.microwave_oven.description": "Did you really read the instruction Manual?",
+  "block.gtexperimental.printer": "Printing Factory",
+  "block.gtexperimental.printer.description": "It can copy books and paint Stuff",
   "block.gtexperimental.sonictron": "Sonictron",
 
   "item.gtexperimental.aluminium_ingot": "Aluminium Ingot",

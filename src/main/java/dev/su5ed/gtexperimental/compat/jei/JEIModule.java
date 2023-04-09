@@ -50,6 +50,7 @@ public class JEIModule implements IModPlugin {
     private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_ASSEMBLER = createRecipeType(Reference.MODID, "assembler", MISORecipe.class);
     private static final RecipeType<MIMORecipe> RECIPE_AUTO_CANNER = createRecipeType(Reference.MODID, "auto_canner", MIMORecipe.class);
     private static final RecipeType<SIMORecipe<ItemStack, List<ItemStack>>> RECIPE_LATHE = createRecipeType(Reference.MODID, "lathe", SIMORecipe.class);
+    private static final RecipeType<MISORecipe<ItemStack, ItemStack>> RECIPE_PRINTER = createRecipeType(Reference.MODID, "printer", MISORecipe.class);
 
     static {
         if (ModHandler.ic2Loaded) {
@@ -66,6 +67,7 @@ public class JEIModule implements IModPlugin {
         addBasicMachineCategory(GTBlockEntity.ASSEMBLER, SimpleMachineScreen.AssemblerScreen.class, RECIPE_ASSEMBLER);
         addBasicMachineCategory(GTBlockEntity.AUTO_CANNER, SimpleMachineScreen.AutoCannerScreen.class, RECIPE_AUTO_CANNER);
         addBasicMachineCategory(GTBlockEntity.LATHE, SimpleMachineScreen.LatheScreen.class, RECIPE_LATHE);
+        addBasicMachineCategory(GTBlockEntity.PRINTER, SimpleMachineScreen.PrinterScreen.class, RECIPE_PRINTER);
     }
 
     @Override
@@ -96,7 +98,8 @@ public class JEIModule implements IModPlugin {
             SimpleMachineRecipeCategory.createMISO(GTBlockEntity.ALLOY_SMELTER, "alloy_smelter", RECIPE_ALLOY_SMELTER, guiHelper, RecipeProgressBar.SMELTING, -5, true),
             SimpleMachineRecipeCategory.createMISO(GTBlockEntity.ASSEMBLER, "assembler", RECIPE_ASSEMBLER, guiHelper, RecipeProgressBar.ASSEMBLING, -5, true),
             SimpleMachineRecipeCategory.createMIMO(GTBlockEntity.AUTO_CANNER, "auto_canner", RECIPE_AUTO_CANNER, guiHelper, RecipeProgressBar.CANNING, -5, false),
-            SimpleMachineRecipeCategory.createSIMO(GTBlockEntity.LATHE, "lathe", RECIPE_LATHE, guiHelper, RecipeProgressBar.TURNING, -5, false)
+            SimpleMachineRecipeCategory.createSIMO(GTBlockEntity.LATHE, "lathe", RECIPE_LATHE, guiHelper, RecipeProgressBar.TURNING, -5, false),
+            SimpleMachineRecipeCategory.createMISO(GTBlockEntity.PRINTER, "printer", RECIPE_PRINTER, guiHelper, RecipeProgressBar.SMELTING, -5, true)
         );
     }
 
@@ -109,6 +112,7 @@ public class JEIModule implements IModPlugin {
         register.addRecipes(RECIPE_ASSEMBLER, ModRecipeManagers.ASSEMBLER.getRecipes(level));
         register.addRecipes(RECIPE_AUTO_CANNER, ModRecipeManagers.CANNING_MACHINE.getRecipes(level));
         register.addRecipes(RECIPE_LATHE, ModRecipeManagers.LATHE.getRecipes(level));
+        register.addRecipes(RECIPE_PRINTER, ModRecipeManagers.PRINTER.getRecipes(level));
     }
 
     @Override

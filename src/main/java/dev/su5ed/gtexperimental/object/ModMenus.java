@@ -36,6 +36,7 @@ public final class ModMenus {
     public static final RegistryObject<MenuType<SimpleMachineMenu>> LATHE = register("lathe", SimpleMachineMenu::lathe);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> UNIVERSAL_MACERATOR = register("universal_macerator", SimpleMachineMenu::universalMacerator);
     public static final RegistryObject<MenuType<SimpleMachineMenu>> MICROWAVE_OVEN = register("microwave_oven", SimpleMachineMenu::microwaveOven);
+    public static final RegistryObject<MenuType<SimpleMachineMenu>> PRINTER = register("printer", SimpleMachineMenu::printer);
 
     public static void init(IEventBus bus) {
         MENU_TYPES.register(bus);

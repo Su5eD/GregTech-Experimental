@@ -19,9 +19,13 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -44,6 +48,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -62,6 +67,17 @@ public final class GtUtil {
     public static final ResourceLocation GAS = location("fluid/gas");
     public static final ResourceLocation FLUID_OVERLAY = new ResourceLocation("block/water_overlay");
     public static final ResourceLocation FLUID_RENDER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
+    private static final AbstractContainerMenu DUMMY_CONTAINER = new AbstractContainerMenu(null, -1) {
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public boolean stillValid(Player player) {
+            return false;
+        }
+    };
 
     private GtUtil() {}
 
@@ -264,5 +280,12 @@ public final class GtUtil {
 
     public static <T> T getRequiredCapability(ICapabilityProvider provider, Capability<T> capability) {
         return provider.getCapability(capability).orElseThrow(() -> new IllegalStateException("Required " + capability.getName() + " capability not found"));
+    }
+
+    public static Optional<CraftingRecipe> getCraftingOutput(Level level, ItemStack... stacks) {
+        int width = Math.min(stacks.length, 3);
+        int height = Math.max(stacks.length / 3, 1);
+        CraftingContainer container = new CraftingContainer(DUMMY_CONTAINER, width, height);
+        return level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, container, level);
     }
 }
