@@ -59,7 +59,7 @@ public abstract class BaseRecipeTypeImpl<R extends BaseRecipe<?, ?, ?, OUT, ? su
     public R fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         IN input = this.inputType.create(buffer);
         OUT output = this.outputType.fromNetwork(buffer);
-        RecipePropertyMap properties = RecipePropertyMap.fromNetwork(this.properties, buffer);
+        RecipePropertyMap properties = RecipePropertyMap.fromNetwork(recipeId, this.properties, buffer);
 
         return this.factory.create(recipeId, input, output, properties);
     }

@@ -79,8 +79,9 @@ public class FluidRecipeIngredientType implements RecipeIngredientType<RecipeIng
         String type = buffer.readUtf();
         return switch (type) {
             case FluidRecipeIngredient.FluidValue.NAME -> {
-                FluidStack fluidStack = buffer.readFluidStack();
-                yield of(fluidStack);
+                Fluid fluid = buffer.readRegistryId();
+                int amount = buffer.readInt();
+                yield of(new FluidStack(fluid, amount));
             }
             case FluidRecipeIngredient.FluidsValue.NAME -> {
                 int fluidCount = buffer.readInt();

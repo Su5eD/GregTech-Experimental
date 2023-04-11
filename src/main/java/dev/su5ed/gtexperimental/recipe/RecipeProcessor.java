@@ -305,9 +305,19 @@ public class RecipeProcessor {
         NonNullList<Ingredient> ingredients = toPlates(recipe.getIngredients(), false);
         if (ingredients != null) {
             ingredients.set(hammerIndex, Ingredient.of(GregTechTags.HARD_HAMMER));
-            return Stream.of(new ShapedRecipe(id, recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), ingredients, recipe.getResultItem()));
+            int size = recipe.getRecipeWidth() * recipe.getRecipeHeight();
+            return Stream.of(new ShapedRecipe(id, recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), adjustListSize(ingredients, size), recipe.getResultItem()));
         }
         return Stream.of(recipe);
+    }
+
+    // Workaround for IC2 AdvRecipe having more ingredients than its size allows
+    private static NonNullList<Ingredient> adjustListSize(NonNullList<Ingredient> list, int maxSize) {
+        NonNullList<Ingredient> adjusted = NonNullList.withSize(maxSize, Ingredient.EMPTY);
+        for (int i = 0; i < maxSize; i++) {
+            adjusted.set(i, list.get(i));
+        }
+        return adjusted;
     }
 
     @Nullable

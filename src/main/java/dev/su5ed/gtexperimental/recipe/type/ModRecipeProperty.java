@@ -1,16 +1,29 @@
 package dev.su5ed.gtexperimental.recipe.type;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
 import dev.su5ed.gtexperimental.api.recipe.RecipeProperty;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class ModRecipeProperty<T> implements RecipeProperty<T> {
+    private static final Map<String, RecipeProperty<?>> PROPERTIES = new HashMap<>();
+    public static final Codec<RecipeProperty<?>> CODEC = Codec.STRING.comapFlatMap(name -> {
+        RecipeProperty<?> property = PROPERTIES.get(name);
+        return property != null ? DataResult.success(property) : DataResult.error("Unknown recipe property " + name);
+    }, RecipeProperty::getName);
+
     public static final ModRecipeProperty<Integer> DURATION = intProperty("duration", ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Double> ENERGY_COST = doubleProperty("energy_cost", ModRecipeProperty::greaterThanZero);
     public static final ModRecipeProperty<Double> START_ENERGY = doubleProperty("start_energy", ModRecipeProperty::greaterThanZero);
@@ -22,17 +35,25 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     private final String name;
     private final BiConsumer<FriendlyByteBuf, T> networkSerializer;
     private final Function<FriendlyByteBuf, T> networkDeserializer;
-    private final Function<T, JsonElement> jsonSerializer;
-    private final Function<JsonElement, T> jsonDeserializer;
+    private final Codec<T> codec;
     private final Predicate<T> validator;
 
-    public ModRecipeProperty(String name, BiConsumer<FriendlyByteBuf, T> networkSerializer, Function<FriendlyByteBuf, T> networkDeserializer, Function<T, JsonElement> jsonSerializer, Function<JsonElement, T> jsonDeserializer, Predicate<T> validator) {
+    public ModRecipeProperty(String name, BiConsumer<FriendlyByteBuf, T> networkSerializer, Function<FriendlyByteBuf, T> networkDeserializer, Codec<T> codec, Predicate<T> validator) {
         this.name = name;
         this.networkSerializer = networkSerializer;
         this.networkDeserializer = networkDeserializer;
-        this.jsonSerializer = jsonSerializer;
-        this.jsonDeserializer = jsonDeserializer;
+        this.codec = codec;
         this.validator = validator;
+
+        PROPERTIES.put(this.name, this);
+    }
+
+    public static RecipeProperty<?> getByName(String name) {
+        RecipeProperty<?> property = PROPERTIES.get(name);
+        if (property == null) {
+            throw new IllegalArgumentException("Unknown recipe property " + name);
+        }
+        return property;
     }
 
     public String getName() {
@@ -51,12 +72,22 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
 
     @Override
     public JsonElement toJson(T value) {
-        return this.jsonSerializer.apply(value);
+        return this.codec.encodeStart(JsonOps.INSTANCE, value).getOrThrow(false, s -> {});
     }
 
     @Override
     public T fromJson(JsonElement element) {
-        return this.jsonDeserializer.apply(element);
+        return this.codec.decode(JsonOps.INSTANCE, element).map(Pair::getFirst).getOrThrow(false, s -> {});
+    }
+
+    @Override
+    public Tag toNBT(T value) {
+        return this.codec.encodeStart(NbtOps.INSTANCE, value).getOrThrow(false, s -> {});
+    }
+
+    @Override
+    public T fromNBT(Tag tag) {
+        return this.codec.decode(NbtOps.INSTANCE, tag).map(Pair::getFirst).getOrThrow(false, s -> {});
     }
 
     @Override
@@ -70,20 +101,21 @@ public final class ModRecipeProperty<T> implements RecipeProperty<T> {
     public String toString() {
         return "ModRecipeProperty{%s}".formatted(this.name);
     }
-    
+
     private static ModRecipeProperty<Integer> intProperty(String name, Predicate<Integer> validator) {
-        return new ModRecipeProperty<>(name, FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, JsonPrimitive::new, JsonElement::getAsInt, validator);
+        return new ModRecipeProperty<>(name, FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt, Codec.INT, validator);
     }
-    
+
     private static ModRecipeProperty<Double> doubleProperty(String name, Predicate<Double> validator) {
-            return new ModRecipeProperty<>(name, FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, JsonPrimitive::new, JsonElement::getAsDouble, validator);
-        }
+        return new ModRecipeProperty<>(name, FriendlyByteBuf::writeDouble, FriendlyByteBuf::readDouble, Codec.DOUBLE, validator);
+    }
 
     private static <T extends Number> boolean greaterThanZero(T number) {
         return number.doubleValue() > 0;
     }
-    
+
     private static <T extends Number> Predicate<T> between(int minInclusive, int maxInclusive) {
         return num -> num.doubleValue() >= minInclusive && num.doubleValue() <= maxInclusive;
     }
+
 }

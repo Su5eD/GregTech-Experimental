@@ -38,13 +38,11 @@ public class ListRecipeIngredientTypeImpl<T, U> implements ListRecipeIngredientT
 
     @Override
     public List<T> create(FriendlyByteBuf buffer) {
-        int inputCount = buffer.readInt();
-        if (this.count >= inputCount) {
-            return StreamEx.generate(() -> this.ingredientType.create(buffer))
-                .limit(inputCount)
-                .toList();
+        List<T> list = buffer.readList(this.ingredientType::create);
+        if (list.size() > this.count) {
+            throw new IllegalArgumentException("There are more inputs than known input types");
         }
-        throw new IllegalArgumentException("There are more inputs than known input types");
+        return list;
     }
 
     @Override

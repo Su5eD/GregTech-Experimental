@@ -35,7 +35,7 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
     private final Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter;
     private final BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker;
     private final BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer;
-    private final BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder;
+    private final BiConsumer<ManagedRecipeHandler<R, IN, OUT>, PendingRecipe<IN, OUT>> outputAdder;
 
     public static RecipeHandler<SimpleMachineBlockEntity, SISORecipe<ItemStack, ItemStack>, ItemStack, ItemStack> createSISO(SimpleMachineBlockEntity parent, RecipeManager<SISORecipe<ItemStack, ItemStack>, RecipeIngredientType<? extends RecipeIngredient<ItemStack>, ItemStack>, ItemStack, ItemStack> manager) {
         return new ManagedRecipeHandler<>(parent, manager, ModRecipeOutputTypes.ITEM, Function.identity(), ManagedRecipeHandler::getSingleInput, ManagedRecipeHandler::canAddSingleOutput, ManagedRecipeHandler::consumeSingleInput, ManagedRecipeHandler::addSingleOutput);
@@ -58,14 +58,14 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
     public ManagedRecipeHandler(SimpleMachineBlockEntity parent, RecipeManager<R, ?, IN, OUT> manager, RecipeOutputType<IN> inputSerializer,
                                 Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
                                 BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker, BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer,
-                                BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder) {
+                                BiConsumer<ManagedRecipeHandler<R, IN, OUT>, PendingRecipe<IN, OUT>> outputAdder) {
         this(parent, manager, inputSerializer, manager.getRecipeType().getOutputType(), true, inputMapper, inputGetter, outputChecker, inputConsumer, outputAdder);
     }
 
     public ManagedRecipeHandler(SimpleMachineBlockEntity parent, RecipeProvider<R, IN> provider, RecipeOutputType<IN> inputSerializer, RecipeOutputType<OUT> outputSerializer, boolean needsConstantEnergy,
                                 Function<ItemStack, IN> inputMapper, Function<ManagedRecipeHandler<R, IN, OUT>, IN> inputGetter,
                                 BiPredicate<ManagedRecipeHandler<R, IN, OUT>, R> outputChecker, BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> inputConsumer,
-                                BiConsumer<ManagedRecipeHandler<R, IN, OUT>, R> outputAdder) {
+                                BiConsumer<ManagedRecipeHandler<R, IN, OUT>, PendingRecipe<IN, OUT>> outputAdder) {
         super(parent, provider, inputSerializer, outputSerializer, needsConstantEnergy);
 
         this.inputMapper = inputMapper;
@@ -102,7 +102,7 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
     }
 
     @Override
-    protected void addOutput(R recipe) {
+    protected void addOutput(PendingRecipe<IN, OUT> recipe) {
         this.outputAdder.accept(this, recipe);
     }
 
@@ -119,8 +119,8 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
         return remainder.isEmpty() || handler.getParent().queueOutputSlot.add(0, remainder, true).isEmpty();
     }
 
-    public static void addSingleOutput(ManagedRecipeHandler<?, ?, ?> handler, BaseRecipe<?, ?, ?, ItemStack, ?> recipe) {
-        ItemStack remainder = handler.getParent().outputSlot.add(0, recipe.getOutput().copy());
+    public static void addSingleOutput(ManagedRecipeHandler<?, ?, ?> handler, PendingRecipe<?, ItemStack> recipe) {
+        ItemStack remainder = handler.getParent().outputSlot.add(0, recipe.output());
         handler.getParent().queueOutputSlot.add(0, remainder);
         handler.getParent().ejectOutput();
     }
@@ -151,10 +151,10 @@ public class ManagedRecipeHandler<R extends BaseRecipe<?, ?, IN, OUT, ? super R>
             && (output.size() <= 1 || handler.getParent().outputSlot.canAdd(0, output.get(1)));
     }
 
-    public static void addMultiOutput(ManagedRecipeHandler<?, ?, ?> handler, BaseRecipe<?, ?, ?, List<ItemStack>, ?> recipe) {
-        List<ItemStack> output = recipe.getOutput();
+    public static void addMultiOutput(ManagedRecipeHandler<?, ?, ?> handler, PendingRecipe<?, List<ItemStack>> recipe) {
+        List<ItemStack> output = recipe.output();
         handler.getParent().queueOutputSlot.add(0, output.get(0));
-        if (output.size() > 1 && recipe.getProperties().getOptional(ModRecipeProperty.CHANCE)
+        if (output.size() > 1 && recipe.properties().getOptional(ModRecipeProperty.CHANCE)
             .map(chance -> handler.getParent().getLevel().random.nextInt(100) <= chance)
             .orElse(true)
         ) {

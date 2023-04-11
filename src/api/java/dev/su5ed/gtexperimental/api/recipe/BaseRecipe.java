@@ -3,9 +3,10 @@ package dev.su5ed.gtexperimental.api.recipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 
-public interface BaseRecipe<T extends RecipeType<?>, RIN extends RecipeIngredient<IN>, IN, OUT, C extends BaseRecipe<T, RIN, IN, OUT, C>> extends Recipe<Container> {
+public interface BaseRecipe<T extends BaseRecipeType<?, ?, ?, OUT>, RIN extends RecipeIngredient<IN>, IN, OUT, C extends BaseRecipe<T, RIN, IN, OUT, C>> extends Recipe<Container> {
+    T getType();
+
     void toNetwork(FriendlyByteBuf buffer);
 
     boolean matches(IN input);

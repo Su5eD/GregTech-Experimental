@@ -107,9 +107,8 @@ public final class RecipeUtil {
             }));
     }
 
-    public static Stream<? extends Ingredient.Value> ingredientValuesFromNetwork(FriendlyByteBuf buffer) {
-        var size = buffer.readVarInt();
-        return Stream.generate(() -> new Ingredient.ItemValue(buffer.readItem())).limit(size);
+    public static List<? extends Ingredient.Value> ingredientValuesFromNetwork(FriendlyByteBuf buffer) {
+        return buffer.readList(buf -> new Ingredient.ItemValue(buffer.readItem()));
     }
 
     public static Stream<? extends Ingredient.Value> ingredientFromJson(@Nullable JsonElement json) {

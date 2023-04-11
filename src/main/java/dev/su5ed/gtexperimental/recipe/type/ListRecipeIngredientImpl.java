@@ -47,7 +47,7 @@ public class ListRecipeIngredientImpl<U> implements ListRecipeIngredient<U> {
 
     @Override
     public void toNetwork(FriendlyByteBuf buffer) {
-        this.ingredients.forEach(i -> i.toNetwork(buffer));
+        buffer.writeCollection(this.ingredients, (buf, i) -> i.toNetwork(buf));
     }
 
     @Override

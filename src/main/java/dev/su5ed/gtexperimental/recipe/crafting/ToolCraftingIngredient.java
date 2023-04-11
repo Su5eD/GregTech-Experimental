@@ -99,9 +99,9 @@ public class ToolCraftingIngredient extends AbstractIngredient {
 
         @Override
         public ToolCraftingIngredient parse(FriendlyByteBuf buffer) {
-            Stream<? extends Value> values = RecipeUtil.ingredientValuesFromNetwork(buffer);
+            List<? extends Value> values = RecipeUtil.ingredientValuesFromNetwork(buffer);
             int damage = buffer.readInt();
-            return new ToolCraftingIngredient(values, damage);
+            return new ToolCraftingIngredient(values.stream(), damage);
         }
 
         @Override
@@ -115,6 +115,7 @@ public class ToolCraftingIngredient extends AbstractIngredient {
         @Override
         public void write(FriendlyByteBuf buffer, ToolCraftingIngredient ingredient) {
             buffer.writeCollection(List.of(ingredient.getItems()), FriendlyByteBuf::writeItem);
+            buffer.writeInt(ingredient.damage);
         }
     }
 }
