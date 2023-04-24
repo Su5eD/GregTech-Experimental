@@ -14,6 +14,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeByOutputAction;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -46,5 +47,11 @@ public class PrinterRecipes {
     public static void removeRecipe(IItemStack[] inputs) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(inputs));
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.printer, GtRecipes.printer.getRecipeFor(inputStacks)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack output) {
+        ItemStack stack = CraftTweakerMC.getItemStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.printer, stacks -> stacks.stream().anyMatch(stack::isItemEqual)));
     }
 }

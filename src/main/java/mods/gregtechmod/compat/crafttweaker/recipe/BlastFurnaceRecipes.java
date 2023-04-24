@@ -11,9 +11,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeBlastFurnace;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import mods.gregtechmod.recipe.RecipeBlastFurnace;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
@@ -45,5 +43,11 @@ public class BlastFurnaceRecipes {
     public static void removeRecipe(IItemStack[] inputs) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(inputs));
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialBlastFurnace, GtRecipes.industrialBlastFurnace.getRecipeFor(inputStacks)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.industrialBlastFurnace, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

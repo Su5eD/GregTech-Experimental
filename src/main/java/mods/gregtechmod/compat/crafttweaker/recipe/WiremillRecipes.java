@@ -14,6 +14,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeByOutputAction;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -36,5 +37,11 @@ public class WiremillRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack input) {
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.wiremill, GtRecipes.wiremill.getRecipeFor(CraftTweakerMC.getItemStack(input))));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack output) {
+        ItemStack stack = CraftTweakerMC.getItemStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.wiremill, stacks -> stacks.stream().anyMatch(stack::isItemEqual)));
     }
 }

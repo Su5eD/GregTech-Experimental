@@ -13,10 +13,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.CTCellType;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -56,5 +53,11 @@ public class CentrifugeRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack input, int cells) {
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialCentrifuge, GtRecipes.industrialCentrifuge.getRecipeFor(CraftTweakerMC.getItemStack(input), cells)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.industrialCentrifuge, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

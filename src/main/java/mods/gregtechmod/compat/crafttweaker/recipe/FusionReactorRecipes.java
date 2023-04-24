@@ -16,6 +16,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeByOutputAction;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -43,6 +44,18 @@ public class FusionReactorRecipes {
     public static void removeRecipe(ILiquidStack[] inputs) {
         List<FluidStack> inputStacks = Arrays.asList(CraftTweakerMC.getLiquidStacks(inputs));
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.fusion, GtRecipes.fusion.getRecipeFor(inputStacks)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack output) {
+        ItemStack stack = CraftTweakerMC.getItemStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.fusion, recipeOutput -> recipeOutput.isLeft() && recipeOutput.getLeft().isItemEqual(stack)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(ILiquidStack output) {
+        FluidStack stack = CraftTweakerMC.getLiquidStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.fusion, recipeOutput -> recipeOutput.isRight() && recipeOutput.getRight().isFluidEqual(stack)));
     }
 
     private static void addRecipe(IIngredient[] inputs, Either<ItemStack, FluidStack> output, int duration, double energyCost, double startEnergy) {

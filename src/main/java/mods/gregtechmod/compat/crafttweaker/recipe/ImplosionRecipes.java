@@ -13,9 +13,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -40,5 +38,11 @@ public class ImplosionRecipes {
     public static void removeRecipe(IItemStack input, int tnt) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStack(input), StackUtil.setSize(IC2Items.getItem("te", "itnt"), tnt));
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.implosion, GtRecipes.implosion.getRecipeFor(inputStacks)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.implosion, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

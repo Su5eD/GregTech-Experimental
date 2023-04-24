@@ -11,9 +11,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import mods.gregtechmod.recipe.RecipeLathe;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
@@ -39,5 +37,11 @@ public class LatheRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack input) {
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.lathe, GtRecipes.lathe.getRecipeFor(CraftTweakerMC.getItemStack(input))));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.lathe, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

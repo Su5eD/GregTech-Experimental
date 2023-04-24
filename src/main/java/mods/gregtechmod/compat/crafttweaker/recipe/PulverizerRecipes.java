@@ -14,6 +14,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeByOutputAction;
 import mods.gregtechmod.recipe.RecipePulverizer;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
@@ -44,5 +45,11 @@ public class PulverizerRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack input) {
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.pulverizer, GtRecipes.pulverizer.getRecipeFor(CraftTweakerMC.getItemStack(input))));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack output) {
+        ItemStack stack = CraftTweakerMC.getItemStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.pulverizer, stacks -> stacks.stream().anyMatch(stack::isItemEqual)));
     }
 }

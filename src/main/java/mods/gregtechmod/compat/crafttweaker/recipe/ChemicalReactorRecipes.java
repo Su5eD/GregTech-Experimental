@@ -14,6 +14,7 @@ import mods.gregtechmod.api.util.Reference;
 import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
 import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
 import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.RemoveRecipeByOutputAction;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -27,9 +28,9 @@ import java.util.List;
 public class ChemicalReactorRecipes {
 
     @ZenMethod
-    public static void addRecipe(IIngredient[] inputs, IItemStack outputs, int duration) {
+    public static void addRecipe(IIngredient[] inputs, IItemStack output, int duration) {
         List<IRecipeIngredient> inputIngredients = RecipeInputConverter.of(inputs);
-        ItemStack outputStack = CraftTweakerMC.getItemStack(outputs);
+        ItemStack outputStack = CraftTweakerMC.getItemStack(output);
         IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>> recipe = GregTechAPI.getRecipeFactory().makeChemicalRecipe(inputIngredients, outputStack, duration);
         CraftTweakerAPI.apply(new AddRecipeAction<>(GtRecipes.chemical, recipe));
     }
@@ -38,5 +39,11 @@ public class ChemicalReactorRecipes {
     public static void removeRecipe(IItemStack[] inputs) {
         List<ItemStack> inputStacks = Arrays.asList(CraftTweakerMC.getItemStacks(inputs));
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.chemical, GtRecipes.chemical.getRecipeFor(inputStacks)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack output) {
+        ItemStack stack = CraftTweakerMC.getItemStack(output);
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.chemical, stacks -> stacks.stream().anyMatch(stack::isItemEqual)));
     }
 }

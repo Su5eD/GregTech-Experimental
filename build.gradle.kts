@@ -6,7 +6,6 @@ import com.matthewprenger.cursegradle.CurseRelation
 import fr.brouillard.oss.jgitver.GitVersionCalculator
 import fr.brouillard.oss.jgitver.Strategies
 import net.minecraftforge.gradle.common.util.RunConfig
-import wtf.gofancy.changelog.generateChangelog
 import wtf.gofancy.fancygradle.script.extensions.curse
 import wtf.gofancy.fancygradle.script.extensions.deobf
 import java.time.LocalDateTime
@@ -25,7 +24,7 @@ plugins {
     id("wtf.gofancy.fancygradle") version "1.1.+"
     id("com.matthewprenger.cursegradle") version "1.4.+"
     id("com.modrinth.minotaur") version "2.+"
-    id("wtf.gofancy.git-changelog") version "1.0.+"
+    id("wtf.gofancy.git-changelog") version "1.1.+"
 }
 
 val versionMc: String by project
@@ -70,7 +69,7 @@ val manifestAttributes = mapOf(
     "Implementation-Timestamp" to LocalDateTime.now()
 )
 val publishReleaseType = System.getenv("PUBLISH_RELEASE_TYPE") ?: "beta"
-val changelogText = generateChangelog(1, true)
+val changelogText = changelog.generateChangelog(1, true)
 
 minecraft {
     mappings("stable", "39-1.12")

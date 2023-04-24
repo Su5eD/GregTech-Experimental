@@ -12,9 +12,7 @@ import mods.gregtechmod.api.recipe.GtRecipes;
 import mods.gregtechmod.api.recipe.IRecipeCellular;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -53,5 +51,11 @@ public class DistillationTowerRecipes {
     @ZenMethod
     public static void removeRecipe(IItemStack input, int cells) {
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.distillation, GtRecipes.distillation.getRecipeFor(CraftTweakerMC.getItemStack(input), cells)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.distillation, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

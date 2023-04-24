@@ -13,9 +13,7 @@ import mods.gregtechmod.api.recipe.IMachineRecipe;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.util.Reference;
-import mods.gregtechmod.compat.crafttweaker.AddRecipeAction;
-import mods.gregtechmod.compat.crafttweaker.RecipeInputConverter;
-import mods.gregtechmod.compat.crafttweaker.RemoveRecipeAction;
+import mods.gregtechmod.compat.crafttweaker.*;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -43,5 +41,11 @@ public class GrinderRecipes {
         ItemStack inputStack = CraftTweakerMC.getItemStack(input);
         FluidStack fluidStack = CraftTweakerMC.getLiquidStack(fluid);
         CraftTweakerAPI.apply(new RemoveRecipeAction<>(GtRecipes.industrialGrinder, GtRecipes.industrialGrinder.getRecipeFor(inputStack, fluidStack)));
+    }
+
+    @ZenMethod
+    public static void removeByOutput(IItemStack[] outputs) {
+        List<ItemStack> stacks = Arrays.asList(CraftTweakerMC.getItemStacks(outputs));
+        CraftTweakerAPI.apply(new RemoveRecipeByOutputAction<>(GtRecipes.industrialGrinder, CraftTweakerCompat.compareOutputs(stacks)));
     }
 }

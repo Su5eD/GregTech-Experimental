@@ -47,8 +47,8 @@ public abstract class CategoryBasicMachine<W extends WrapperBasicMachine<R>, R e
     }
 
     @Override
-    public void init(IModRegistry registry) {
-        super.init(registry);
+    protected void addRecipeClickArea(IModRegistry registry) {
+        super.addRecipeClickArea(registry);
         registry.addRecipeClickArea(this.guiClass, 78, 24, 18, 18, this.uid);
     }
 
