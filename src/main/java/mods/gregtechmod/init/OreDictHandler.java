@@ -521,7 +521,9 @@ public final class OreDictHandler {
                 OptionalItemStack.when(
                     OptionalItemStack.of(gtSmallDust != null ? gtSmallDust.getItemStack() : ItemStack.EMPTY),
                     OreDictUnificator.getFirstOre(name.replaceFirst("ingot", "dustSmall"), 2)
-                ).ifPresent(smallDust -> DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, !smallDust.isEmpty() ? smallDust : stick), !smallDust.isEmpty() ? 50 : 150, 16)));
+                )
+                    .ifEmpty(()-> DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, stick), 150, 16)))
+                    .ifPresent(smallDust -> DynamicRecipes.addLatheRecipe(RecipeLathe.create(RecipeIngredientOre.create(name), Arrays.asList(stick, smallDust), 50, 16)));
             });
     }
 
