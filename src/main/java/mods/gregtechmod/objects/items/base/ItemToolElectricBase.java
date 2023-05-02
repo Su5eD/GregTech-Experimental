@@ -53,6 +53,7 @@ public class ItemToolElectricBase extends ItemToolBase implements IElectricItem,
         this.tier = tier;
         this.operationEnergyCost = operationEnergyCost;
         this.providesEnergy = providesEnergy;
+        setNoCustomRepair();
     }
 
     public static double getTransferLimit(int tier) {

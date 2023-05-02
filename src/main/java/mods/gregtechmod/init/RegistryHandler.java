@@ -12,11 +12,13 @@ import mods.gregtechmod.objects.Cover;
 import mods.gregtechmod.objects.GregTechComponent;
 import mods.gregtechmod.objects.GregTechTEBlock;
 import mods.gregtechmod.objects.blocks.teblocks.TileEntityLightSource;
+import mods.gregtechmod.recipe.crafting.RecipeRepairCraftingItem;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.JavaUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -91,6 +93,11 @@ public class RegistryHandler {
         Arrays.stream(Cover.values())
             .map(cover -> cover.instance.get())
             .forEach(registry::register);
+    }
+
+    @SubscribeEvent
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+        event.getRegistry().register(new RecipeRepairCraftingItem().setRegistryName("repair_crafting_item"));
     }
 
     public static void registerComponents() {

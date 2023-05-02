@@ -63,6 +63,8 @@ public class ItemHardHammer extends ItemHammer {
                 if (input = !input) output = !output;
                 ((IGregTechMachine) te).setInputEnabled(input);
                 ((IGregTechMachine) te).setOutputEnabled(output);
+                ItemStack stack = player.getHeldItem(hand);
+                stack.damageItem(1, player);
 
                 String enabled = GtLocale.translateGeneric("enabled");
                 String disabled = GtLocale.translateGeneric("disabled");

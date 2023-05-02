@@ -12,10 +12,7 @@ import ic2.core.util.RotationUtil;
 import mods.gregtechmod.api.GregTechAPI;
 import mods.gregtechmod.compat.ModHandler;
 import mods.gregtechmod.core.GregTechConfig;
-import mods.gregtechmod.util.GtLocale;
-import mods.gregtechmod.util.GtUtil;
-import mods.gregtechmod.util.ICustomItemModel;
-import mods.gregtechmod.util.JavaUtil;
+import mods.gregtechmod.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityList;
@@ -42,7 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(modid = "buildcraftlib", iface = "buildcraft.api.tools.IToolWrench")
-public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench, IEnhancedOverlayProvider {
+public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToolWrench, IEnhancedOverlayProvider, IRepairableCraftingItem {
     public final String name;
     protected final int entityDamage;
     protected int rotateDamage = 1;
@@ -59,7 +56,13 @@ public class ItemWrench extends ItemToolWrench implements ICustomItemModel, IToo
         this.name = name;
         this.entityDamage = entityDamage;
         setMaxDamage(durability - 1);
+        setNoRepair();
         GregTechAPI.instance().registerWrench(this);
+    }
+
+    @Override
+    public boolean isCraftingRepairable() {
+        return true;
     }
 
     @Override

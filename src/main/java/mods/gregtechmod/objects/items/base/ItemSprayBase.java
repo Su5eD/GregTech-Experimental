@@ -15,6 +15,7 @@ public abstract class ItemSprayBase extends ItemToolCrafting {
 
     public ItemSprayBase(String name, String genericDescriptionKey, int durability, float attackDamage, ToolMaterial material, int craftingDamage, int damageOnHit) {
         super(name, genericDescriptionKey, durability, attackDamage, material, craftingDamage, damageOnHit);
+        setNoCustomRepair();
     }
 
     @Override

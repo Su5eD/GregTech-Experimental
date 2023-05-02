@@ -5,6 +5,7 @@ import ic2.core.item.tool.ToolClass;
 import mods.gregtechmod.util.GtLocale;
 import mods.gregtechmod.util.GtUtil;
 import mods.gregtechmod.util.ICustomItemModel;
+import mods.gregtechmod.util.IRepairableCraftingItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,13 +28,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class ItemToolBase extends ItemTool implements ICustomItemModel {
+public class ItemToolBase extends ItemTool implements ICustomItemModel, IRepairableCraftingItem {
     public final String name;
     protected Supplier<String> description;
     protected final int damageOnHit;
     protected List<String> effectiveAganist = new ArrayList<>();
     protected final Set<ToolClass> toolClasses;
     protected EnumRarity rarity;
+    protected boolean customRepairable = true;
 
     public ItemToolBase(String name, int durability, float attackDamage) {
         this(name, () -> GtLocale.translateItemDescription(name), durability, attackDamage, ToolMaterial.WOOD, Collections.emptySet(), 3, 0, Collections.emptySet());
@@ -70,6 +72,16 @@ public class ItemToolBase extends ItemTool implements ICustomItemModel {
     public ItemToolBase setRarity(EnumRarity rarity) {
         this.rarity = rarity;
         return this;
+    }
+
+    public ItemToolBase setNoCustomRepair() {
+        this.customRepairable = false;
+        return this;
+    }
+
+    @Override
+    public boolean isCraftingRepairable() {
+        return this.customRepairable;
     }
 
     @Override

@@ -23,6 +23,7 @@ public class ItemSprayPepper extends ItemToolCrafting {
         setRegistryName("spray_pepper");
         setTranslationKey("spray_pepper");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
+        setNoCustomRepair();
     }
 
     @Override
