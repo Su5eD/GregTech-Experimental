@@ -411,7 +411,7 @@ public final class OreDictHandler {
 
             stack.setCount(9);
             DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, stack);
-            DynamicRecipes.addIngotToBlockRecipe("Ingots", ingotName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addIngotToBlockRecipe("Ingots", ingotName, 4, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         });
         boolean gemPresent = gem.ifPresent(stack -> {
             if (ModHandler.getRecipeOutput(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
@@ -419,13 +419,14 @@ public final class OreDictHandler {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
             stack.setCount(9);
-            DynamicRecipes.addIngotToBlockRecipe("Gems", gemName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addIngotToBlockRecipe("Gems", gemName, 4, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         });
         dust.ifPresent(stack -> {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
-            stack.setCount(9);
-            if (!ingotPresent && !gemPresent) DynamicRecipes.addIngotToBlockRecipe("Dusts", dustName, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            int count = OreDictUnificator.isItemInstanceOf(stack, "dustGlowstone", false) ? 4 : 9;
+            stack.setCount(count);
+            if (!ingotPresent && !gemPresent) DynamicRecipes.addIngotToBlockRecipe("Dusts", dustName, count, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
             DynamicRecipes.addPulverizerRecipe(RecipePulverizer.create(RecipeIngredientOre.create(name), stack));
         });
     }

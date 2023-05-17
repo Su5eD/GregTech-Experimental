@@ -176,15 +176,24 @@ class DynamicRecipes {
         addSmeltingRecipe(input, output);
     }
 
-    public static void addIngotToBlockRecipe(String material, String inputOre, String outputOre, ItemStack input, ItemStack output, boolean crafting, boolean decrafting) {
-        addCompressorRecipe(Recipes.inputFactory.forOreDict(inputOre, 9), output);
+    public static void addIngotToBlockRecipe(String material, String inputOre, int count, String outputOre, ItemStack input, ItemStack output, boolean crafting, boolean decrafting) {
+        addCompressorRecipe(Recipes.inputFactory.forOreDict(inputOre, count), output);
         OreDictionary.getOres(inputOre).forEach(stack -> ModHandler.removeFactorizerRecipe(stack, false));
         if (crafting) {
-            ModHandler.addShapedRecipe(
-                outputOre + "From" + material,
-                output,
-                "XXX", "XXX", "XXX", 'X', inputOre
-            );
+            if (count == 9) {
+                ModHandler.addShapedRecipe(
+                    outputOre + "From" + material,
+                    output,
+                    "XXX", "XXX", "XXX", 'X', inputOre
+                );
+            }
+            else if (count == 4) {
+                ModHandler.addShapedRecipe(
+                    outputOre + "From" + material,
+                    output,
+                    "XX", "XX", 'X', inputOre
+                );
+            }
             ModHandler.addFactorizerRecipe(input, output, false);
         }
         if (decrafting) {

@@ -28,10 +28,13 @@
       count: 3
     - ore: ingotTin
   output:
-    item: ic2:ingot#bronze
+    ore: ingotBronze
     count: 2
   duration: 100
   energyCost: 16
+  conditions:
+    - type: ore_exists
+      ore: ingotBronze
 - input:
     - ore: ingotCopper
       count: 3
@@ -229,11 +232,14 @@
 - input:
     - item: gregtechmod:hull_bronze
   output:
-    item: ic2:ingot#bronze
+    ore: ingotBronze
     count: 6
   duration: 130
   energyCost: 3
   universal: true
+  conditions:
+    - type: ore_exists
+      ore: ingotBronze
 - input:
     - item: gregtechmod:hull_brass
   output:
@@ -261,11 +267,14 @@
 - input:
     - item: gregtechmod:gear_bronze
   output:
-    item: ic2:ingot#bronze
+    ore: ingotBronze
     count: 6
   duration: 130
   energyCost: 3
   universal: true
+  conditions:
+    - type: ore_exists
+      ore: ingotBronze
 - input:
     - item: gregtechmod:gear_steel
   output:
@@ -308,7 +317,10 @@
 - input:
     - cell: empty
   output:
-    item: ic2:ingot#tin
+    ore: ingotTin
   duration: 130
   energyCost: 3
   universal: true
+  conditions:
+    - type: ore_exists
+      ore: ingotTin

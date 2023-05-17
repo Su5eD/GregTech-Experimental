@@ -210,7 +210,7 @@ public abstract class TileEntityBasicMachine<R extends IMachineRecipe<RI, List<I
     public void dumpOutput() {
         if (this.autoOutput) {
             ItemStack output = this.outputSlot.get();
-            if (!output.isEmpty() && canUseEnergy(500)) {
+            if (!output.isEmpty() && canUseEnergy(64)) {
                 TileEntity dest = this.world.getTileEntity(this.pos.offset(this.outputSide));
                 if (dest != null) {
                     int cost = StackUtil.transfer(this, dest, this.outputSide, 64);
