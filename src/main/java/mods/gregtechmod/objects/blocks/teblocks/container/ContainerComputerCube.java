@@ -16,7 +16,7 @@ public class ContainerComputerCube extends ContainerGtBase<TileEntityComputerCub
         addSlotToContainer(SlotInteractive.serverOnly(switchSlotX, 4, () -> {
             base.switchModule();
             // Request immediate data update
-            IC2.network.get(false).onTickEnd(WorldData.get(base.getWorld()));
+            IC2.network.get(true).onTickEnd(WorldData.get(base.getWorld()));
             IC2.platform.launchGui(player, base);
         }));
     }

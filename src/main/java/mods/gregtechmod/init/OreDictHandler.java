@@ -396,7 +396,7 @@ public final class OreDictHandler {
         String ingotName = name.replaceFirst("block", "ingot");
         OptionalItemStack ingot = OreDictUnificator.getFirstOre(ingotName);
         String gemName = name.replaceFirst("block", "gem");
-        OptionalItemStack gem = OreDictUnificator.getFirstOre(gemName);
+        OptionalItemStack gem = gemName.equals("gemIridium") ? OptionalItemStack.EMPTY : OreDictUnificator.getFirstOre(gemName);
         String dustName = name.replaceFirst("block", "dust");
         OptionalItemStack dust = OreDictUnificator.getFirstOre(dustName);
 
@@ -411,7 +411,7 @@ public final class OreDictHandler {
 
             stack.setCount(9);
             DynamicRecipes.addSmeltingAndAlloySmeltingRecipe(name, ore, stack);
-            DynamicRecipes.addIngotToBlockRecipe("Ingots", ingotName, 4, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addIngotToBlockRecipe("Ingots", ingotName, 9, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         });
         boolean gemPresent = gem.ifPresent(stack -> {
             if (ModHandler.getRecipeOutput(stack, stack, ItemStack.EMPTY, stack, stack).itemEquals(ore)) return;
@@ -419,7 +419,7 @@ public final class OreDictHandler {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
 
             stack.setCount(9);
-            DynamicRecipes.addIngotToBlockRecipe("Gems", gemName, 4, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
+            DynamicRecipes.addIngotToBlockRecipe("Gems", gemName, 9, name, stack, ore, storageBlockCrafting, storageBlockDeCrafting);
         });
         dust.ifPresent(stack -> {
             ModHandler.removeCraftingRecipeFromInputs(stack, stack, stack, stack, stack, stack, stack, stack, stack);
