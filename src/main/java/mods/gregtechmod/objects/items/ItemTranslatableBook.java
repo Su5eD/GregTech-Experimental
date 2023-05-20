@@ -54,8 +54,8 @@ public class ItemTranslatableBook extends Item implements ICustomItemModel {
         return super.getItemStackDisplayName(stack);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         if (stack.hasTagCompound()) {
             NBTTagCompound nbt = stack.getTagCompound();

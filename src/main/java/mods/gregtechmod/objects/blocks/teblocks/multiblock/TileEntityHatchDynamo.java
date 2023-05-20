@@ -6,6 +6,8 @@ import mods.gregtechmod.util.GtLocale;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +16,7 @@ public class TileEntityHatchDynamo extends TileEntityEnergy {
     private static final int MINIMUM_STORED_ENERGY = 512;
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, List<String> tooltip, ITooltipFlag advanced) {
         super.addInformation(stack, tooltip, advanced);
         tooltip.set(2, GtLocale.translateTeBlock(this, "description2"));
