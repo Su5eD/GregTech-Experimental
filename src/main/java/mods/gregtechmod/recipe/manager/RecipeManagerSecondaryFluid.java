@@ -5,6 +5,7 @@ import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredient;
 import mods.gregtechmod.api.recipe.ingredient.IRecipeIngredientFluid;
 import mods.gregtechmod.api.recipe.manager.IGtRecipeManagerSecondaryFluid;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -29,7 +30,13 @@ public class RecipeManagerSecondaryFluid<R extends IMachineRecipe<List<IRecipeIn
     public R getRecipeFor(ItemStack input, FluidStack fluid) {
         return getRecipeFor(input, fluid, IRecipeIngredientFluid::apply);
     }
-    
+
+    @Override
+    public boolean hasRecipeFor(Fluid input) {
+        return this.recipes.stream()
+            .anyMatch(recipe -> ((IRecipeIngredientFluid) recipe.getInput().get(1)).apply(input));
+    }
+
     private <T> R getRecipeFor(ItemStack primaryInput, T secondaryInput, BiPredicate<IRecipeIngredientFluid, T> secondaryInputPred) {
         return this.getRecipes().stream()
             .filter(recipe -> {

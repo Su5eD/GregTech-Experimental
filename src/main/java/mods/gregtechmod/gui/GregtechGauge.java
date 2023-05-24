@@ -20,7 +20,6 @@ public enum GregtechGauge implements Gauge.IGaugeStyle {
     ASSEMBLING(buildGauge(GuiAssembler.TEXTURE)),
     TURNING(buildGauge(GuiLathe.TEXTURE)),
     BLASTING(buildGauge(GuiIndustrialBlastFurnace.TEXTURE, 11)),
-    WATER_LEVEL(buildGauge(GtUtil.COMMON_TEXTURE, 112, 18, 18, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),
     IMPLODING(buildGauge(GuiImplosionCompressor.TEXTURE, 11)),
     FREEZING(buildGauge(GuiVacuumFreezer.TEXTURE, 11)),
     DISTILLING(buildGauge(GuiDistillationTower.TEXTURE, 176, 16, 72, Gauge.GaugePropertyBuilder.GaugeOrientation.Up)),

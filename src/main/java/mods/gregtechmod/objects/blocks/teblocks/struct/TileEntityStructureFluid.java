@@ -15,7 +15,6 @@ import mods.gregtechmod.util.nbt.NBTPersistent;
 import mods.gregtechmod.util.nbt.NBTPersistent.Include;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -26,7 +25,7 @@ import java.util.List;
 public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<IRecipeIngredient>, List<ItemStack>>, RM extends IGtRecipeManagerSecondaryFluid<R>> extends TileEntityStructureBase<T, R, List<IRecipeIngredient>, List<ItemStack>, RM> {
     public final GtSlotProcessableSecondary<RM, List<ItemStack>> secondaryInput;
     public final InvSlotOutput fluidContainerOutput;
-    public final Fluids.InternalFluidTank waterTank;
+    public final Fluids.InternalFluidTank fluidTank;
 
     @NBTPersistent(include = Include.NON_NULL)
     private ItemStack pendingFluidContainer;
@@ -36,9 +35,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
 
         this.secondaryInput = getSecondaryInputSlot("secondary_input");
         this.fluidContainerOutput = new InvSlotOutput(this, "fluid_output", 1);
-        this.waterTank = this.fluids.addTank(new GtFluidTank(this, "water_tank", Util.allFacings, Util.noFacings, GtUtil.fluidPredicate(FluidRegistry.WATER), 10000));
-
-        addGuiValue("water_level", this::getWaterLevel);
+        this.fluidTank = this.fluids.addTank(new GtFluidTank(this, "fluid_tank", Util.allFacings, Util.noFacings, recipeManager::hasRecipeFor, 10000));
     }
 
     protected GtSlotProcessableSecondary<RM, List<ItemStack>> getSecondaryInputSlot(String name) {
@@ -53,8 +50,8 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
         IRecipeIngredientFluid fluid = (IRecipeIngredientFluid) inputs.get(1);
         int count = fluid.getCount();
         int mb = count * Fluid.BUCKET_VOLUME;
-        if (fluid.apply(FluidRegistry.WATER) && this.waterTank.getFluidAmount() >= mb) {
-            this.waterTank.drainInternal(mb, true);
+        if (fluid.apply(this.fluidTank.getFluid()) && this.fluidTank.getFluidAmount() >= mb) {
+            this.fluidTank.drainInternal(mb, true);
         }
         else {
             ItemStack container = this.secondaryInput.consume(count, true);
@@ -65,7 +62,7 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
     @Override
     public R getRecipe() {
         ItemStack input = this.inputSlot.get();
-        FluidStack fluid = this.waterTank.getFluid();
+        FluidStack fluid = this.fluidTank.getFluid();
         return fluid != null ? this.recipeManager.getRecipeFor(input, fluid) : this.recipeManager.getRecipeFor(Arrays.asList(input, this.secondaryInput.get()));
     }
 
@@ -77,9 +74,5 @@ public abstract class TileEntityStructureFluid<T, R extends IMachineRecipe<List<
             this.fluidContainerOutput.add(this.pendingFluidContainer);
             this.pendingFluidContainer = null;
         }
-    }
-
-    public double getWaterLevel() {
-        return (double) this.waterTank.getFluidAmount() / this.waterTank.getCapacity();
     }
 }
