@@ -22,7 +22,6 @@
 ## Table of Contents
 - [About](#about)
   - [Gallery](#gallery)
-- [Development Status](#development-status)
 - [Documentation](#documentation)
 - [Licensing](#licensing)
 - [Downloads](#downloads)
@@ -46,11 +45,6 @@ It offers all features of GT3, in their original form, unchanged. Machines, cove
 
 Check out in-game images of GTE [here](https://gist.github.com/Su5eD/e1240f16335ec14d69d3eb671f588e2c).
 
-## Development Status
-GTE is currently nearing a full release, with the vast majority of machines implemented. The last few remaining
-tasks are mainly code cleanup and bugfixes.  
-Join our discord to keep up with the progress!
-
 ## Documentation
 All documentation is available on the [wiki](https://github.com/Su5eD/GregTech-Experimental/wiki)
 
@@ -63,7 +57,8 @@ The [GregTech Experimental logo](src/main/resources/GTE_Logo.png) is a derivate 
 ## Downloads
 
 ### Users
-Get the latest release on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental)!
+Get the latest release on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/gregtech-experimental)
+or [Modrinth](https://modrinth.com/mod/gregtech-experimental)!
 
 ### Gradle dependency
 
