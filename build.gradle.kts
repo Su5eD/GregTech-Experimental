@@ -196,11 +196,11 @@ reobf {
 repositories {
     exclusiveRepo("https://maven.ic2.player.to", "net.industrial-craft")
     exclusiveRepo("https://maven.covers1624.net", "cofh", "codechicken")
-    exclusiveRepo("https://dvs1.progwml6.com/files/maven", "mezz.jei", "slimeknights", "slimeknights.mantle")
     exclusiveRepo("https://mod-buildcraft.com/maven", "com.mod-buildcraft")
-    exclusiveRepo("https://cfa2.cursemaven.com", "curse.maven")
+    exclusiveRepo("https://cursemaven.com", "curse.maven")
     exclusiveRepo("https://maven.su5ed.dev/releases", "one.util")
     exclusiveRepo("https://maven.blamejared.com", "CraftTweaker2")
+    exclusiveRepo("https://modmaven.dev", "mezz.jei", "slimeknights", "slimeknights.mantle")
     mavenCentral()
 }
 

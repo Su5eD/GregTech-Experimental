@@ -50,6 +50,7 @@ public class OreDictRegistrar {
         registerOres(BlockItems.Miscellaneous.values());
 
         registerOreWildcard("lithiumBattery", BlockItems.Component.LITHIUM_BATTERY);
+        registerOre("craftingBasicWorkBench", BlockItems.CoverItem.CRAFTING);
         registerOreWildcard("crafting100kEUStore", BlockItems.Component.LITHIUM_BATTERY);
         registerOreWildcard("craftingToolSaw", BlockItems.Tool.SAW_ADVANCED);
         registerOreWildcard("craftingToolSaw", ModHandler.ic2ItemApi.getItem("chainsaw"));
@@ -94,6 +95,7 @@ public class OreDictRegistrar {
         registerOre("craftingCircuitTier00", Blocks.UNLIT_REDSTONE_TORCH);
         registerOre("craftingCircuitTier00", Blocks.LEVER);
         registerOre("craftingWorkBench", Blocks.CRAFTING_TABLE);
+        registerOre("craftingBasicWorkBench", Blocks.CRAFTING_TABLE);
         registerOre("craftingPiston", Blocks.PISTON);
         registerOre("craftingPiston", Blocks.STICKY_PISTON);
         registerOre("craftingChest", Blocks.CHEST);
@@ -379,6 +381,7 @@ public class OreDictRegistrar {
         }
         if (ModHandler.buildcraftFactory) {
             registerOre("craftingWorkBench", ModHandler.getModItem("buildcraftfactory", "autoworkbench_item"));
+            registerOre("craftingBasicWorkBench", ModHandler.getModItem("buildcraftfactory", "autoworkbench_item"));
             registerOre("craftingPump", ModHandler.getModItem("buildcraftfactory", "pump"));
             registerOre("craftingTank", ModHandler.getModItem("buildcraftfactory", "tank"));
         }

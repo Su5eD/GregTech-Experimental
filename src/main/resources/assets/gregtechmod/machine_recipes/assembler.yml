@@ -234,6 +234,7 @@
       count: 7
   output:
     item: ic2:glass#reinforced
+    count: 7
   duration: 400
   energyCost: 4
 - input:
