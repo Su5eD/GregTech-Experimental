@@ -102,6 +102,7 @@
       count: 3
   output:
     item: ic2:te#itnt
+    count: 5
   duration: 800
   energyCost: 2
 - input:
