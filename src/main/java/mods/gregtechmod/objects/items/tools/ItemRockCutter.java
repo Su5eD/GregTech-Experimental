@@ -23,7 +23,7 @@ import java.util.EnumSet;
 public class ItemRockCutter extends ItemToolElectricBase {
 
     public ItemRockCutter() {
-        super("rock_cutter", JavaUtil.NULL_SUPPLIER, 28, 1, 10000D, 100, 1, 500, false, HarvestLevel.Iron.level, EnumSet.of(ToolClass.Pickaxe));
+        super("rock_cutter", JavaUtil.NULL_SUPPLIER, 28, 1, 10000D, 100, 1, 500, false, HarvestLevel.Diamond.level, EnumSet.of(ToolClass.Pickaxe));
         setRegistryName("rock_cutter");
         setTranslationKey("rock_cutter");
         setCreativeTab(GregTechMod.GREGTECH_TAB);
