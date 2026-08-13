@@ -22,7 +22,7 @@ plugins {
     id("net.minecraftforge.gradle") version "5.1.+"
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("wtf.gofancy.fancygradle") version "1.1.+"
-    id("com.matthewprenger.cursegradle") version "1.4.+"
+    id("de.maxhenkel.cursegradle") version "1.5.2"
     id("com.modrinth.minotaur") version "2.+"
     id("wtf.gofancy.git-changelog") version "1.1.+"
 }
@@ -268,6 +268,8 @@ curseforge {
             })
         })
         addGameVersion("Forge")
+        addGameVersion("Client")
+        addGameVersion("Server")
         addGameVersion(versionMc)
     })
 }
